@@ -210,7 +210,7 @@ app/libs/libbox.aar
 - `PlatformInterface.FindConnectionOwner()` now returns a safe unknown UID instead of `null`, because gomobile/libbox can segfault when a primitive UID method returns null through a dynamic proxy.
 - Updated UI note to match the current safe speed-check build.
 
-### v1.4.8
+### v1.4.9
 
 - Added an in-app live console under the buttons.
 - Added button `Скопировать все из консоли` to copy the full diagnostic log plus `libbox-stderr.log`.
