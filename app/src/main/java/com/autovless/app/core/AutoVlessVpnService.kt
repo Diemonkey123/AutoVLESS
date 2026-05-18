@@ -31,6 +31,7 @@ class AutoVlessVpnService : VpnService() {
                     val config = intent.getStringExtra(EXTRA_CONFIG)
                     if (config.isNullOrBlank()) {
                         DiagnosticsLogger.log(this, "VPN", "START_ABORTED empty config")
+                        broadcastStatus("Ошибка: пустой VPN-конфиг")
                         stopVpn()
                         START_NOT_STICKY
                     } else {
@@ -42,12 +43,14 @@ class AutoVlessVpnService : VpnService() {
                         runtime = nextRuntime
 
                         DiagnosticsLogger.log(this, "VPN", "runtime started, scheduling VPN self-test")
+                        broadcastStatus("VPN подключен")
                         manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
                         runVpnSelfTestAsync(manager)
                         START_STICKY
                     }
                 } catch (e: Throwable) {
                     DiagnosticsLogger.log(this, "VPN", "START_ERROR ${e.stackTraceToString()}")
+                    broadcastStatus("Ошибка запуска VPN: ${e.message ?: e.javaClass.simpleName}")
                     runCatching { runtime?.close() }
                     runtime = null
                     runCatching { manager.notify(NOTIFICATION_ID, buildNotification("Ошибка запуска VPN")) }
@@ -88,9 +91,11 @@ class AutoVlessVpnService : VpnService() {
                 val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
                 DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=${ms}")
                 val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен, self-test HTTP $code"
+                broadcastStatus(text)
                 manager.notify(NOTIFICATION_ID, buildNotification(text))
             } catch (e: Throwable) {
                 DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL ${e.message ?: e.javaClass.simpleName}")
+                broadcastStatus("VPN подключен, self-test не прошел")
                 manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен, self-test не прошел"))
             }
         }.start()
@@ -108,6 +113,13 @@ class AutoVlessVpnService : VpnService() {
             }
         }
         stopSelf()
+    }
+
+    private fun broadcastStatus(text: String) {
+        val intent = Intent(ACTION_STATUS)
+            .setPackage(packageName)
+            .putExtra(EXTRA_STATUS, text)
+        sendBroadcast(intent)
     }
 
     private fun buildNotification(text: String): Notification {
@@ -154,7 +166,9 @@ class AutoVlessVpnService : VpnService() {
     companion object {
         const val ACTION_START = "com.autovless.app.START_VPN"
         const val ACTION_STOP = "com.autovless.app.STOP_VPN"
+        const val ACTION_STATUS = "com.autovless.app.VPN_STATUS"
         const val EXTRA_CONFIG = "config"
+        const val EXTRA_STATUS = "status"
         private const val NOTIFICATION_ID = 2108
 
         fun start(context: Context, configContent: String) {

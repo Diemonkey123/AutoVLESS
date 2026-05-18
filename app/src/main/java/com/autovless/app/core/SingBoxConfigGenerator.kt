@@ -37,7 +37,7 @@ class SingBoxConfigGenerator(private val context: Context) {
             )
         )
 
-        root.put("outbounds", outbounds(node, "selected", includeDnsOutbound = true))
+        root.put("outbounds", outbounds(node, "selected"))
         root.put("route", routeFinal("selected", vpnMode = true))
         return root.toString(2)
     }
@@ -57,7 +57,7 @@ class SingBoxConfigGenerator(private val context: Context) {
             )
         )
 
-        root.put("outbounds", outbounds(node, "selected", includeDnsOutbound = false))
+        root.put("outbounds", outbounds(node, "selected"))
         root.put("route", routeFinal("selected", vpnMode = false))
         return root.toString(2)
     }
@@ -93,12 +93,14 @@ class SingBoxConfigGenerator(private val context: Context) {
             .put("auto_detect_interface", vpnMode)
 
         if (vpnMode) {
+            // sing-box 1.13 removed the old outbound { type: "dns" }.
+            // DNS packets from Android TUN must now be handled by a route action.
             route.put(
                 "rules",
                 JSONArray().put(
                     JSONObject()
                         .put("protocol", "dns")
-                        .put("outbound", "dns-out")
+                        .put("action", "hijack-dns")
                 )
             )
         }
@@ -109,14 +111,10 @@ class SingBoxConfigGenerator(private val context: Context) {
         return JSONObject().put("log", JSONObject().put("level", "info"))
     }
 
-    private fun outbounds(node: VlessNode, tag: String, includeDnsOutbound: Boolean): JSONArray {
-        val outbounds = JSONArray()
+    private fun outbounds(node: VlessNode, tag: String): JSONArray {
+        return JSONArray()
             .put(vlessOutbound(node, tag))
             .put(JSONObject().put("type", "direct").put("tag", "direct"))
-        if (includeDnsOutbound) {
-            outbounds.put(JSONObject().put("type", "dns").put("tag", "dns-out"))
-        }
-        return outbounds
     }
 
     private fun vlessOutbound(node: VlessNode, tag: String): JSONObject {

@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.VpnService
 import android.os.ParcelFileDescriptor
 import com.autovless.app.util.DiagnosticsLogger
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.Closeable
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -18,25 +20,98 @@ class LibboxRuntime(private val context: Context) : Closeable {
     fun isAvailable(): Boolean = isLibboxAvailable()
 
     fun startStandalone(configContent: String) {
-        DiagnosticsLogger.log(context, "LibboxRuntime", "startStandalone configChars=${configContent.length}")
+        val preparedConfig = sanitizeSingBoxConfigForCurrentLibbox(configContent)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "startStandalone configChars=${preparedConfig.length}")
         close()
         setupIfPresent()
         val libbox = libboxClass()
         DiagnosticsLogger.log(context, "LibboxRuntime", "Using libbox class=${libbox.name}")
         val platformInterface = createStandalonePlatformInterface()
-        service = createRuntimeService(configContent, platformInterface)
+        service = createRuntimeService(preparedConfig, platformInterface)
         DiagnosticsLogger.log(context, "LibboxRuntime", "runtime service started: ${service!!.javaClass.name}")
     }
 
     fun startVpn(vpnService: VpnService, configContent: String) {
-        DiagnosticsLogger.log(context, "LibboxRuntime", "startVpn configChars=${configContent.length}")
+        val preparedConfig = sanitizeSingBoxConfigForCurrentLibbox(configContent)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "startVpn configChars=${preparedConfig.length}")
         close()
         setupIfPresent()
         val libbox = libboxClass()
         DiagnosticsLogger.log(context, "LibboxRuntime", "Using libbox class=${libbox.name}")
         val platformInterface = createPlatformInterface(vpnService)
-        service = createRuntimeService(configContent, platformInterface)
+        service = createRuntimeService(preparedConfig, platformInterface)
         DiagnosticsLogger.log(context, "LibboxRuntime", "runtime VPN service started: ${service!!.javaClass.name}")
+    }
+
+    /**
+     * sing-box 1.13 removed outbound { "type": "dns" }. Older generated configs
+     * or stale APK builds can still pass it here, so sanitize right before libbox
+     * starts. This is the last safety net before CommandServer decodes the config.
+     */
+    private fun sanitizeSingBoxConfigForCurrentLibbox(configContent: String): String {
+        return try {
+            val root = JSONObject(configContent)
+            var removedDnsOutbounds = 0
+            var convertedDnsRules = 0
+
+            root.optJSONArray("outbounds")?.let { outbounds ->
+                var index = outbounds.length() - 1
+                while (index >= 0) {
+                    val outbound = outbounds.optJSONObject(index)
+                    if (outbound != null && outbound.optString("type").equals("dns", ignoreCase = true)) {
+                        outbounds.remove(index)
+                        removedDnsOutbounds++
+                    }
+                    index--
+                }
+            }
+
+            val route = root.optJSONObject("route") ?: JSONObject().also { root.put("route", it) }
+            val rules = route.optJSONArray("rules") ?: JSONArray().also { route.put("rules", it) }
+            var hasDnsHijackRule = false
+
+            for (i in 0 until rules.length()) {
+                val rule = rules.optJSONObject(i) ?: continue
+                val protocol = rule.optString("protocol")
+                val outbound = rule.optString("outbound")
+                val action = rule.optString("action")
+
+                if (protocol.equals("dns", ignoreCase = true) && action.equals("hijack-dns", ignoreCase = true)) {
+                    hasDnsHijackRule = true
+                }
+
+                if (protocol.equals("dns", ignoreCase = true) && outbound.equals("dns-out", ignoreCase = true)) {
+                    rule.remove("outbound")
+                    rule.put("action", "hijack-dns")
+                    hasDnsHijackRule = true
+                    convertedDnsRules++
+                }
+            }
+
+            if (removedDnsOutbounds > 0 && !hasDnsHijackRule) {
+                rules.put(
+                    JSONObject()
+                        .put("protocol", "dns")
+                        .put("action", "hijack-dns")
+                )
+                convertedDnsRules++
+            }
+
+            if (removedDnsOutbounds > 0 || convertedDnsRules > 0) {
+                DiagnosticsLogger.log(
+                    context,
+                    "LibboxRuntime",
+                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules"
+                )
+            } else {
+                DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize sing-box 1.13 config: no deprecated dns outbound")
+            }
+
+            root.toString(2)
+        } catch (e: Throwable) {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize skipped: ${rootMessage(e)}")
+            configContent
+        }
     }
 
     private fun createRuntimeService(configContent: String, platformInterface: Any): Any {

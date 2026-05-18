@@ -2,10 +2,12 @@ package com.autovless.app
 
 import android.Manifest
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
@@ -52,6 +54,18 @@ class MainActivity : Activity() {
     @Volatile private var checkRunning = false
     @Volatile private var vpnStartRunning = false
     private var pendingVpnConfig: String? = null
+    private val vpnStatusReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action != AutoVlessVpnService.ACTION_STATUS) return
+            val text = intent.getStringExtra(AutoVlessVpnService.EXTRA_STATUS).orEmpty()
+            if (text.isNotBlank()) {
+                setStatus(text)
+                if (text.startsWith("Ошибка") || text.startsWith("VPN подключен")) {
+                    vpnStartRunning = false
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +76,7 @@ class MainActivity : Activity() {
         }
         loadConsoleFromDisk()
         DiagnosticsLogger.log(this, "MainActivity", "App started version=${BuildConfig.VERSION_NAME}")
+        registerVpnStatusReceiver()
         maybeRequestNotifications()
         refreshCounters()
     }
@@ -176,7 +191,7 @@ class MainActivity : Activity() {
         })
 
         val note = TextView(this).apply {
-            text = "v${BuildConfig.VERSION_NAME}: живая консоль + копирование полного лога. Если кажется, что зависло, смотри последнюю строку консоли."
+            text = "v${BuildConfig.VERSION_NAME}: живая консоль + статус VPN. Если кажется, что зависло, смотри последнюю строку консоли."
             textSize = 13f
             setPadding(0, 16, 0, 0)
         }
@@ -426,6 +441,16 @@ class MainActivity : Activity() {
         libboxView.text = LibboxRuntime.libboxStatusText()
     }
 
+    private fun registerVpnStatusReceiver() {
+        val filter = IntentFilter(AutoVlessVpnService.ACTION_STATUS)
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(vpnStatusReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("DEPRECATION")
+            registerReceiver(vpnStatusReceiver, filter)
+        }
+    }
+
     private fun maybeRequestNotifications() {
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST_CODE)
@@ -479,6 +504,7 @@ class MainActivity : Activity() {
 
     override fun onDestroy() {
         DiagnosticsLogger.setLiveSink(null)
+        runCatching { unregisterReceiver(vpnStatusReceiver) }
         executor.shutdownNow()
         super.onDestroy()
     }
