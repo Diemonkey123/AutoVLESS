@@ -311,11 +311,15 @@ class LibboxRuntime(private val context: Context) : Closeable {
         ) { _, method, args ->
             when (method.name) {
                 "localDNSTransport", "LocalDNSTransport" -> null
-                "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> true
-                "autoDetectInterfaceControl", "AutoDetectInterfaceControl" -> {
-                    val fd = (args?.getOrNull(0) as? Number)?.toInt() ?: return@newProxyInstance null
-                    vpnService.protect(fd)
-                    null
+                "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "UsePlatformAutoDetectInterfaceControl=true vpn")
+                    true
+                }
+                "autoDetectInterfaceControl", "AutoDetectInterfaceControl", "protect", "Protect" -> {
+                    val fd = (args?.getOrNull(0) as? Number)?.toInt() ?: return@newProxyInstance defaultValue(method.returnType)
+                    val ok = runCatching { vpnService.protect(fd) }.getOrDefault(false)
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "protect outbound fd=$fd ok=$ok method=${method.name}")
+                    if (method.returnType == java.lang.Boolean.TYPE || method.returnType == java.lang.Boolean::class.java) ok else null
                 }
                 "openTun", "OpenTun" -> {
                     val fd = openTun(vpnService).detachFd()

@@ -24,6 +24,7 @@ class SingBoxConfigGenerator(private val context: Context) {
         DiagnosticsLogger.log(context, "ConfigGenerator", "generateVpnConfig ${DiagnosticsLogger.nodeSummary(node)}")
         val root = baseConfig()
 
+        root.put("dns", vpnDnsConfig())
         root.put(
             "inbounds",
             JSONArray().put(
@@ -36,8 +37,8 @@ class SingBoxConfigGenerator(private val context: Context) {
             )
         )
 
-        root.put("outbounds", outbounds(node, "selected"))
-        root.put("route", routeFinal("selected"))
+        root.put("outbounds", outbounds(node, "selected", includeDnsOutbound = true))
+        root.put("route", routeFinal("selected", vpnMode = true))
         return root.toString(2)
     }
 
@@ -56,32 +57,66 @@ class SingBoxConfigGenerator(private val context: Context) {
             )
         )
 
-        root.put("outbounds", outbounds(node, "selected"))
-        root.put("route", routeFinal("selected"))
+        root.put("outbounds", outbounds(node, "selected", includeDnsOutbound = false))
+        root.put("route", routeFinal("selected", vpnMode = false))
         return root.toString(2)
     }
 
-    private fun routeFinal(outboundTag: String): JSONObject {
-        // Keep routing deliberately minimal for Android local speed checks.
-        // Explicitly disable process lookup: on libbox Android builds it can call
-        // PlatformInterface.FindConnectionOwner() from Go/native code and crash the
-        // whole app process if the Java bridge returns an unexpected value.
+    private fun vpnDnsConfig(): JSONObject {
+        // VPN traffic from Android apps includes normal UDP/53 DNS packets.
+        // The mixed-proxy speed test does not check that path, so a node can look
+        // fast while the full-device VPN has no DNS and browsers look "offline".
+        // Route DNS packets into sing-box DNS and resolve through the protected
+        // system resolver. Normal TCP/HTTPS traffic still uses the selected VLESS.
         return JSONObject()
+            .put(
+                "servers",
+                JSONArray().put(
+                    JSONObject()
+                        .put("tag", "local-dns")
+                        .put("address", "local")
+                        .put("detour", "direct")
+                )
+            )
+            .put("final", "local-dns")
+            .put("strategy", "prefer_ipv4")
+    }
+
+    private fun routeFinal(outboundTag: String, vpnMode: Boolean): JSONObject {
+        // find_process must stay disabled: Android libbox crashed earlier inside
+        // PlatformInterface.FindConnectionOwner(). For VPN mode auto-detect must be
+        // enabled so libbox can protect its own outbound sockets from routing back
+        // into the VPN tunnel. Without that, the VPN shows connected but traffic loops.
+        val route = JSONObject()
             .put("final", outboundTag)
             .put("find_process", false)
-            .put("auto_detect_interface", false)
+            .put("auto_detect_interface", vpnMode)
+
+        if (vpnMode) {
+            route.put(
+                "rules",
+                JSONArray().put(
+                    JSONObject()
+                        .put("protocol", "dns")
+                        .put("outbound", "dns-out")
+                )
+            )
+        }
+        return route
     }
 
     private fun baseConfig(): JSONObject {
-        // Keep config minimal. External DNS servers can be unreliable from Russia;
-        // for proxy testing, sing-box can pass the destination domain through the outbound.
         return JSONObject().put("log", JSONObject().put("level", "info"))
     }
 
-    private fun outbounds(node: VlessNode, tag: String): JSONArray {
-        return JSONArray()
+    private fun outbounds(node: VlessNode, tag: String, includeDnsOutbound: Boolean): JSONArray {
+        val outbounds = JSONArray()
             .put(vlessOutbound(node, tag))
             .put(JSONObject().put("type", "direct").put("tag", "direct"))
+        if (includeDnsOutbound) {
+            outbounds.put(JSONObject().put("type", "dns").put("tag", "dns-out"))
+        }
+        return outbounds
     }
 
     private fun vlessOutbound(node: VlessNode, tag: String): JSONObject {
@@ -104,6 +139,10 @@ class SingBoxConfigGenerator(private val context: Context) {
         if (!node.flow.isNullOrBlank()) {
             outbound.put("flow", node.flow)
         }
+
+        // Enable VLESS UDP packet support where the server accepts it. DNS is now
+        // intercepted separately, but this also helps apps that use QUIC/UDP.
+        outbound.put("packet_encoding", "xudp")
 
         when (network) {
             "tcp" -> {
@@ -180,7 +219,7 @@ class SingBoxConfigGenerator(private val context: Context) {
             outbound.put("tls", tls)
         }
 
-        DiagnosticsLogger.log(context, "ConfigGenerator", "outbound built network=$network tls=$tlsEnabled reality=$realityEnabled transport=${outbound.optJSONObject("transport")?.optString("type") ?: "none"}")
+        DiagnosticsLogger.log(context, "ConfigGenerator", "outbound built network=$network tls=$tlsEnabled reality=$realityEnabled transport=${outbound.optJSONObject("transport")?.optString("type") ?: "none"} packet=xudp")
         return outbound
     }
 }

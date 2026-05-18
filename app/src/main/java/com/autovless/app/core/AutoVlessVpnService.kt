@@ -9,6 +9,9 @@ import android.content.Intent
 import android.net.VpnService
 import android.os.Build
 import com.autovless.app.MainActivity
+import com.autovless.app.util.DiagnosticsLogger
+import java.net.HttpURLConnection
+import java.net.URL
 
 class AutoVlessVpnService : VpnService() {
     private var runtime: LibboxRuntime? = null
@@ -32,8 +35,10 @@ class AutoVlessVpnService : VpnService() {
                     val nextRuntime = LibboxRuntime(this)
                     nextRuntime.startVpn(this, config)
                     runtime = nextRuntime
+                    DiagnosticsLogger.log(this, "VPN", "runtime started, scheduling VPN self-test")
                     val manager = getSystemService(NotificationManager::class.java)
                     manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
+                    runVpnSelfTestAsync(manager)
                 } catch (e: Throwable) {
                     stopVpn()
                     throw e
@@ -47,6 +52,30 @@ class AutoVlessVpnService : VpnService() {
     override fun onDestroy() {
         stopVpn()
         super.onDestroy()
+    }
+
+
+    private fun runVpnSelfTestAsync(manager: NotificationManager) {
+        Thread {
+            try {
+                Thread.sleep(1200)
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_TRY https://www.gstatic.com/generate_204")
+                val started = System.nanoTime()
+                val connection = URL("https://www.gstatic.com/generate_204").openConnection() as HttpURLConnection
+                connection.connectTimeout = 6000
+                connection.readTimeout = 6000
+                connection.instanceFollowRedirects = false
+                connection.setRequestProperty("User-Agent", "AutoVLESS-VPN-SelfTest")
+                val code = connection.responseCode
+                val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=${ms}")
+                val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен, self-test HTTP $code"
+                manager.notify(NOTIFICATION_ID, buildNotification(text))
+            } catch (e: Throwable) {
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL ${e.message ?: e.javaClass.simpleName}")
+                manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен, self-test не прошел"))
+            }
+        }.start()
     }
 
     private fun stopVpn() {
