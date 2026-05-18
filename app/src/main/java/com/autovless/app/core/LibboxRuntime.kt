@@ -53,6 +53,19 @@ class LibboxRuntime(private val context: Context) : Closeable {
             val root = JSONObject(configContent)
             var removedDnsOutbounds = 0
             var convertedDnsRules = 0
+            var fixedVpnDns = false
+            var addedPort53HijackRule = false
+
+            val isVpnConfig = root.optJSONArray("inbounds")?.let { inbounds ->
+                var hasTun = false
+                for (i in 0 until inbounds.length()) {
+                    if (inbounds.optJSONObject(i)?.optString("type").equals("tun", ignoreCase = true)) {
+                        hasTun = true
+                        break
+                    }
+                }
+                hasTun
+            } ?: false
 
             root.optJSONArray("outbounds")?.let { outbounds ->
                 var index = outbounds.length() - 1
@@ -66,9 +79,31 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 }
             }
 
+            if (isVpnConfig) {
+                val dns = root.optJSONObject("dns") ?: JSONObject().also { root.put("dns", it) }
+                val servers = JSONArray()
+                    .put(
+                        JSONObject()
+                            .put("tag", "google-tcp")
+                            .put("address", "tcp://8.8.8.8")
+                            .put("detour", "selected")
+                    )
+                    .put(
+                        JSONObject()
+                            .put("tag", "cloudflare-tcp")
+                            .put("address", "tcp://1.1.1.1")
+                            .put("detour", "selected")
+                    )
+                dns.put("servers", servers)
+                dns.put("final", "google-tcp")
+                dns.put("strategy", "prefer_ipv4")
+                fixedVpnDns = true
+            }
+
             val route = root.optJSONObject("route") ?: JSONObject().also { root.put("route", it) }
             val rules = route.optJSONArray("rules") ?: JSONArray().also { route.put("rules", it) }
             var hasDnsHijackRule = false
+            var hasPort53HijackRule = false
 
             for (i in 0 until rules.length()) {
                 val rule = rules.optJSONObject(i) ?: continue
@@ -79,6 +114,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 if (protocol.equals("dns", ignoreCase = true) && action.equals("hijack-dns", ignoreCase = true)) {
                     hasDnsHijackRule = true
                 }
+                if (rule.optInt("port", -1) == 53 && action.equals("hijack-dns", ignoreCase = true)) {
+                    hasPort53HijackRule = true
+                }
 
                 if (protocol.equals("dns", ignoreCase = true) && outbound.equals("dns-out", ignoreCase = true)) {
                     rule.remove("outbound")
@@ -88,7 +126,23 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 }
             }
 
-            if (removedDnsOutbounds > 0 && !hasDnsHijackRule) {
+            if (isVpnConfig && !hasDnsHijackRule) {
+                rules.put(
+                    JSONObject()
+                        .put("protocol", "dns")
+                        .put("action", "hijack-dns")
+                )
+                convertedDnsRules++
+            }
+            if (isVpnConfig && !hasPort53HijackRule) {
+                rules.put(
+                    JSONObject()
+                        .put("port", 53)
+                        .put("action", "hijack-dns")
+                )
+                addedPort53HijackRule = true
+            }
+            if (removedDnsOutbounds > 0 && !hasDnsHijackRule && !isVpnConfig) {
                 rules.put(
                     JSONObject()
                         .put("protocol", "dns")
@@ -97,11 +151,11 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 convertedDnsRules++
             }
 
-            if (removedDnsOutbounds > 0 || convertedDnsRules > 0) {
+            if (removedDnsOutbounds > 0 || convertedDnsRules > 0 || fixedVpnDns || addedPort53HijackRule) {
                 DiagnosticsLogger.log(
                     context,
                     "LibboxRuntime",
-                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules"
+                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules fixedVpnDns=$fixedVpnDns addedPort53HijackRule=$addedPort53HijackRule"
                 )
             } else {
                 DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize sing-box 1.13 config: no deprecated dns outbound")

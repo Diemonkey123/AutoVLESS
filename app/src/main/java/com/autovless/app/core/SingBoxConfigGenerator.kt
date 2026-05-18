@@ -32,6 +32,8 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("type", "tun")
                     .put("tag", "tun-in")
                     .put("address", JSONArray().put("172.19.0.1/30"))
+                    .put("sniff", true)
+                    .put("sniff_override_destination", true)
                     .put("auto_route", true)
                     .put("strict_route", true)
             )
@@ -63,22 +65,29 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun vpnDnsConfig(): JSONObject {
-        // VPN traffic from Android apps includes normal UDP/53 DNS packets.
-        // The mixed-proxy speed test does not check that path, so a node can look
-        // fast while the full-device VPN has no DNS and browsers look "offline".
-        // Route DNS packets into sing-box DNS and resolve through the protected
-        // system resolver. Normal TCP/HTTPS traffic still uses the selected VLESS.
-        return JSONObject()
+        // Full-device VPN mode must not rely on Android's "local" resolver here:
+        // after the TUN route is installed Android DNS may loop back into the VPN,
+        // so apps show "offline" even though the VLESS node itself works.
+        // Use explicit TCP DNS through the selected VLESS outbound. TCP avoids UDP
+        // support issues on public VLESS nodes and keeps DNS compatible with
+        // sing-box 1.13 where the old dns outbound was removed.
+        val servers = JSONArray()
             .put(
-                "servers",
-                JSONArray().put(
-                    JSONObject()
-                        .put("tag", "local-dns")
-                        .put("address", "local")
-                        .put("detour", "direct")
-                )
+                JSONObject()
+                    .put("tag", "google-tcp")
+                    .put("address", "tcp://8.8.8.8")
+                    .put("detour", "selected")
             )
-            .put("final", "local-dns")
+            .put(
+                JSONObject()
+                    .put("tag", "cloudflare-tcp")
+                    .put("address", "tcp://1.1.1.1")
+                    .put("detour", "selected")
+            )
+
+        return JSONObject()
+            .put("servers", servers)
+            .put("final", "google-tcp")
             .put("strategy", "prefer_ipv4")
     }
 
@@ -95,14 +104,19 @@ class SingBoxConfigGenerator(private val context: Context) {
         if (vpnMode) {
             // sing-box 1.13 removed the old outbound { type: "dns" }.
             // DNS packets from Android TUN must now be handled by a route action.
-            route.put(
-                "rules",
-                JSONArray().put(
+            val rules = JSONArray()
+                .put(
                     JSONObject()
                         .put("protocol", "dns")
                         .put("action", "hijack-dns")
                 )
-            )
+                .put(
+                    JSONObject()
+                        .put("port", 53)
+                        .put("action", "hijack-dns")
+                )
+
+            route.put("rules", rules)
         }
         return route
     }
