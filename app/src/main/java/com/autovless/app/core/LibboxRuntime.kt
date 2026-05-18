@@ -102,7 +102,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                             .put("server", "8.8.8.8")
                             .put("server_port", 443)
                             .put("path", "/dns-query")
-                            .put("detour", "direct")
+                            .put("detour", "selected")
                             .put(
                                 "tls",
                                 JSONObject()
@@ -117,7 +117,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                             .put("server", "1.1.1.1")
                             .put("server_port", 443)
                             .put("path", "/dns-query")
-                            .put("detour", "direct")
+                            .put("detour", "selected")
                             .put(
                                 "tls",
                                 JSONObject()

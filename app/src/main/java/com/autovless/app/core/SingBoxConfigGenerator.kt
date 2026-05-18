@@ -68,8 +68,8 @@ class SingBoxConfigGenerator(private val context: Context) {
 
     private fun vpnDnsConfig(): JSONObject {
         // Android receives public DNS addresses from VpnService.Builder. sing-box
-        // hijacks DNS/53 from the TUN and resolves it itself. DNS is resolved direct
-        // through protected sockets, while app traffic still goes through selected VLESS.
+        // hijacks DNS/53 from the TUN and resolves it itself. DNS is resolved through the selected VLESS outbound, while the VLESS
+        // connection itself uses protected sockets outside the Android VPN tunnel.
         // This avoids the common failure where a free VLESS node passes Google HTTP
         // but cannot reach DoH/53 for DNS resolution.
         val servers = JSONArray()
@@ -80,7 +80,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("server", "8.8.8.8")
                     .put("server_port", 443)
                     .put("path", "/dns-query")
-                    .put("detour", "direct")
+                    .put("detour", "selected")
                     .put(
                         "tls",
                         JSONObject()
@@ -95,7 +95,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("server", "1.1.1.1")
                     .put("server_port", 443)
                     .put("path", "/dns-query")
-                    .put("detour", "direct")
+                    .put("detour", "selected")
                     .put(
                         "tls",
                         JSONObject()
