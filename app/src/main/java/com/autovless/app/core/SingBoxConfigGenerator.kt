@@ -62,9 +62,14 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun routeFinal(outboundTag: String): JSONObject {
-        // sing-box 1.13 removed legacy inbound fields such as inbound.sniff.
-        // For this MVP all traffic goes to the selected outbound, so sniffing is unnecessary.
-        return JSONObject().put("final", outboundTag)
+        // Keep routing deliberately minimal for Android local speed checks.
+        // Explicitly disable process lookup: on libbox Android builds it can call
+        // PlatformInterface.FindConnectionOwner() from Go/native code and crash the
+        // whole app process if the Java bridge returns an unexpected value.
+        return JSONObject()
+            .put("final", outboundTag)
+            .put("find_process", false)
+            .put("auto_detect_interface", false)
     }
 
     private fun baseConfig(): JSONObject {

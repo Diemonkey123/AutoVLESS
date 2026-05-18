@@ -52,6 +52,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             DiagnosticsLogger.log(context, "LibboxRuntime", "Using direct NewService runtime")
             return newServiceResult.getOrThrow()
         }
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Direct NewService unavailable: ${rootMessage(newServiceResult.exceptionOrNull() ?: IllegalStateException("unknown"))}")
 
         val commandResult = runCatching { createCommandServerService(configContent, platformInterface) }
         if (commandResult.isSuccess) {
@@ -275,9 +276,15 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     if (text.isNotBlank()) DiagnosticsLogger.log(context, "libbox", text)
                     null
                 }
-                "useProcFS", "UseProcFS" -> false
-                "findConnectionOwner", "FindConnectionOwner" -> safeUnknownUid(method.returnType)
-                "packageNameByUid", "PackageNameByUid" -> ""
+                "useProcFS", "UseProcFS" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "UseProcFS=true standalone")
+                    true
+                }
+                "findConnectionOwner", "FindConnectionOwner" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "FindConnectionOwner called unexpectedly in standalone")
+                    safeUnknownUid(method.returnType)
+                }
+                "packageNameByUid", "PackageNameByUid" -> packageNameByUid(args)
                 "uidByPackageName", "UidByPackageName" -> safeUnknownUid(method.returnType)
                 "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
                 "closeDefaultInterfaceMonitor", "CloseDefaultInterfaceMonitor" -> null
@@ -319,9 +326,15 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     if (text.isNotBlank()) DiagnosticsLogger.log(context, "libbox", text)
                     null
                 }
-                "useProcFS", "UseProcFS" -> false
-                "findConnectionOwner", "FindConnectionOwner" -> safeUnknownUid(method.returnType)
-                "packageNameByUid", "PackageNameByUid" -> ""
+                "useProcFS", "UseProcFS" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "UseProcFS=true vpn")
+                    true
+                }
+                "findConnectionOwner", "FindConnectionOwner" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "FindConnectionOwner called unexpectedly in vpn")
+                    safeUnknownUid(method.returnType)
+                }
+                "packageNameByUid", "PackageNameByUid" -> packageNameByUid(args)
                 "uidByPackageName", "UidByPackageName" -> safeUnknownUid(method.returnType)
                 "usePlatformDefaultInterfaceMonitor", "UsePlatformDefaultInterfaceMonitor" -> false
                 "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
@@ -420,6 +433,11 @@ class LibboxRuntime(private val context: Context) : Closeable {
         } else {
             defaultValue(type)
         }
+    }
+
+    private fun packageNameByUid(args: Array<Any?>?): String {
+        val uid = (args?.firstOrNull() as? Number)?.toInt() ?: return ""
+        return if (uid == android.os.Process.myUid()) context.packageName else ""
     }
 
     private fun safeUnknownUid(type: Class<*>): Any? {
