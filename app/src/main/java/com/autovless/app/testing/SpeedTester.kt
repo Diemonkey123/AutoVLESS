@@ -1,6 +1,7 @@
 package com.autovless.app.testing
 
 import android.content.Context
+import com.autovless.app.BuildConfig
 import com.autovless.app.core.LibboxRuntime
 import com.autovless.app.core.SingBoxConfigGenerator
 import com.autovless.app.vless.VlessNode
@@ -161,7 +162,7 @@ class SpeedTester(private val context: Context) {
         connection.connectTimeout = 8_000
         connection.readTimeout = 15_000
         connection.instanceFollowRedirects = true
-        connection.setRequestProperty("User-Agent", "AutoVLESS-SpeedTest/1.4.2")
+        connection.setRequestProperty("User-Agent", "AutoVLESS-SpeedTest/${BuildConfig.VERSION_NAME}")
         connection.setRequestProperty("Cache-Control", "no-cache")
 
         val code = connection.responseCode

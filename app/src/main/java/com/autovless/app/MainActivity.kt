@@ -46,7 +46,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         store = NodeStore(this)
-        DiagnosticsLogger.log(this, "MainActivity", "App started version=1.4.2")
+        DiagnosticsLogger.log(this, "MainActivity", "App started version=${BuildConfig.VERSION_NAME}")
         setContentView(buildUi())
         maybeRequestNotifications()
         refreshCounters()
@@ -125,7 +125,7 @@ class MainActivity : Activity() {
         }
 
         val note = TextView(this).apply {
-            text = "v1.4: добавлен диагностический лог. После проверки нажми \"Скопировать лог\" и пришли текст. В логе есть шаги libbox, proxy, URL-test и download-test."
+            text = "v${BuildConfig.VERSION_NAME}: диагностика libbox + sing-box 1.13 config. После проверки нажми \"Скопировать лог\" и пришли текст."
             textSize = 13f
             setPadding(0, 28, 0, 0)
         }

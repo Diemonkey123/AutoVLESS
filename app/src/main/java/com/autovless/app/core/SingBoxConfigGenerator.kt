@@ -33,12 +33,11 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("address", JSONArray().put("172.19.0.1/30"))
                     .put("auto_route", true)
                     .put("strict_route", true)
-                    .put("sniff", true)
             )
         )
 
         root.put("outbounds", outbounds(node, "selected"))
-        root.put("route", JSONObject().put("final", "selected"))
+        root.put("route", routeFinal("selected"))
         return root.toString(2)
     }
 
@@ -54,13 +53,18 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("tag", "test-in")
                     .put("listen", "127.0.0.1")
                     .put("listen_port", port)
-                    .put("sniff", true)
             )
         )
 
         root.put("outbounds", outbounds(node, "selected"))
-        root.put("route", JSONObject().put("final", "selected"))
+        root.put("route", routeFinal("selected"))
         return root.toString(2)
+    }
+
+    private fun routeFinal(outboundTag: String): JSONObject {
+        // sing-box 1.13 removed legacy inbound fields such as inbound.sniff.
+        // For this MVP all traffic goes to the selected outbound, so sniffing is unnecessary.
+        return JSONObject().put("final", outboundTag)
     }
 
     private fun baseConfig(): JSONObject {

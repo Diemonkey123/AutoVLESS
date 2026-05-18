@@ -177,6 +177,12 @@ app/libs/libbox.aar
 - Runtime ищет оба известных package name: `libbox.*` и `io.nekohasekai.libbox.*`.
 
 
+## v1.4.4 changes
+
+- Fixed sing-box 1.13 config generation: removed legacy inbound `sniff` fields from mixed/tun inbounds.
+- `CommandServer` startup remains enabled; config decode should now pass the previous `legacy inbound fields` failure.
+- App log now uses `BuildConfig.VERSION_NAME` instead of a hardcoded version.
+
 ## v1.4.2 changes
 
 - Runtime переключен с отсутствующего `NewService` на актуальный `CommandServer.startOrReloadService`.
