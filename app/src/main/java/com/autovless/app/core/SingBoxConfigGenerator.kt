@@ -32,8 +32,6 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("type", "tun")
                     .put("tag", "tun-in")
                     .put("address", JSONArray().put("172.19.0.1/30"))
-                    .put("sniff", true)
-                    .put("sniff_override_destination", true)
                     .put("auto_route", true)
                     .put("strict_route", true)
             )
@@ -74,14 +72,18 @@ class SingBoxConfigGenerator(private val context: Context) {
         val servers = JSONArray()
             .put(
                 JSONObject()
+                    .put("type", "tcp")
                     .put("tag", "google-tcp")
-                    .put("address", "tcp://8.8.8.8")
+                    .put("server", "8.8.8.8")
+                    .put("server_port", 53)
                     .put("detour", "selected")
             )
             .put(
                 JSONObject()
+                    .put("type", "tcp")
                     .put("tag", "cloudflare-tcp")
-                    .put("address", "tcp://1.1.1.1")
+                    .put("server", "1.1.1.1")
+                    .put("server_port", 53)
                     .put("detour", "selected")
             )
 
@@ -102,16 +104,26 @@ class SingBoxConfigGenerator(private val context: Context) {
             .put("auto_detect_interface", vpnMode)
 
         if (vpnMode) {
-            // sing-box 1.13 removed the old outbound { type: "dns" }.
-            // DNS packets from Android TUN must now be handled by a route action.
+            // sing-box 1.13 removed legacy inbound sniff fields. Sniffing is now
+            // expressed as a non-final route action before DNS hijack/final routing.
+            // DNS packets from Android TUN are handled by hijack-dns instead of the
+            // removed outbound { type: "dns" }.
             val rules = JSONArray()
                 .put(
                     JSONObject()
+                        .put("inbound", "tun-in")
+                        .put("action", "sniff")
+                        .put("timeout", "300ms")
+                )
+                .put(
+                    JSONObject()
+                        .put("inbound", "tun-in")
                         .put("protocol", "dns")
                         .put("action", "hijack-dns")
                 )
                 .put(
                     JSONObject()
+                        .put("inbound", "tun-in")
                         .put("port", 53)
                         .put("action", "hijack-dns")
                 )

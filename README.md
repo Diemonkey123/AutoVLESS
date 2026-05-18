@@ -27,6 +27,14 @@ Android-приложение для ручной загрузки VLESS-конф
 - Runtime-обертка `LibboxRuntime`, которая вызывает `libbox.Libbox` через reflection.
 
 
+## Изменения v1.5.5
+
+- Исправлен запуск VPN на sing-box/libbox 1.13: из `tun` inbound убраны устаревшие поля `sniff` и `sniff_override_destination`.
+- Sniff перенесен в `route.rules` как `action: "sniff"`, как требует sing-box 1.13.
+- DNS в VPN переведен на новый формат TCP DNS-серверов: `type: "tcp"`, `server`, `server_port`, `detour: "selected"`.
+- Runtime-sanitize теперь дополнительно чистит старые inbound-поля, если в приложение попадет старый сохраненный конфиг.
+- Порог скорости 500 КБ/с оставлен. Быстрая проверка через Google не менялась.
+
 ## Изменения v0.9
 
 - Добавлена поддержка VLESS REALITY из URI-параметров `pbk`, `sid`, `spx`.

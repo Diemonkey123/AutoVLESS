@@ -53,19 +53,26 @@ class LibboxRuntime(private val context: Context) : Closeable {
             val root = JSONObject(configContent)
             var removedDnsOutbounds = 0
             var convertedDnsRules = 0
+            var convertedDnsServers = 0
             var fixedVpnDns = false
             var addedPort53HijackRule = false
+            var migratedLegacyInboundFields = 0
+            var addedSniffRule = false
 
-            val isVpnConfig = root.optJSONArray("inbounds")?.let { inbounds ->
-                var hasTun = false
+            val inbounds = root.optJSONArray("inbounds")
+            var isVpnConfig = false
+            var tunInboundTag = "tun-in"
+
+            if (inbounds != null) {
                 for (i in 0 until inbounds.length()) {
-                    if (inbounds.optJSONObject(i)?.optString("type").equals("tun", ignoreCase = true)) {
-                        hasTun = true
-                        break
+                    val inbound = inbounds.optJSONObject(i) ?: continue
+                    if (inbound.optString("type").equals("tun", ignoreCase = true)) {
+                        isVpnConfig = true
+                        val tag = inbound.optString("tag")
+                        if (tag.isNotBlank()) tunInboundTag = tag
                     }
                 }
-                hasTun
-            } ?: false
+            }
 
             root.optJSONArray("outbounds")?.let { outbounds ->
                 var index = outbounds.length() - 1
@@ -84,14 +91,18 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val servers = JSONArray()
                     .put(
                         JSONObject()
+                            .put("type", "tcp")
                             .put("tag", "google-tcp")
-                            .put("address", "tcp://8.8.8.8")
+                            .put("server", "8.8.8.8")
+                            .put("server_port", 53)
                             .put("detour", "selected")
                     )
                     .put(
                         JSONObject()
+                            .put("type", "tcp")
                             .put("tag", "cloudflare-tcp")
-                            .put("address", "tcp://1.1.1.1")
+                            .put("server", "1.1.1.1")
+                            .put("server_port", 53)
                             .put("detour", "selected")
                     )
                 dns.put("servers", servers)
@@ -100,10 +111,30 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 fixedVpnDns = true
             }
 
+            root.optJSONObject("dns")?.optJSONArray("servers")?.let { servers ->
+                for (i in 0 until servers.length()) {
+                    val server = servers.optJSONObject(i) ?: continue
+                    val address = server.optString("address")
+                    if (address.startsWith("tcp://", ignoreCase = true)) {
+                        val raw = address.substringAfter("tcp://")
+                        val host = raw.substringBefore(":")
+                        val port = raw.substringAfter(":", "53").toIntOrNull() ?: 53
+                        server.remove("address")
+                        server.put("type", "tcp")
+                        server.put("server", host)
+                        server.put("server_port", port)
+                        convertedDnsServers++
+                    }
+                }
+            }
+
             val route = root.optJSONObject("route") ?: JSONObject().also { root.put("route", it) }
-            val rules = route.optJSONArray("rules") ?: JSONArray().also { route.put("rules", it) }
+            var rules = route.optJSONArray("rules") ?: JSONArray().also { route.put("rules", it) }
+            val preRules = JSONArray()
+
             var hasDnsHijackRule = false
             var hasPort53HijackRule = false
+            var hasSniffRule = false
 
             for (i in 0 until rules.length()) {
                 val rule = rules.optJSONObject(i) ?: continue
@@ -111,6 +142,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val outbound = rule.optString("outbound")
                 val action = rule.optString("action")
 
+                if (action.equals("sniff", ignoreCase = true)) {
+                    hasSniffRule = true
+                }
                 if (protocol.equals("dns", ignoreCase = true) && action.equals("hijack-dns", ignoreCase = true)) {
                     hasDnsHijackRule = true
                 }
@@ -126,9 +160,74 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 }
             }
 
+            if (inbounds != null) {
+                for (i in 0 until inbounds.length()) {
+                    val inbound = inbounds.optJSONObject(i) ?: continue
+                    val hadLegacyInboundFields = inbound.has("sniff") ||
+                        inbound.has("sniff_override_destination") ||
+                        inbound.has("sniff_timeout") ||
+                        inbound.has("domain_strategy")
+                    if (!hadLegacyInboundFields) continue
+
+                    var inboundTag = inbound.optString("tag")
+                    if (inboundTag.isBlank()) {
+                        inboundTag = "in-$i"
+                        inbound.put("tag", inboundTag)
+                    }
+
+                    val sniffEnabled = !inbound.has("sniff") || inbound.optBoolean("sniff", false)
+                    val sniffTimeout = inbound.optString("sniff_timeout")
+                    val domainStrategy = inbound.optString("domain_strategy")
+
+                    inbound.remove("sniff")
+                    inbound.remove("sniff_override_destination")
+                    inbound.remove("sniff_timeout")
+                    inbound.remove("domain_strategy")
+                    migratedLegacyInboundFields++
+
+                    if (domainStrategy.isNotBlank()) {
+                        preRules.put(
+                            JSONObject()
+                                .put("inbound", inboundTag)
+                                .put("action", "resolve")
+                                .put("strategy", domainStrategy)
+                        )
+                    }
+                    if (sniffEnabled && !hasSniffRule) {
+                        val sniffRule = JSONObject()
+                            .put("inbound", inboundTag)
+                            .put("action", "sniff")
+                        if (sniffTimeout.isNotBlank()) sniffRule.put("timeout", sniffTimeout)
+                        preRules.put(sniffRule)
+                        hasSniffRule = true
+                        addedSniffRule = true
+                    }
+                }
+            }
+
+            if (isVpnConfig && !hasSniffRule) {
+                preRules.put(
+                    JSONObject()
+                        .put("inbound", tunInboundTag)
+                        .put("action", "sniff")
+                        .put("timeout", "300ms")
+                )
+                hasSniffRule = true
+                addedSniffRule = true
+            }
+
+            if (preRules.length() > 0) {
+                val mergedRules = JSONArray()
+                for (i in 0 until preRules.length()) mergedRules.put(preRules.get(i))
+                for (i in 0 until rules.length()) mergedRules.put(rules.get(i))
+                route.put("rules", mergedRules)
+                rules = mergedRules
+            }
+
             if (isVpnConfig && !hasDnsHijackRule) {
                 rules.put(
                     JSONObject()
+                        .put("inbound", tunInboundTag)
                         .put("protocol", "dns")
                         .put("action", "hijack-dns")
                 )
@@ -137,6 +236,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             if (isVpnConfig && !hasPort53HijackRule) {
                 rules.put(
                     JSONObject()
+                        .put("inbound", tunInboundTag)
                         .put("port", 53)
                         .put("action", "hijack-dns")
                 )
@@ -151,14 +251,22 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 convertedDnsRules++
             }
 
-            if (removedDnsOutbounds > 0 || convertedDnsRules > 0 || fixedVpnDns || addedPort53HijackRule) {
+            if (
+                removedDnsOutbounds > 0 ||
+                convertedDnsRules > 0 ||
+                convertedDnsServers > 0 ||
+                fixedVpnDns ||
+                addedPort53HijackRule ||
+                migratedLegacyInboundFields > 0 ||
+                addedSniffRule
+            ) {
                 DiagnosticsLogger.log(
                     context,
                     "LibboxRuntime",
-                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules fixedVpnDns=$fixedVpnDns addedPort53HijackRule=$addedPort53HijackRule"
+                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules convertedDnsServers=$convertedDnsServers fixedVpnDns=$fixedVpnDns addedPort53HijackRule=$addedPort53HijackRule migratedLegacyInboundFields=$migratedLegacyInboundFields addedSniffRule=$addedSniffRule"
                 )
             } else {
-                DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize sing-box 1.13 config: no deprecated dns outbound")
+                DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize sing-box 1.13 config: no deprecated fields")
             }
 
             root.toString(2)
