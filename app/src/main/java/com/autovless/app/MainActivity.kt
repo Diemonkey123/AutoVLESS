@@ -50,6 +50,7 @@ class MainActivity : Activity() {
     private val consoleBuffer = StringBuilder()
     @Volatile private var checkCancelRequested = false
     @Volatile private var checkRunning = false
+    @Volatile private var vpnStartRunning = false
     private var pendingVpnConfig: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -359,12 +360,25 @@ class MainActivity : Activity() {
     }
 
     private fun startVpnWithPermission(configContent: String) {
+        if (vpnStartRunning) {
+            DiagnosticsLogger.log(this, "VPN", "Start ignored: VPN is already starting")
+            setStatus("VPN уже запускается")
+            return
+        }
+
         pendingVpnConfig = configContent
-        val intent = VpnService.prepare(this)
-        if (intent != null) {
-            startActivityForResult(intent, VPN_PERMISSION_REQUEST_CODE)
-        } else {
-            startPendingVpn()
+
+        try {
+            val intent = VpnService.prepare(this)
+            if (intent != null) {
+                startActivityForResult(intent, VPN_PERMISSION_REQUEST_CODE)
+            } else {
+                startPendingVpn()
+            }
+        } catch (e: Throwable) {
+            vpnStartRunning = false
+            DiagnosticsLogger.log(this, "VPN", "PREPARE_ERROR ${e.stackTraceToString()}")
+            setStatus("Ошибка подготовки VPN: ${e.message ?: e.javaClass.simpleName}")
         }
     }
 
@@ -374,9 +388,25 @@ class MainActivity : Activity() {
             setStatus("Нет выбранного VPN-конфига")
             return
         }
+        if (vpnStartRunning) {
+            DiagnosticsLogger.log(this, "VPN", "Start ignored: duplicate startPendingVpn")
+            setStatus("VPN уже запускается")
+            return
+        }
+
+        vpnStartRunning = true
         DiagnosticsLogger.log(this, "VPN", "Starting VPN with selected config chars=${config.length}")
-        AutoVlessVpnService.start(this, config)
-        setStatus("VPN запускается")
+
+        try {
+            AutoVlessVpnService.start(this, config)
+            pendingVpnConfig = null
+            setStatus("VPN запускается")
+        } catch (e: Throwable) {
+            DiagnosticsLogger.log(this, "VPN", "START_SERVICE_ERROR ${e.stackTraceToString()}")
+            setStatus("Ошибка запуска VPN-сервиса: ${e.message ?: e.javaClass.simpleName}")
+        } finally {
+            mainHandler.postDelayed({ vpnStartRunning = false }, 2_000)
+        }
     }
 
     @Deprecated("Deprecated in Android API, but enough for this minimal project")

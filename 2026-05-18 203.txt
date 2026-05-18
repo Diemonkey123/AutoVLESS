@@ -1,0 +1,1243 @@
+2026-05-18 20:38:03.497 [MainActivity] App started version=1.5.0
+2026-05-18 20:38:07.063 [UI] Button update list
+2026-05-18 20:38:07.064 [Status] Скачиваю vless_universal.txt и vless_lite.txt...
+2026-05-18 20:38:07.553 [UpdateList] Downloaded subscription chars=302132
+2026-05-18 20:38:07.999 [UpdateList] Parsed nodes=390
+2026-05-18 20:38:08.001 [UpdateList] supported=348 unsupported=42 invalidFiltered=0 activeNew=348
+2026-05-18 20:38:08.024 [Status] Список обновлен. Скачано: 390. Не поддерживается: 42. Отфильтровано invalid: 0. Активных: 348
+2026-05-18 20:38:12.370 [UI] Button check best config
+2026-05-18 20:38:12.371 [Status] Проверяю active-список через реальный VLESS speed-check...
+2026-05-18 20:38:12.703 [CheckBest] Active nodes to check=348
+2026-05-18 20:38:12.705 [CheckBest] Checking 1/348: remark=🇬🇧 United Kingdom — #186, server=195.209.88.216:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:38:12.706 [SpeedTester] START remark=🇬🇧 United Kingdom — #186, server=195.209.88.216:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:38:12.708 [SpeedTester] Picked local proxy port=40631
+2026-05-18 20:38:12.709 [ConfigGenerator] generateTestProxyConfig port=40631 remark=🇬🇧 United Kingdom — #186, server=195.209.88.216:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:38:12.710 [ConfigGenerator] outbound built network=ws tls=true reality=false transport=ws packet=xudp
+2026-05-18 20:38:12.710 [SpeedTester] Starting standalone libbox
+2026-05-18 20:38:12.710 [LibboxRuntime] startStandalone configChars=925
+2026-05-18 20:38:12.711 [LibboxRuntime] close()
+2026-05-18 20:38:12.714 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:38:12.715 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:38:12.716 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:38:12.719 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:38:12.720 [Status] Проверка 1/348: 🇬🇧 United Kingdom — #186
+2026-05-18 20:38:12.723 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:38:12.726 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:38:12.729 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:38:12.786 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:38:12.788 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:38:12.789 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:38:12.790 [SpeedTester] libbox startStandalone OK, soft-wait port=40631
+2026-05-18 20:38:13.692 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:38:23.713 [SpeedTester] URL_TEST_FAIL www.gstatic.com Read timed out
+2026-05-18 20:38:23.717 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:38:33.745 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Read timed out
+2026-05-18 20:38:33.749 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:38:38.500 [SpeedTester] URL_TEST_OK ya.ru 4748ms
+2026-05-18 20:38:38.503 [SpeedTester] Latency result ok=true msg=url-test ya.ru=4748ms
+2026-05-18 20:38:38.506 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:38:48.537 [SpeedTester] DOWNLOAD_FAIL speed.cloudflare.com Read timed out
+2026-05-18 20:38:48.542 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:38:58.571 [SpeedTester] DOWNLOAD_FAIL speed.cloudflare.com Read timed out
+2026-05-18 20:38:58.573 [SpeedTester] DOWNLOAD_TRY cachefly.cachefly.net
+2026-05-18 20:39:08.594 [SpeedTester] DOWNLOAD_FAIL cachefly.cachefly.net Read timed out
+2026-05-18 20:39:08.597 [SpeedTester] DOWNLOAD_TRY proof.ovh.net
+2026-05-18 20:39:18.615 [SpeedTester] DOWNLOAD_FAIL proof.ovh.net Read timed out
+2026-05-18 20:39:18.619 [SpeedTester] Speed result kbps=null msg=speed.cloudflare.com: Read timed out; speed.cloudflare.com: Read timed out; cachefly.cachefly.net: Read timed out; proof.ovh.net: Read timed out
+2026-05-18 20:39:18.622 [LibboxRuntime] close()
+2026-05-18 20:39:18.880 [CheckBest] Result 1/348: status=CONNECTION_FAILED speed=null msg=url-test ya.ru=4748ms; speed.cloudflare.com: Read timed out; speed.cloudflare.com: Read timed out; cachefly.cachefly.net: Read timed out; proof.ovh.net: Read timed out
+2026-05-18 20:39:18.883 [CheckBest] Checking 2/348: remark=🇬🇧 United Kingdom — #196, server=212.193.147.245:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=qq, flow=-, pbk=-, sid=-
+2026-05-18 20:39:18.884 [SpeedTester] START remark=🇬🇧 United Kingdom — #196, server=212.193.147.245:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=qq, flow=-, pbk=-, sid=-
+2026-05-18 20:39:18.888 [SpeedTester] Picked local proxy port=39079
+2026-05-18 20:39:18.890 [ConfigGenerator] generateTestProxyConfig port=39079 remark=🇬🇧 United Kingdom — #196, server=212.193.147.245:443, net=ws, sec=tls, sni=s28233.cdn.ngenix.net, host=s28233.cdn.ngenix.net, fp=qq, flow=-, pbk=-, sid=-
+2026-05-18 20:39:18.891 [ConfigGenerator] outbound built network=ws tls=true reality=false transport=ws packet=xudp
+2026-05-18 20:39:18.894 [SpeedTester] Starting standalone libbox
+2026-05-18 20:39:18.896 [LibboxRuntime] startStandalone configChars=989
+2026-05-18 20:39:18.897 [LibboxRuntime] close()
+2026-05-18 20:39:18.906 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:39:18.909 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:39:18.910 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:39:18.915 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:39:18.917 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:39:18.918 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:39:18.920 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:39:18.936 [Status] Проверка 2/348: 🇬🇧 United Kingdom — #196
+2026-05-18 20:39:18.944 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:39:18.946 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:39:18.947 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:39:18.948 [SpeedTester] libbox startStandalone OK, soft-wait port=39079
+2026-05-18 20:39:19.850 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:39:19.905 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:39:19.906 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:39:19.954 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:39:19.956 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:39:20.003 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:39:20.004 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:39:20.049 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:39:20.050 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:39:20.053 [LibboxRuntime] close()
+2026-05-18 20:39:20.313 [CheckBest] Result 2/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:39:20.316 [CheckBest] Checking 3/348: remark=🇳🇱 The Netherlands — #254, server=84.201.134.125:4443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=YKDx...ZuyI, sid=6ba8...4fc2
+2026-05-18 20:39:20.319 [SpeedTester] START remark=🇳🇱 The Netherlands — #254, server=84.201.134.125:4443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=YKDx...ZuyI, sid=6ba8...4fc2
+2026-05-18 20:39:20.324 [SpeedTester] Picked local proxy port=41415
+2026-05-18 20:39:20.326 [ConfigGenerator] generateTestProxyConfig port=41415 remark=🇳🇱 The Netherlands — #254, server=84.201.134.125:4443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=YKDx...ZuyI, sid=6ba8...4fc2
+2026-05-18 20:39:20.329 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:39:20.333 [Status] Проверка 3/348: 🇳🇱 The Netherlands — #254
+2026-05-18 20:39:20.334 [SpeedTester] Starting standalone libbox
+2026-05-18 20:39:20.338 [LibboxRuntime] startStandalone configChars=968
+2026-05-18 20:39:20.342 [LibboxRuntime] close()
+2026-05-18 20:39:20.352 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:39:20.353 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:39:20.353 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:39:20.355 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:39:20.356 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:39:20.357 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:39:20.358 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:39:20.382 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:39:20.385 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:39:20.392 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:39:20.393 [SpeedTester] libbox startStandalone OK, soft-wait port=41415
+2026-05-18 20:39:21.294 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:39:29.411 [SpeedTester] URL_TEST_OK www.gstatic.com 8114ms
+2026-05-18 20:39:29.416 [SpeedTester] Latency result ok=true msg=url-test www.gstatic.com=8114ms
+2026-05-18 20:39:29.419 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:40:07.275 [SpeedTester] DOWNLOAD_OK speed.cloudflare.com 27 KB/s
+2026-05-18 20:40:07.280 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:40:33.912 [SpeedTester] DOWNLOAD_OK speed.cloudflare.com 38 KB/s
+2026-05-18 20:40:33.917 [SpeedTester] DOWNLOAD_TRY cachefly.cachefly.net
+2026-05-18 20:41:05.019 [SpeedTester] DOWNLOAD_OK cachefly.cachefly.net 32 KB/s
+2026-05-18 20:41:05.024 [SpeedTester] DOWNLOAD_TRY proof.ovh.net
+2026-05-18 20:41:45.882 [SpeedTester] DOWNLOAD_OK proof.ovh.net 25 KB/s
+2026-05-18 20:41:45.883 [SpeedTester] Speed result kbps=38.45613811996789 msg=best=38 KB/s
+2026-05-18 20:41:45.886 [LibboxRuntime] close()
+2026-05-18 20:41:46.142 [CheckBest] Result 3/348: status=BELOW_THRESHOLD speed=38.45613811996789 msg=url-test www.gstatic.com=8114ms; best=38 KB/s
+2026-05-18 20:41:46.285 [CheckBest] Checking 4/348: remark=🇳🇱 The Netherlands — #302, server=188.68.218.72:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=yp2v...fen0, sid=f3cb...bc8f
+2026-05-18 20:41:46.286 [SpeedTester] START remark=🇳🇱 The Netherlands — #302, server=188.68.218.72:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=yp2v...fen0, sid=f3cb...bc8f
+2026-05-18 20:41:46.287 [SpeedTester] Picked local proxy port=40575
+2026-05-18 20:41:46.287 [ConfigGenerator] generateTestProxyConfig port=40575 remark=🇳🇱 The Netherlands — #302, server=188.68.218.72:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=yp2v...fen0, sid=f3cb...bc8f
+2026-05-18 20:41:46.288 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:41:46.288 [SpeedTester] Starting standalone libbox
+2026-05-18 20:41:46.289 [LibboxRuntime] startStandalone configChars=963
+2026-05-18 20:41:46.289 [LibboxRuntime] close()
+2026-05-18 20:41:46.291 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:41:46.292 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:41:46.292 [Status] Проверка 4/348: 🇳🇱 The Netherlands — #302
+2026-05-18 20:41:46.294 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:41:46.297 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:41:46.298 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:41:46.298 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:46.299 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:41:46.319 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:41:46.319 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:41:46.320 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:46.320 [SpeedTester] libbox startStandalone OK, soft-wait port=40575
+2026-05-18 20:41:47.221 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:41:47.325 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:41:47.325 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:41:47.412 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:41:47.413 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:41:47.501 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:41:47.501 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:41:47.604 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:41:47.605 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:41:47.605 [LibboxRuntime] close()
+2026-05-18 20:41:47.860 [CheckBest] Result 4/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:41:47.860 [CheckBest] Checking 5/348: remark=🇫🇷 France — #176, server=95.163.211.240:8081, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:41:47.861 [SpeedTester] START remark=🇫🇷 France — #176, server=95.163.211.240:8081, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:41:47.862 [SpeedTester] Picked local proxy port=40381
+2026-05-18 20:41:47.862 [ConfigGenerator] generateTestProxyConfig port=40381 remark=🇫🇷 France — #176, server=95.163.211.240:8081, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:41:47.863 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:41:47.863 [SpeedTester] Starting standalone libbox
+2026-05-18 20:41:47.864 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:41:47.864 [LibboxRuntime] close()
+2026-05-18 20:41:47.867 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:41:47.869 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:41:47.870 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:41:47.871 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:41:47.872 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:41:47.873 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:47.873 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:41:47.875 [Status] Проверка 5/348: 🇫🇷 France — #176
+2026-05-18 20:41:47.893 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:41:47.894 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:41:47.894 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:47.894 [SpeedTester] libbox startStandalone OK, soft-wait port=40381
+2026-05-18 20:41:48.795 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:41:51.456 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:41:51.459 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:41:51.533 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:41:51.536 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:41:51.698 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:41:51.702 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:41:51.794 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:41:51.798 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:41:51.802 [LibboxRuntime] close()
+2026-05-18 20:41:52.066 [CheckBest] Result 5/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:41:52.071 [CheckBest] Checking 6/348: remark=🇩🇪 Germany — #133, server=158.160.241.186:5446, net=tcp, sec=reality, sni=quiz.kinopoisk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=f543...6e07
+2026-05-18 20:41:52.075 [SpeedTester] START remark=🇩🇪 Germany — #133, server=158.160.241.186:5446, net=tcp, sec=reality, sni=quiz.kinopoisk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=f543...6e07
+2026-05-18 20:41:52.081 [SpeedTester] Picked local proxy port=39851
+2026-05-18 20:41:52.084 [ConfigGenerator] generateTestProxyConfig port=39851 remark=🇩🇪 Germany — #133, server=158.160.241.186:5446, net=tcp, sec=reality, sni=quiz.kinopoisk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=f543...6e07
+2026-05-18 20:41:52.088 [Status] Проверка 6/348: 🇩🇪 Germany — #133
+2026-05-18 20:41:52.089 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:41:52.093 [SpeedTester] Starting standalone libbox
+2026-05-18 20:41:52.096 [LibboxRuntime] startStandalone configChars=981
+2026-05-18 20:41:52.100 [LibboxRuntime] close()
+2026-05-18 20:41:52.107 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:41:52.108 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:41:52.108 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:41:52.110 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:41:52.111 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:41:52.112 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:52.112 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:41:52.142 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:41:52.143 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:41:52.143 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:41:52.144 [SpeedTester] libbox startStandalone OK, soft-wait port=39851
+2026-05-18 20:41:53.045 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:41:58.065 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:41:58.070 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:03.086 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:42:03.090 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:08.109 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:42:08.114 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:13.133 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:42:13.138 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:13.142 [LibboxRuntime] close()
+2026-05-18 20:42:13.407 [CheckBest] Result 6/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:13.412 [CheckBest] Checking 7/348: remark=🇳🇱 The Netherlands — #247, server=37.9.4.224:443, net=tcp, sec=reality, sni=wl-2-1.legendary.ac, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=uL4x...Wtm8, sid=aa03...5e91
+2026-05-18 20:42:13.416 [SpeedTester] START remark=🇳🇱 The Netherlands — #247, server=37.9.4.224:443, net=tcp, sec=reality, sni=wl-2-1.legendary.ac, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=uL4x...Wtm8, sid=aa03...5e91
+2026-05-18 20:42:13.422 [SpeedTester] Picked local proxy port=35713
+2026-05-18 20:42:13.426 [ConfigGenerator] generateTestProxyConfig port=35713 remark=🇳🇱 The Netherlands — #247, server=37.9.4.224:443, net=tcp, sec=reality, sni=wl-2-1.legendary.ac, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=uL4x...Wtm8, sid=aa03...5e91
+2026-05-18 20:42:13.430 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:13.435 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:13.438 [LibboxRuntime] startStandalone configChars=977
+2026-05-18 20:42:13.441 [LibboxRuntime] close()
+2026-05-18 20:42:13.447 [Status] Проверка 7/348: 🇳🇱 The Netherlands — #247
+2026-05-18 20:42:13.452 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:13.453 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:13.453 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:13.455 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:13.455 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:13.456 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:13.457 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:13.482 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:13.482 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:13.483 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:13.483 [SpeedTester] libbox startStandalone OK, soft-wait port=35713
+2026-05-18 20:42:14.384 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:14.434 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:42:14.435 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:14.489 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:42:14.490 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:14.537 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:42:14.538 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:14.579 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:42:14.579 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:14.580 [LibboxRuntime] close()
+2026-05-18 20:42:14.837 [CheckBest] Result 7/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:14.838 [CheckBest] Checking 8/348: remark=🇩🇪 Germany — #98, server=95.163.211.237:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:14.838 [SpeedTester] START remark=🇩🇪 Germany — #98, server=95.163.211.237:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:14.841 [SpeedTester] Picked local proxy port=44349
+2026-05-18 20:42:14.842 [ConfigGenerator] generateTestProxyConfig port=44349 remark=🇩🇪 Germany — #98, server=95.163.211.237:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:14.842 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:14.843 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:14.843 [LibboxRuntime] startStandalone configChars=934
+2026-05-18 20:42:14.843 [LibboxRuntime] close()
+2026-05-18 20:42:14.845 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:14.846 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:14.846 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:14.848 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:14.848 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:14.849 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:14.850 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:14.859 [Status] Проверка 8/348: 🇩🇪 Germany — #98
+2026-05-18 20:42:14.871 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:14.872 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:14.872 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:14.873 [SpeedTester] libbox startStandalone OK, soft-wait port=44349
+2026-05-18 20:42:15.774 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:15.840 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:42:15.844 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:15.901 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:42:15.902 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:15.953 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:42:15.954 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:16.004 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:42:16.005 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:16.005 [LibboxRuntime] close()
+2026-05-18 20:42:16.261 [CheckBest] Result 8/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:16.262 [CheckBest] Checking 9/348: remark=🇺🇸 United States — #380, server=91.219.227.200:8080, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:16.262 [SpeedTester] START remark=🇺🇸 United States — #380, server=91.219.227.200:8080, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:16.263 [SpeedTester] Picked local proxy port=43257
+2026-05-18 20:42:16.264 [ConfigGenerator] generateTestProxyConfig port=43257 remark=🇺🇸 United States — #380, server=91.219.227.200:8080, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:42:16.264 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:16.265 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:16.265 [LibboxRuntime] startStandalone configChars=951
+2026-05-18 20:42:16.265 [LibboxRuntime] close()
+2026-05-18 20:42:16.267 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:16.268 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:16.268 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:16.270 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:16.271 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:16.271 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:16.272 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:16.286 [Status] Проверка 9/348: 🇺🇸 United States — #380
+2026-05-18 20:42:16.292 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:16.292 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:16.293 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:16.293 [SpeedTester] libbox startStandalone OK, soft-wait port=43257
+2026-05-18 20:42:17.195 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:17.300 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:42:17.301 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:17.353 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:42:17.354 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:17.420 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:42:17.421 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:17.479 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:42:17.479 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: Connection reset; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:17.480 [LibboxRuntime] close()
+2026-05-18 20:42:17.737 [CheckBest] Result 9/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: Connection reset; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:17.738 [CheckBest] Checking 10/348: remark=🇷🇺 Timeweb — #19, server=158.160.224.52:40443, net=grpc, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=qsqn...5b2U, sid=22c7...4abe
+2026-05-18 20:42:17.738 [SpeedTester] START remark=🇷🇺 Timeweb — #19, server=158.160.224.52:40443, net=grpc, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=qsqn...5b2U, sid=22c7...4abe
+2026-05-18 20:42:17.739 [SpeedTester] Picked local proxy port=41441
+2026-05-18 20:42:17.740 [ConfigGenerator] generateTestProxyConfig port=41441 remark=🇷🇺 Timeweb — #19, server=158.160.224.52:40443, net=grpc, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=qsqn...5b2U, sid=22c7...4abe
+2026-05-18 20:42:17.740 [ConfigGenerator] outbound built network=grpc tls=true reality=true transport=grpc packet=xudp
+2026-05-18 20:42:17.741 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:17.741 [LibboxRuntime] startStandalone configChars=1033
+2026-05-18 20:42:17.741 [LibboxRuntime] close()
+2026-05-18 20:42:17.743 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:17.744 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:17.744 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:17.745 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:17.746 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:17.747 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:17.747 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:17.764 [Status] Проверка 10/348: 🇷🇺 Timeweb — #19
+2026-05-18 20:42:17.771 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:17.772 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:17.772 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:17.772 [SpeedTester] libbox startStandalone OK, soft-wait port=41441
+2026-05-18 20:42:18.674 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:18.765 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:42:18.765 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:18.784 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:42:18.785 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:18.802 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:42:18.803 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:18.822 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:42:18.823 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:18.824 [LibboxRuntime] close()
+2026-05-18 20:42:19.084 [CheckBest] Result 10/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:42:19.084 [CheckBest] Checking 11/348: remark=🇳🇱 The Netherlands — #234, server=84.201.147.213:2443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=hxpW...M_FY, sid=6ba8...4fc2
+2026-05-18 20:42:19.085 [SpeedTester] START remark=🇳🇱 The Netherlands — #234, server=84.201.147.213:2443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=hxpW...M_FY, sid=6ba8...4fc2
+2026-05-18 20:42:19.086 [SpeedTester] Picked local proxy port=46571
+2026-05-18 20:42:19.086 [ConfigGenerator] generateTestProxyConfig port=46571 remark=🇳🇱 The Netherlands — #234, server=84.201.147.213:2443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=hxpW...M_FY, sid=6ba8...4fc2
+2026-05-18 20:42:19.086 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:19.087 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:19.087 [LibboxRuntime] startStandalone configChars=972
+2026-05-18 20:42:19.087 [LibboxRuntime] close()
+2026-05-18 20:42:19.089 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:19.090 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:19.091 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:19.092 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:19.093 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:19.093 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:19.094 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:19.113 [Status] Проверка 11/348: 🇳🇱 The Netherlands — #234
+2026-05-18 20:42:19.118 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:19.119 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:19.119 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:19.120 [SpeedTester] libbox startStandalone OK, soft-wait port=46571
+2026-05-18 20:42:20.021 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:24.210 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:42:24.213 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:26.507 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:42:26.511 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:32.816 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:42:32.820 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:36.045 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:42:36.049 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: Connection reset; vk.com: connection closed
+2026-05-18 20:42:36.053 [LibboxRuntime] close()
+2026-05-18 20:42:36.316 [CheckBest] Result 11/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: Connection reset; vk.com: connection closed
+2026-05-18 20:42:36.321 [CheckBest] Checking 12/348: remark=🇸🇪 Sweden — #352, server=158.160.241.186:5447, net=tcp, sec=reality, sni=st.okcdn.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=542c...a453
+2026-05-18 20:42:36.326 [SpeedTester] START remark=🇸🇪 Sweden — #352, server=158.160.241.186:5447, net=tcp, sec=reality, sni=st.okcdn.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=542c...a453
+2026-05-18 20:42:36.333 [SpeedTester] Picked local proxy port=37551
+2026-05-18 20:42:36.338 [ConfigGenerator] generateTestProxyConfig port=37551 remark=🇸🇪 Sweden — #352, server=158.160.241.186:5447, net=tcp, sec=reality, sni=st.okcdn.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=OtGu...Jx18, sid=542c...a453
+2026-05-18 20:42:36.343 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:36.347 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:36.351 [LibboxRuntime] startStandalone configChars=975
+2026-05-18 20:42:36.354 [LibboxRuntime] close()
+2026-05-18 20:42:36.378 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:36.386 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:36.390 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:36.404 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:36.417 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:36.420 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:36.425 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:36.464 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:36.469 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:36.481 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:36.489 [SpeedTester] libbox startStandalone OK, soft-wait port=37551
+2026-05-18 20:42:36.499 [Status] Проверка 12/348: 🇸🇪 Sweden — #352
+2026-05-18 20:42:37.391 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:42:42.406 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:42:42.409 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:42:47.429 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:42:47.433 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:42:52.455 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:42:52.460 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:42:57.474 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:42:57.476 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:57.478 [LibboxRuntime] close()
+2026-05-18 20:42:57.735 [CheckBest] Result 12/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:42:57.737 [CheckBest] Checking 13/348: remark=🇳🇱 The Netherlands — #231, server=84.201.147.213:7443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=7ibc...HPUw, sid=6ba8...4fc2
+2026-05-18 20:42:57.739 [SpeedTester] START remark=🇳🇱 The Netherlands — #231, server=84.201.147.213:7443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=7ibc...HPUw, sid=6ba8...4fc2
+2026-05-18 20:42:57.742 [SpeedTester] Picked local proxy port=34499
+2026-05-18 20:42:57.744 [ConfigGenerator] generateTestProxyConfig port=34499 remark=🇳🇱 The Netherlands — #231, server=84.201.147.213:7443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=7ibc...HPUw, sid=6ba8...4fc2
+2026-05-18 20:42:57.746 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:42:57.749 [SpeedTester] Starting standalone libbox
+2026-05-18 20:42:57.750 [LibboxRuntime] startStandalone configChars=969
+2026-05-18 20:42:57.752 [LibboxRuntime] close()
+2026-05-18 20:42:57.762 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:42:57.765 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:42:57.767 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:42:57.774 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:42:57.781 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:42:57.783 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:57.785 [Status] Проверка 13/348: 🇳🇱 The Netherlands — #231
+2026-05-18 20:42:57.785 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:42:57.811 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:42:57.813 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:42:57.814 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:42:57.816 [SpeedTester] libbox startStandalone OK, soft-wait port=34499
+2026-05-18 20:42:58.718 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:00.222 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:00.224 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:00.910 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:00.913 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:02.979 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:02.984 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:05.620 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:05.625 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:05.627 [LibboxRuntime] close()
+2026-05-18 20:43:05.895 [CheckBest] Result 13/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:05.900 [CheckBest] Checking 14/348: remark=🇳🇱 The Netherlands — #228, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:43:05.903 [SpeedTester] START remark=🇳🇱 The Netherlands — #228, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:43:05.909 [SpeedTester] Picked local proxy port=34119
+2026-05-18 20:43:05.912 [ConfigGenerator] generateTestProxyConfig port=34119 remark=🇳🇱 The Netherlands — #228, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=-, flow=-, pbk=-, sid=-
+2026-05-18 20:43:05.916 [ConfigGenerator] outbound built network=ws tls=true reality=false transport=ws packet=xudp
+2026-05-18 20:43:05.920 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:05.923 [LibboxRuntime] startStandalone configChars=986
+2026-05-18 20:43:05.926 [LibboxRuntime] close()
+2026-05-18 20:43:05.946 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:05.954 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:05.959 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:05.976 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:05.982 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:05.985 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:05.990 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:06.024 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:06.026 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:06.027 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:06.028 [SpeedTester] libbox startStandalone OK, soft-wait port=34119
+2026-05-18 20:43:06.105 [Status] Проверка 14/348: 🇳🇱 The Netherlands — #228
+2026-05-18 20:43:06.931 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:06.991 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:43:06.994 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:07.037 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:43:07.037 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:07.085 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:43:07.086 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:07.131 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:43:07.131 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:07.132 [LibboxRuntime] close()
+2026-05-18 20:43:07.385 [CheckBest] Result 14/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:07.386 [CheckBest] Checking 15/348: remark=🇫🇮 Finland — #148, server=46.243.232.186:443, net=grpc, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=OoPq...pOVE, sid=5FA4...66d3
+2026-05-18 20:43:07.387 [SpeedTester] START remark=🇫🇮 Finland — #148, server=46.243.232.186:443, net=grpc, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=OoPq...pOVE, sid=5FA4...66d3
+2026-05-18 20:43:07.388 [SpeedTester] Picked local proxy port=39587
+2026-05-18 20:43:07.388 [ConfigGenerator] generateTestProxyConfig port=39587 remark=🇫🇮 Finland — #148, server=46.243.232.186:443, net=grpc, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=OoPq...pOVE, sid=5FA4...66d3
+2026-05-18 20:43:07.389 [ConfigGenerator] outbound built network=grpc tls=true reality=true transport=grpc packet=xudp
+2026-05-18 20:43:07.390 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:07.391 [LibboxRuntime] startStandalone configChars=1028
+2026-05-18 20:43:07.392 [LibboxRuntime] close()
+2026-05-18 20:43:07.395 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:07.397 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:07.397 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:07.399 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:07.400 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:07.401 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:07.402 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:07.425 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:07.427 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:07.428 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:07.429 [SpeedTester] libbox startStandalone OK, soft-wait port=39587
+2026-05-18 20:43:07.431 [Status] Проверка 15/348: 🇫🇮 Finland — #148
+2026-05-18 20:43:08.330 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:08.716 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:08.717 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:08.770 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:08.771 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:08.810 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:08.810 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:08.853 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:08.854 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:08.854 [LibboxRuntime] close()
+2026-05-18 20:43:09.110 [CheckBest] Result 15/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:09.111 [CheckBest] Checking 16/348: remark=🇸🇪 Sweden — #350, server=158.160.226.248:3449, net=tcp, sec=reality, sni=dev.tau.vk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=y8Xe...SXA8, sid=822d...cbf4
+2026-05-18 20:43:09.111 [SpeedTester] START remark=🇸🇪 Sweden — #350, server=158.160.226.248:3449, net=tcp, sec=reality, sni=dev.tau.vk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=y8Xe...SXA8, sid=822d...cbf4
+2026-05-18 20:43:09.112 [SpeedTester] Picked local proxy port=38819
+2026-05-18 20:43:09.113 [ConfigGenerator] generateTestProxyConfig port=38819 remark=🇸🇪 Sweden — #350, server=158.160.226.248:3449, net=tcp, sec=reality, sni=dev.tau.vk.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=y8Xe...SXA8, sid=822d...cbf4
+2026-05-18 20:43:09.113 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:09.114 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:09.114 [LibboxRuntime] startStandalone configChars=977
+2026-05-18 20:43:09.114 [LibboxRuntime] close()
+2026-05-18 20:43:09.117 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:09.117 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:09.118 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:09.119 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:09.120 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:09.120 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:09.121 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:09.142 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:09.142 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:09.143 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:09.143 [SpeedTester] libbox startStandalone OK, soft-wait port=38819
+2026-05-18 20:43:09.184 [Status] Проверка 16/348: 🇸🇪 Sweden — #350
+2026-05-18 20:43:10.044 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:10.079 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:43:10.080 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:10.096 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:43:10.096 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:10.113 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:43:10.114 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:10.131 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:43:10.132 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:10.132 [LibboxRuntime] close()
+2026-05-18 20:43:10.388 [CheckBest] Result 16/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:10.388 [CheckBest] Checking 17/348: remark=🇩🇪 Germany — #108, server=95.163.211.240:7433, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:10.389 [SpeedTester] START remark=🇩🇪 Germany — #108, server=95.163.211.240:7433, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:10.390 [SpeedTester] Picked local proxy port=41551
+2026-05-18 20:43:10.390 [ConfigGenerator] generateTestProxyConfig port=41551 remark=🇩🇪 Germany — #108, server=95.163.211.240:7433, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:10.390 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:10.391 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:10.391 [LibboxRuntime] startStandalone configChars=951
+2026-05-18 20:43:10.391 [LibboxRuntime] close()
+2026-05-18 20:43:10.393 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:10.394 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:10.395 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:10.396 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:10.397 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:10.397 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:10.398 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:10.424 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:10.425 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:10.425 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:10.426 [SpeedTester] libbox startStandalone OK, soft-wait port=41551
+2026-05-18 20:43:10.530 [Status] Проверка 17/348: 🇩🇪 Germany — #108
+2026-05-18 20:43:11.326 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:12.597 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:12.601 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:12.674 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:12.678 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:12.744 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:12.744 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:12.817 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:12.818 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:12.818 [LibboxRuntime] close()
+2026-05-18 20:43:13.074 [CheckBest] Result 17/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:13.075 [CheckBest] Checking 18/348: remark=🇩🇪 Germany — #87, server=109.120.152.3:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=P5Kf...LgD8, sid=-
+2026-05-18 20:43:13.075 [SpeedTester] START remark=🇩🇪 Germany — #87, server=109.120.152.3:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=P5Kf...LgD8, sid=-
+2026-05-18 20:43:13.076 [SpeedTester] Picked local proxy port=38423
+2026-05-18 20:43:13.077 [ConfigGenerator] generateTestProxyConfig port=38423 remark=🇩🇪 Germany — #87, server=109.120.152.3:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=P5Kf...LgD8, sid=-
+2026-05-18 20:43:13.077 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:13.077 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:13.078 [LibboxRuntime] startStandalone configChars=928
+2026-05-18 20:43:13.078 [LibboxRuntime] close()
+2026-05-18 20:43:13.080 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:13.081 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:13.081 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:13.082 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:13.083 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:13.084 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:13.085 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:13.107 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:13.108 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:13.108 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:13.109 [SpeedTester] libbox startStandalone OK, soft-wait port=38423
+2026-05-18 20:43:13.139 [Status] Проверка 18/348: 🇩🇪 Germany — #87
+2026-05-18 20:43:14.011 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:14.073 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:14.074 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:14.129 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:14.130 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:14.185 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:14.185 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:14.241 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:14.242 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:14.242 [LibboxRuntime] close()
+2026-05-18 20:43:14.496 [CheckBest] Result 18/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:14.497 [CheckBest] Checking 19/348: remark=🇫🇮 Finland — #157, server=91.219.227.189:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:14.497 [SpeedTester] START remark=🇫🇮 Finland — #157, server=91.219.227.189:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:14.498 [SpeedTester] Picked local proxy port=44777
+2026-05-18 20:43:14.498 [ConfigGenerator] generateTestProxyConfig port=44777 remark=🇫🇮 Finland — #157, server=91.219.227.189:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:14.498 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:14.499 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:14.499 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:43:14.499 [LibboxRuntime] close()
+2026-05-18 20:43:14.502 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:14.502 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:14.503 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:14.504 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:14.505 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:14.506 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:14.507 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:14.530 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:14.532 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:14.532 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:14.533 [SpeedTester] libbox startStandalone OK, soft-wait port=44777
+2026-05-18 20:43:14.583 [Status] Проверка 19/348: 🇫🇮 Finland — #157
+2026-05-18 20:43:15.434 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:16.659 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:16.663 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:16.734 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:16.735 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:16.796 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:16.797 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:16.841 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:16.842 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:16.842 [LibboxRuntime] close()
+2026-05-18 20:43:17.096 [CheckBest] Result 19/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:17.097 [CheckBest] Checking 20/348: remark=🇩🇪 Germany — #116, server=158.160.187.237:443, net=tcp, sec=reality, sni=smartcaptcha.yandexcloud.net, host=-, fp=random, flow=xtls-rprx-vision, pbk=iRbc...tCnM, sid=27e5...93d7
+2026-05-18 20:43:17.097 [SpeedTester] START remark=🇩🇪 Germany — #116, server=158.160.187.237:443, net=tcp, sec=reality, sni=smartcaptcha.yandexcloud.net, host=-, fp=random, flow=xtls-rprx-vision, pbk=iRbc...tCnM, sid=27e5...93d7
+2026-05-18 20:43:17.098 [SpeedTester] Picked local proxy port=40895
+2026-05-18 20:43:17.099 [ConfigGenerator] generateTestProxyConfig port=40895 remark=🇩🇪 Germany — #116, server=158.160.187.237:443, net=tcp, sec=reality, sni=smartcaptcha.yandexcloud.net, host=-, fp=random, flow=xtls-rprx-vision, pbk=iRbc...tCnM, sid=27e5...93d7
+2026-05-18 20:43:17.099 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:17.099 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:17.100 [LibboxRuntime] startStandalone configChars=991
+2026-05-18 20:43:17.100 [LibboxRuntime] close()
+2026-05-18 20:43:17.102 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:17.102 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:17.103 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:17.104 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:17.105 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:17.105 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:17.106 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:17.124 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:17.125 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:17.125 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:17.125 [SpeedTester] libbox startStandalone OK, soft-wait port=40895
+2026-05-18 20:43:17.224 [Status] Проверка 20/348: 🇩🇪 Germany — #116
+2026-05-18 20:43:18.026 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:18.132 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:18.133 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:18.241 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:18.242 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:18.339 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:18.339 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:18.439 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:18.439 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:18.440 [LibboxRuntime] close()
+2026-05-18 20:43:18.694 [CheckBest] Result 20/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:18.695 [CheckBest] Checking 21/348: remark=🇫🇮 Finland — #152, server=51.250.21.98:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:18.695 [SpeedTester] START remark=🇫🇮 Finland — #152, server=51.250.21.98:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:18.696 [SpeedTester] Picked local proxy port=46291
+2026-05-18 20:43:18.697 [ConfigGenerator] generateTestProxyConfig port=46291 remark=🇫🇮 Finland — #152, server=51.250.21.98:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:18.697 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:18.697 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:18.698 [LibboxRuntime] startStandalone configChars=936
+2026-05-18 20:43:18.698 [LibboxRuntime] close()
+2026-05-18 20:43:18.700 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:18.700 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:18.701 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:18.702 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:18.703 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:18.703 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:18.704 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:18.725 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:18.726 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:18.726 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:18.726 [SpeedTester] libbox startStandalone OK, soft-wait port=46291
+2026-05-18 20:43:18.804 [Status] Проверка 21/348: 🇫🇮 Finland — #152
+2026-05-18 20:43:19.627 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:19.720 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:19.721 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:19.796 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:19.796 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:19.878 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:19.879 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:19.961 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:19.961 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:19.962 [LibboxRuntime] close()
+2026-05-18 20:43:20.237 [CheckBest] Result 21/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:20.238 [CheckBest] Checking 22/348: remark=🇳🇱 The Netherlands — #229, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=chrome, flow=-, pbk=-, sid=-
+2026-05-18 20:43:20.238 [SpeedTester] START remark=🇳🇱 The Netherlands — #229, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=chrome, flow=-, pbk=-, sid=-
+2026-05-18 20:43:20.239 [SpeedTester] Picked local proxy port=36977
+2026-05-18 20:43:20.240 [ConfigGenerator] generateTestProxyConfig port=36977 remark=🇳🇱 The Netherlands — #229, server=188.72.103.3:443, net=ws, sec=tls, sni=cdn.tracker.yandex.net, host=cdn.lovecrafty.link, fp=chrome, flow=-, pbk=-, sid=-
+2026-05-18 20:43:20.240 [ConfigGenerator] outbound built network=ws tls=true reality=false transport=ws packet=xudp
+2026-05-18 20:43:20.240 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:20.241 [LibboxRuntime] startStandalone configChars=986
+2026-05-18 20:43:20.241 [LibboxRuntime] close()
+2026-05-18 20:43:20.243 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:20.243 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:20.244 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:20.245 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:20.246 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:20.247 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:20.247 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:20.271 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:20.272 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:20.272 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:20.273 [SpeedTester] libbox startStandalone OK, soft-wait port=36977
+2026-05-18 20:43:20.451 [Status] Проверка 22/348: 🇳🇱 The Netherlands — #229
+2026-05-18 20:43:21.173 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:21.226 [SpeedTester] URL_TEST_FAIL www.gstatic.com Connection reset
+2026-05-18 20:43:21.227 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:21.282 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com Connection reset
+2026-05-18 20:43:21.283 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:21.336 [SpeedTester] URL_TEST_FAIL ya.ru Connection reset
+2026-05-18 20:43:21.336 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:21.392 [SpeedTester] URL_TEST_FAIL vk.com Connection reset
+2026-05-18 20:43:21.393 [SpeedTester] Latency result ok=false msg=www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:21.393 [LibboxRuntime] close()
+2026-05-18 20:43:21.651 [CheckBest] Result 22/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: Connection reset; cp.cloudflare.com: Connection reset; ya.ru: Connection reset; vk.com: Connection reset
+2026-05-18 20:43:21.651 [CheckBest] Checking 23/348: remark=🇳🇱 The Netherlands — #269, server=46.8.18.38:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=ZlXB...xNT8, sid=ae03...52e0
+2026-05-18 20:43:21.652 [SpeedTester] START remark=🇳🇱 The Netherlands — #269, server=46.8.18.38:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=ZlXB...xNT8, sid=ae03...52e0
+2026-05-18 20:43:21.653 [SpeedTester] Picked local proxy port=44153
+2026-05-18 20:43:21.653 [ConfigGenerator] generateTestProxyConfig port=44153 remark=🇳🇱 The Netherlands — #269, server=46.8.18.38:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=ZlXB...xNT8, sid=ae03...52e0
+2026-05-18 20:43:21.654 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:21.654 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:21.654 [LibboxRuntime] startStandalone configChars=964
+2026-05-18 20:43:21.655 [LibboxRuntime] close()
+2026-05-18 20:43:21.657 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:21.658 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:21.658 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:21.660 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:21.661 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:21.662 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:21.663 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:21.689 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:21.689 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:21.690 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:21.690 [SpeedTester] libbox startStandalone OK, soft-wait port=44153
+2026-05-18 20:43:22.070 [Status] Проверка 23/348: 🇳🇱 The Netherlands — #269
+2026-05-18 20:43:22.591 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:25.060 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:25.065 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:25.160 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:25.160 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:25.527 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:25.529 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:25.632 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:25.633 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:25.633 [LibboxRuntime] close()
+2026-05-18 20:43:25.887 [CheckBest] Result 23/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:25.888 [CheckBest] Checking 24/348: remark=🇩🇪 Germany — #99, server=95.163.211.240:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:25.889 [SpeedTester] START remark=🇩🇪 Germany — #99, server=95.163.211.240:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:25.889 [SpeedTester] Picked local proxy port=46079
+2026-05-18 20:43:25.890 [ConfigGenerator] generateTestProxyConfig port=46079 remark=🇩🇪 Germany — #99, server=95.163.211.240:7433, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:25.890 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:25.891 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:25.891 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:43:25.891 [LibboxRuntime] close()
+2026-05-18 20:43:25.893 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:25.894 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:25.894 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:25.896 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:25.896 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:25.897 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:25.898 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:25.921 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:25.922 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:25.922 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:25.922 [SpeedTester] libbox startStandalone OK, soft-wait port=46079
+2026-05-18 20:43:25.933 [Status] Проверка 24/348: 🇩🇪 Germany — #99
+2026-05-18 20:43:26.823 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:28.575 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:28.580 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:28.650 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:28.652 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:28.709 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:28.709 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:28.766 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:28.767 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:28.767 [LibboxRuntime] close()
+2026-05-18 20:43:29.023 [CheckBest] Result 24/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:29.024 [CheckBest] Checking 25/348: remark=🇷🇺 UFO Hosting — #29, server=95.163.211.240:80, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:29.024 [SpeedTester] START remark=🇷🇺 UFO Hosting — #29, server=95.163.211.240:80, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:29.025 [SpeedTester] Picked local proxy port=44993
+2026-05-18 20:43:29.026 [ConfigGenerator] generateTestProxyConfig port=44993 remark=🇷🇺 UFO Hosting — #29, server=95.163.211.240:80, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:29.026 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:29.026 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:29.027 [LibboxRuntime] startStandalone configChars=933
+2026-05-18 20:43:29.027 [LibboxRuntime] close()
+2026-05-18 20:43:29.029 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:29.030 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:29.030 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:29.031 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:29.032 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:29.033 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:29.034 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:29.068 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:29.069 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:29.069 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:29.069 [SpeedTester] libbox startStandalone OK, soft-wait port=44993
+2026-05-18 20:43:29.144 [Status] Проверка 25/348: 🇷🇺 UFO Hosting — #29
+2026-05-18 20:43:29.970 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:32.593 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:32.595 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:32.662 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:32.666 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:32.742 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:32.746 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:32.820 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:32.823 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:32.826 [LibboxRuntime] close()
+2026-05-18 20:43:33.091 [CheckBest] Result 25/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:33.091 [CheckBest] Checking 26/348: remark=🇫🇮 Finland — #162, server=95.163.211.237:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:33.092 [SpeedTester] START remark=🇫🇮 Finland — #162, server=95.163.211.237:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:33.093 [SpeedTester] Picked local proxy port=46449
+2026-05-18 20:43:33.094 [ConfigGenerator] generateTestProxyConfig port=46449 remark=🇫🇮 Finland — #162, server=95.163.211.237:8083, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:33.094 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:33.094 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:33.095 [LibboxRuntime] startStandalone configChars=934
+2026-05-18 20:43:33.095 [LibboxRuntime] close()
+2026-05-18 20:43:33.098 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:33.099 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:33.100 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:33.101 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:33.102 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:33.102 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:33.103 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:33.130 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:33.130 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:33.131 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:33.131 [SpeedTester] libbox startStandalone OK, soft-wait port=46449
+2026-05-18 20:43:33.289 [Status] Проверка 26/348: 🇫🇮 Finland — #162
+2026-05-18 20:43:34.032 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:34.078 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:34.078 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:34.122 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:34.123 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:34.164 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:34.165 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:34.205 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:34.206 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:34.206 [LibboxRuntime] close()
+2026-05-18 20:43:34.460 [CheckBest] Result 26/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:34.460 [CheckBest] Checking 27/348: remark=🇩🇪 Germany — #120, server=51.250.47.193:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=v6ri...EuBo, sid=27e5...93d7
+2026-05-18 20:43:34.461 [SpeedTester] START remark=🇩🇪 Germany — #120, server=51.250.47.193:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=v6ri...EuBo, sid=27e5...93d7
+2026-05-18 20:43:34.462 [SpeedTester] Picked local proxy port=38913
+2026-05-18 20:43:34.462 [ConfigGenerator] generateTestProxyConfig port=38913 remark=🇩🇪 Germany — #120, server=51.250.47.193:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=random, flow=xtls-rprx-vision, pbk=v6ri...EuBo, sid=27e5...93d7
+2026-05-18 20:43:34.462 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:34.463 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:34.463 [LibboxRuntime] startStandalone configChars=970
+2026-05-18 20:43:34.463 [LibboxRuntime] close()
+2026-05-18 20:43:34.465 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:34.466 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:34.466 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:34.468 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:34.469 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:34.469 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:34.470 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:34.488 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:34.489 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:34.490 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:34.490 [SpeedTester] libbox startStandalone OK, soft-wait port=38913
+2026-05-18 20:43:34.840 [Status] Проверка 27/348: 🇩🇪 Germany — #120
+2026-05-18 20:43:35.391 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:35.570 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:35.570 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:35.666 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:35.667 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:35.763 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:35.764 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:35.828 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:35.829 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:35.829 [LibboxRuntime] close()
+2026-05-18 20:43:36.083 [CheckBest] Result 27/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:36.084 [CheckBest] Checking 28/348: remark=🇧🇬 Bulgaria — #66, server=158.160.224.149:1443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=HrpJ...tgh0, sid=d4a8...4c0d
+2026-05-18 20:43:36.084 [SpeedTester] START remark=🇧🇬 Bulgaria — #66, server=158.160.224.149:1443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=HrpJ...tgh0, sid=d4a8...4c0d
+2026-05-18 20:43:36.085 [SpeedTester] Picked local proxy port=42295
+2026-05-18 20:43:36.086 [ConfigGenerator] generateTestProxyConfig port=42295 remark=🇧🇬 Bulgaria — #66, server=158.160.224.149:1443, net=tcp, sec=reality, sni=max.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=HrpJ...tgh0, sid=d4a8...4c0d
+2026-05-18 20:43:36.086 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:36.087 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:36.087 [LibboxRuntime] startStandalone configChars=970
+2026-05-18 20:43:36.087 [LibboxRuntime] close()
+2026-05-18 20:43:36.089 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:36.090 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:36.090 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:36.091 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:36.092 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:36.093 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:36.094 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:36.113 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:36.114 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:36.115 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:36.115 [SpeedTester] libbox startStandalone OK, soft-wait port=42295
+2026-05-18 20:43:36.454 [Status] Проверка 28/348: 🇧🇬 Bulgaria — #66
+2026-05-18 20:43:37.016 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:37.080 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:37.081 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:37.138 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:37.139 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:37.227 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:37.227 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:37.285 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:37.286 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:37.286 [LibboxRuntime] close()
+2026-05-18 20:43:37.539 [CheckBest] Result 28/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:37.540 [CheckBest] Checking 29/348: remark=🇹🇷 Türkiye — #362, server=95.163.211.237:7443, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:37.540 [SpeedTester] START remark=🇹🇷 Türkiye — #362, server=95.163.211.237:7443, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:37.541 [SpeedTester] Picked local proxy port=46251
+2026-05-18 20:43:37.542 [ConfigGenerator] generateTestProxyConfig port=46251 remark=🇹🇷 Türkiye — #362, server=95.163.211.237:7443, net=tcp, sec=reality, sni=sso.passport.yandex.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:37.542 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:37.542 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:37.543 [LibboxRuntime] startStandalone configChars=951
+2026-05-18 20:43:37.543 [LibboxRuntime] close()
+2026-05-18 20:43:37.545 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:37.545 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:37.546 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:37.547 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:37.548 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:37.549 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:37.550 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:37.569 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:37.569 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:37.570 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:37.570 [SpeedTester] libbox startStandalone OK, soft-wait port=46251
+2026-05-18 20:43:37.873 [Status] Проверка 29/348: 🇹🇷 Türkiye — #362
+2026-05-18 20:43:38.471 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:38.533 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:38.533 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:38.592 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:38.593 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:38.643 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:38.644 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:38.693 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:38.694 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:38.694 [LibboxRuntime] close()
+2026-05-18 20:43:38.948 [CheckBest] Result 29/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:38.949 [CheckBest] Checking 30/348: remark=🇳🇱 The Netherlands — #263, server=158.160.130.131:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=a-px...3F1U, sid=d30f...6830
+2026-05-18 20:43:38.950 [SpeedTester] START remark=🇳🇱 The Netherlands — #263, server=158.160.130.131:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=a-px...3F1U, sid=d30f...6830
+2026-05-18 20:43:38.950 [SpeedTester] Picked local proxy port=35503
+2026-05-18 20:43:38.951 [ConfigGenerator] generateTestProxyConfig port=35503 remark=🇳🇱 The Netherlands — #263, server=158.160.130.131:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=a-px...3F1U, sid=d30f...6830
+2026-05-18 20:43:38.951 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:38.952 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:38.952 [LibboxRuntime] startStandalone configChars=968
+2026-05-18 20:43:38.952 [LibboxRuntime] close()
+2026-05-18 20:43:38.955 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:38.956 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:38.956 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:38.958 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:38.959 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:38.960 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:38.960 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:38.983 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:38.984 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:38.985 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:38.985 [SpeedTester] libbox startStandalone OK, soft-wait port=35503
+2026-05-18 20:43:39.283 [Status] Проверка 30/348: 🇳🇱 The Netherlands — #263
+2026-05-18 20:43:39.886 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:40.114 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:40.115 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:40.833 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:40.837 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:41.657 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:41.658 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:42.363 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:42.365 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:42.367 [LibboxRuntime] close()
+2026-05-18 20:43:42.626 [CheckBest] Result 30/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:42.630 [CheckBest] Checking 31/348: remark=🇫🇮 Finland — #153, server=91.219.227.200:8083, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:42.633 [SpeedTester] START remark=🇫🇮 Finland — #153, server=91.219.227.200:8083, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:42.638 [SpeedTester] Picked local proxy port=43959
+2026-05-18 20:43:42.641 [ConfigGenerator] generateTestProxyConfig port=43959 remark=🇫🇮 Finland — #153, server=91.219.227.200:8083, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:42.645 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:42.648 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:42.652 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:43:42.656 [LibboxRuntime] close()
+2026-05-18 20:43:42.692 [Status] Проверка 31/348: 🇫🇮 Finland — #153
+2026-05-18 20:43:42.695 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:42.699 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:42.700 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:42.702 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:42.702 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:42.703 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:42.705 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:42.729 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:42.730 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:42.730 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:42.730 [SpeedTester] libbox startStandalone OK, soft-wait port=43959
+2026-05-18 20:43:43.631 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:43.700 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:43.701 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:43.760 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:43.761 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:43.817 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:43.817 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:43.874 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:43.875 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:43.875 [LibboxRuntime] close()
+2026-05-18 20:43:44.130 [CheckBest] Result 31/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:44.131 [CheckBest] Checking 32/348: remark=🇳🇱 The Netherlands — #287, server=84.201.176.179:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=lM4a...LHDs, sid=a9e9...4209
+2026-05-18 20:43:44.132 [SpeedTester] START remark=🇳🇱 The Netherlands — #287, server=84.201.176.179:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=lM4a...LHDs, sid=a9e9...4209
+2026-05-18 20:43:44.133 [SpeedTester] Picked local proxy port=39417
+2026-05-18 20:43:44.133 [ConfigGenerator] generateTestProxyConfig port=39417 remark=🇳🇱 The Netherlands — #287, server=84.201.176.179:443, net=tcp, sec=reality, sni=www.vk.com, host=-, fp=qq, flow=xtls-rprx-vision, pbk=lM4a...LHDs, sid=a9e9...4209
+2026-05-18 20:43:44.134 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:44.134 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:44.134 [LibboxRuntime] startStandalone configChars=968
+2026-05-18 20:43:44.135 [LibboxRuntime] close()
+2026-05-18 20:43:44.136 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:44.137 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:44.137 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:44.139 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:44.140 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:44.140 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:44.141 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:44.164 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:44.165 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:44.165 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:44.166 [SpeedTester] libbox startStandalone OK, soft-wait port=39417
+2026-05-18 20:43:44.355 [Status] Проверка 32/348: 🇳🇱 The Netherlands — #287
+2026-05-18 20:43:45.066 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:45.752 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:45.752 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:46.699 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:46.703 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:47.169 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:47.169 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:47.554 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:47.555 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:47.556 [LibboxRuntime] close()
+2026-05-18 20:43:47.810 [CheckBest] Result 32/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:47.810 [CheckBest] Checking 33/348: remark=🇩🇪 Germany — #101, server=91.219.227.200:7433, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:47.811 [SpeedTester] START remark=🇩🇪 Germany — #101, server=91.219.227.200:7433, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:47.812 [SpeedTester] Picked local proxy port=45813
+2026-05-18 20:43:47.812 [ConfigGenerator] generateTestProxyConfig port=45813 remark=🇩🇪 Germany — #101, server=91.219.227.200:7433, net=tcp, sec=reality, sni=eh.vk.com, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:47.813 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:47.815 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:47.817 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:43:47.818 [LibboxRuntime] close()
+2026-05-18 20:43:47.828 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:47.829 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:47.829 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:47.830 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:47.831 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:47.832 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:47.833 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:47.850 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:47.851 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:47.851 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:47.852 [SpeedTester] libbox startStandalone OK, soft-wait port=45813
+2026-05-18 20:43:47.869 [Status] Проверка 33/348: 🇩🇪 Germany — #101
+2026-05-18 20:43:48.752 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:48.812 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:48.812 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:48.879 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:48.880 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:48.937 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:48.938 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:48.997 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:48.998 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:48.999 [LibboxRuntime] close()
+2026-05-18 20:43:49.254 [CheckBest] Result 33/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:49.255 [CheckBest] Checking 34/348: remark=🇳🇱 The Netherlands — #296, server=84.201.176.179:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=wi0m...kjXQ, sid=ce1a...5e62
+2026-05-18 20:43:49.255 [SpeedTester] START remark=🇳🇱 The Netherlands — #296, server=84.201.176.179:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=wi0m...kjXQ, sid=ce1a...5e62
+2026-05-18 20:43:49.256 [SpeedTester] Picked local proxy port=36235
+2026-05-18 20:43:49.256 [ConfigGenerator] generateTestProxyConfig port=36235 remark=🇳🇱 The Netherlands — #296, server=84.201.176.179:443, net=tcp, sec=reality, sni=max.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=wi0m...kjXQ, sid=ce1a...5e62
+2026-05-18 20:43:49.257 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:49.257 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:49.257 [LibboxRuntime] startStandalone configChars=964
+2026-05-18 20:43:49.257 [LibboxRuntime] close()
+2026-05-18 20:43:49.260 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:49.261 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:49.261 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:49.263 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:49.263 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:49.264 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:49.264 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:49.288 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:49.288 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:49.289 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:49.289 [SpeedTester] libbox startStandalone OK, soft-wait port=36235
+2026-05-18 20:43:49.353 [Status] Проверка 34/348: 🇳🇱 The Netherlands — #296
+2026-05-18 20:43:50.190 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:50.399 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:50.399 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:50.987 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:50.988 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:51.213 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:51.213 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:51.810 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:51.812 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:51.813 [LibboxRuntime] close()
+2026-05-18 20:43:52.071 [CheckBest] Result 34/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:52.075 [CheckBest] Checking 35/348: remark=🇩🇪 Germany — #97, server=84.201.159.182:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=WrPS...13xI, sid=-
+2026-05-18 20:43:52.079 [SpeedTester] START remark=🇩🇪 Germany — #97, server=84.201.159.182:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=WrPS...13xI, sid=-
+2026-05-18 20:43:52.084 [SpeedTester] Picked local proxy port=36041
+2026-05-18 20:43:52.087 [ConfigGenerator] generateTestProxyConfig port=36041 remark=🇩🇪 Germany — #97, server=84.201.159.182:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=xtls-rprx-vision, pbk=WrPS...13xI, sid=-
+2026-05-18 20:43:52.090 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:52.092 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:52.093 [LibboxRuntime] startStandalone configChars=929
+2026-05-18 20:43:52.094 [LibboxRuntime] close()
+2026-05-18 20:43:52.102 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:52.106 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:52.108 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:52.115 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:52.118 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:52.120 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:52.123 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:52.126 [Status] Проверка 35/348: 🇩🇪 Germany — #97
+2026-05-18 20:43:52.158 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:52.161 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:52.161 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:52.162 [SpeedTester] libbox startStandalone OK, soft-wait port=36041
+2026-05-18 20:43:53.062 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:53.134 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:53.135 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:53.195 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:53.195 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:53.259 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:53.260 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:53.323 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:53.323 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:53.324 [LibboxRuntime] close()
+2026-05-18 20:43:53.581 [CheckBest] Result 35/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:53.582 [CheckBest] Checking 36/348: remark=🇬🇧 United Kingdom — #204, server=51.250.82.20:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=1vSZ...wGSs, sid=428e...3a32
+2026-05-18 20:43:53.582 [SpeedTester] START remark=🇬🇧 United Kingdom — #204, server=51.250.82.20:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=1vSZ...wGSs, sid=428e...3a32
+2026-05-18 20:43:53.583 [SpeedTester] Picked local proxy port=37855
+2026-05-18 20:43:53.583 [ConfigGenerator] generateTestProxyConfig port=37855 remark=🇬🇧 United Kingdom — #204, server=51.250.82.20:443, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=qq, flow=xtls-rprx-vision, pbk=1vSZ...wGSs, sid=428e...3a32
+2026-05-18 20:43:53.583 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:53.584 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:53.584 [LibboxRuntime] startStandalone configChars=965
+2026-05-18 20:43:53.584 [LibboxRuntime] close()
+2026-05-18 20:43:53.588 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:53.589 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:53.589 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:53.590 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:53.591 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:53.591 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:53.592 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:53.614 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:53.615 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:53.615 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:53.616 [SpeedTester] libbox startStandalone OK, soft-wait port=37855
+2026-05-18 20:43:53.713 [Status] Проверка 36/348: 🇬🇧 United Kingdom — #204
+2026-05-18 20:43:54.516 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:54.721 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:54.722 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:55.068 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:55.069 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:55.259 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:55.260 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:55.487 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:55.488 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:55.489 [LibboxRuntime] close()
+2026-05-18 20:43:55.745 [CheckBest] Result 36/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:55.746 [CheckBest] Checking 37/348: remark=🇵🇱 Poland — #333, server=95.163.211.240:8444, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:55.747 [SpeedTester] START remark=🇵🇱 Poland — #333, server=95.163.211.240:8444, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:55.748 [SpeedTester] Picked local proxy port=35889
+2026-05-18 20:43:55.749 [ConfigGenerator] generateTestProxyConfig port=35889 remark=🇵🇱 Poland — #333, server=95.163.211.240:8444, net=tcp, sec=reality, sni=ads.x5.ru, host=-, fp=chrome, flow=-, pbk=Z84J...qnAw, sid=7dbf...1d5c
+2026-05-18 20:43:55.749 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:55.749 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:55.750 [LibboxRuntime] startStandalone configChars=938
+2026-05-18 20:43:55.750 [LibboxRuntime] close()
+2026-05-18 20:43:55.752 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:55.753 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:55.753 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:55.754 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:55.755 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:55.756 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:55.756 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:55.781 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:55.781 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:55.782 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:55.782 [SpeedTester] libbox startStandalone OK, soft-wait port=35889
+2026-05-18 20:43:55.799 [Status] Проверка 37/348: 🇵🇱 Poland — #333
+2026-05-18 20:43:56.683 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:56.733 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:56.734 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:56.800 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:56.800 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:56.838 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:56.839 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:56.886 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:56.886 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:56.887 [LibboxRuntime] close()
+2026-05-18 20:43:57.141 [CheckBest] Result 37/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:57.141 [CheckBest] Checking 38/348: remark=🇷🇺 Timeweb — #23, server=5.42.108.243:443, net=tcp, sec=reality, sni=rruu.persik.host, host=-, fp=-, flow=xtls-rprx-vision, pbk=D0Fq...VoFY, sid=c1a7...5f60
+2026-05-18 20:43:57.142 [SpeedTester] START remark=🇷🇺 Timeweb — #23, server=5.42.108.243:443, net=tcp, sec=reality, sni=rruu.persik.host, host=-, fp=-, flow=xtls-rprx-vision, pbk=D0Fq...VoFY, sid=c1a7...5f60
+2026-05-18 20:43:57.143 [SpeedTester] Picked local proxy port=44995
+2026-05-18 20:43:57.143 [ConfigGenerator] generateTestProxyConfig port=44995 remark=🇷🇺 Timeweb — #23, server=5.42.108.243:443, net=tcp, sec=reality, sni=rruu.persik.host, host=-, fp=-, flow=xtls-rprx-vision, pbk=D0Fq...VoFY, sid=c1a7...5f60
+2026-05-18 20:43:57.144 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:57.144 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:57.144 [LibboxRuntime] startStandalone configChars=976
+2026-05-18 20:43:57.145 [LibboxRuntime] close()
+2026-05-18 20:43:57.149 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:57.152 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:57.154 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:57.157 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:57.159 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:57.159 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:57.160 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:57.179 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:57.179 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:57.180 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:57.180 [SpeedTester] libbox startStandalone OK, soft-wait port=44995
+2026-05-18 20:43:57.488 [Status] Проверка 38/348: 🇷🇺 Timeweb — #23
+2026-05-18 20:43:58.081 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:43:58.126 [SpeedTester] URL_TEST_FAIL www.gstatic.com connection closed
+2026-05-18 20:43:58.126 [SpeedTester] URL_TEST_TRY cp.cloudflare.com
+2026-05-18 20:43:58.166 [SpeedTester] URL_TEST_FAIL cp.cloudflare.com connection closed
+2026-05-18 20:43:58.166 [SpeedTester] URL_TEST_TRY ya.ru
+2026-05-18 20:43:58.203 [SpeedTester] URL_TEST_FAIL ya.ru connection closed
+2026-05-18 20:43:58.204 [SpeedTester] URL_TEST_TRY vk.com
+2026-05-18 20:43:58.239 [SpeedTester] URL_TEST_FAIL vk.com connection closed
+2026-05-18 20:43:58.239 [SpeedTester] Latency result ok=false msg=www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:58.240 [LibboxRuntime] close()
+2026-05-18 20:43:58.493 [CheckBest] Result 38/348: status=CONNECTION_FAILED speed=null msg=url-test failed: www.gstatic.com: connection closed; cp.cloudflare.com: connection closed; ya.ru: connection closed; vk.com: connection closed
+2026-05-18 20:43:58.494 [CheckBest] Checking 39/348: remark=🇵🇱 Poland — #318, server=176.109.109.66:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=-, pbk=zjv3...qkEE, sid=bc8c...236c
+2026-05-18 20:43:58.494 [SpeedTester] START remark=🇵🇱 Poland — #318, server=176.109.109.66:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=-, pbk=zjv3...qkEE, sid=bc8c...236c
+2026-05-18 20:43:58.495 [SpeedTester] Picked local proxy port=38461
+2026-05-18 20:43:58.495 [ConfigGenerator] generateTestProxyConfig port=38461 remark=🇵🇱 Poland — #318, server=176.109.109.66:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=-, pbk=zjv3...qkEE, sid=bc8c...236c
+2026-05-18 20:43:58.496 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:43:58.496 [SpeedTester] Starting standalone libbox
+2026-05-18 20:43:58.496 [LibboxRuntime] startStandalone configChars=935
+2026-05-18 20:43:58.497 [LibboxRuntime] close()
+2026-05-18 20:43:58.499 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:43:58.500 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:43:58.501 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:43:58.503 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:43:58.504 [LibboxRuntime] UseProcFS=true standalone
+2026-05-18 20:43:58.504 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:58.505 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:43:58.527 [LibboxRuntime] CommandServer.startOrReloadService OK
+2026-05-18 20:43:58.528 [LibboxRuntime] Using CommandServer runtime
+2026-05-18 20:43:58.528 [LibboxRuntime] runtime service started: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:43:58.528 [SpeedTester] libbox startStandalone OK, soft-wait port=38461
+2026-05-18 20:43:58.886 [Status] Проверка 39/348: 🇵🇱 Poland — #318
+2026-05-18 20:43:59.429 [SpeedTester] URL_TEST_TRY www.gstatic.com
+2026-05-18 20:44:00.980 [SpeedTester] URL_TEST_OK www.gstatic.com 1549ms
+2026-05-18 20:44:00.984 [SpeedTester] Latency result ok=true msg=url-test www.gstatic.com=1549ms
+2026-05-18 20:44:00.987 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:44:09.625 [SpeedTester] DOWNLOAD_OK speed.cloudflare.com 118 KB/s
+2026-05-18 20:44:09.629 [SpeedTester] DOWNLOAD_TRY speed.cloudflare.com
+2026-05-18 20:44:10.119 [SpeedTester] DOWNLOAD_OK speed.cloudflare.com 2104 KB/s
+2026-05-18 20:44:10.122 [SpeedTester] Speed result kbps=2104.7641980974713 msg=best=2104 KB/s
+2026-05-18 20:44:10.126 [LibboxRuntime] close()
+2026-05-18 20:44:10.388 [CheckBest] Result 39/348: status=OK speed=2104.7641980974713 msg=url-test www.gstatic.com=1549ms; best=2104 KB/s
+2026-05-18 20:44:10.388 [ConfigGenerator] generateVpnConfig remark=🇵🇱 Poland — #318, server=176.109.109.66:443, net=tcp, sec=reality, sni=yandex.ru, host=-, fp=chrome, flow=-, pbk=zjv3...qkEE, sid=bc8c...236c
+2026-05-18 20:44:10.389 [ConfigGenerator] outbound built network=tcp tls=true reality=true transport=none packet=xudp
+2026-05-18 20:44:10.552 [Status] Найден конфиг >= 500 КБ/с. Запускаю VPN...
+2026-05-18 20:44:12.634 [VPN] Starting VPN with selected config chars=1328
+2026-05-18 20:44:12.645 [Status] VPN запускается
+2026-05-18 20:44:12.702 [LibboxRuntime] startVpn configChars=1328
+2026-05-18 20:44:12.702 [LibboxRuntime] close()
+2026-05-18 20:44:12.710 [LibboxRuntime] Setup OK: setup(io.nekohasekai.libbox.SetupOptions)
+2026-05-18 20:44:12.711 [LibboxRuntime] redirectStderr OK: /data/user/0/com.autovless.app/files/libbox-stderr.log
+2026-05-18 20:44:12.711 [LibboxRuntime] Using libbox class=io.nekohasekai.libbox.Libbox
+2026-05-18 20:44:12.713 [LibboxRuntime] Direct NewService unavailable: NewService не найден/не запустился. Libbox=io.nekohasekai.libbox.Libbox. Platform=io.nekohasekai.libbox.PlatformInterface. io.nekohasekai.libbox.Libbox: no newService/NewService; methods=availablePort/1,checkConfig/1,checkFDroidUpdate/4,compareSemver/2,decodeErrorMessage/1,decodeLengthChunk/1,decodeProfileContent/1,decodeProfileContentRequest/1,encodeChunkedMessage/1,equals/1,formatBytes/1,formatConfig/1,formatDuration/1,formatMemoryBytes/1,generateRemoteProfileImportLink/2,getClass/0,getFDroidMirrors/0,hashCode/0,newCommandClient/2,newCommandServer/2,newConnections/0,newHTTPClient/0,newPProfServer/1,newStandaloneCommandClient/0,newWIFIState/2,notify/0,notifyAll/0,parseRemoteProfileImportLink/1,pingFDroidMirror/1,pingFDroidMirrors/1,proxyDisplayType/1,randomHex/1,readAndroidVPNType/1,redirectStderr/1,setLocale/1,setMemoryLimit/1,setXPCDialer/1,setup/1,toString/0,touch/0,version/0,wait/0,wait/1,wait/2
+2026-05-18 20:44:12.714 [LibboxRuntime] UseProcFS=true vpn
+2026-05-18 20:44:12.714 [LibboxRuntime] CommandServer created: io.nekohasekai.libbox.CommandServer
+2026-05-18 20:44:12.715 [LibboxRuntime] CommandServer.start OK
+2026-05-18 20:44:16.400 [MainActivity] App started version=1.5.0

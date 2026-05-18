@@ -24,26 +24,44 @@ class AutoVlessVpnService : VpnService() {
             }
 
             ACTION_START -> {
-                startForeground(NOTIFICATION_ID, buildNotification("Запуск VPN..."))
-                val config = intent.getStringExtra(EXTRA_CONFIG)
-                if (config.isNullOrBlank()) {
-                    stopVpn()
-                    return START_NOT_STICKY
-                }
+                val manager = getSystemService(NotificationManager::class.java)
+                return try {
+                    startForeground(NOTIFICATION_ID, buildNotification("Запуск VPN..."))
 
-                try {
-                    val nextRuntime = LibboxRuntime(this)
-                    nextRuntime.startVpn(this, config)
-                    runtime = nextRuntime
-                    DiagnosticsLogger.log(this, "VPN", "runtime started, scheduling VPN self-test")
-                    val manager = getSystemService(NotificationManager::class.java)
-                    manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
-                    runVpnSelfTestAsync(manager)
+                    val config = intent.getStringExtra(EXTRA_CONFIG)
+                    if (config.isNullOrBlank()) {
+                        DiagnosticsLogger.log(this, "VPN", "START_ABORTED empty config")
+                        stopVpn()
+                        START_NOT_STICKY
+                    } else {
+                        runCatching { runtime?.close() }
+                        runtime = null
+
+                        val nextRuntime = LibboxRuntime(this)
+                        nextRuntime.startVpn(this, config)
+                        runtime = nextRuntime
+
+                        DiagnosticsLogger.log(this, "VPN", "runtime started, scheduling VPN self-test")
+                        manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
+                        runVpnSelfTestAsync(manager)
+                        START_STICKY
+                    }
                 } catch (e: Throwable) {
-                    stopVpn()
-                    throw e
+                    DiagnosticsLogger.log(this, "VPN", "START_ERROR ${e.stackTraceToString()}")
+                    runCatching { runtime?.close() }
+                    runtime = null
+                    runCatching { manager.notify(NOTIFICATION_ID, buildNotification("Ошибка запуска VPN")) }
+                    runCatching {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            stopForeground(STOP_FOREGROUND_REMOVE)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            stopForeground(true)
+                        }
+                    }
+                    stopSelf(startId)
+                    START_NOT_STICKY
                 }
-                return START_STICKY
             }
         }
         return START_NOT_STICKY
@@ -53,7 +71,6 @@ class AutoVlessVpnService : VpnService() {
         stopVpn()
         super.onDestroy()
     }
-
 
     private fun runVpnSelfTestAsync(manager: NotificationManager) {
         Thread {
@@ -67,6 +84,7 @@ class AutoVlessVpnService : VpnService() {
                 connection.instanceFollowRedirects = false
                 connection.setRequestProperty("User-Agent", "AutoVLESS-VPN-SelfTest")
                 val code = connection.responseCode
+                connection.disconnect()
                 val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
                 DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=${ms}")
                 val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен, self-test HTTP $code"
