@@ -72,7 +72,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                         val tag = inbound.optString("tag")
                         if (tag.isNotBlank()) tunInboundTag = tag
 
-                        inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS).put(SingBoxConfigGenerator.TUN_IPV6_ADDRESS))
+                        inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS))
                         inbound.put("stack", "gvisor")
                         inbound.put("strict_route", false)
                         fixedTunInbound = true
@@ -97,37 +97,21 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val servers = JSONArray()
                     .put(
                         JSONObject()
-                            .put("type", "https")
-                            .put("tag", "google-doh")
-                            .put("server", "8.8.8.8")
-                            .put("server_port", 443)
-                            .put("path", "/dns-query")
-                            .put("detour", "selected")
-                            .put(
-                                "tls",
-                                JSONObject()
-                                    .put("enabled", true)
-                                    .put("server_name", "dns.google")
-                            )
+                            .put("type", "tcp")
+                            .put("tag", "google-tcp")
+                            .put("server", SingBoxConfigGenerator.PRIMARY_DNS)
+                            .put("server_port", 53)
                     )
                     .put(
                         JSONObject()
-                            .put("type", "https")
-                            .put("tag", "cloudflare-doh")
-                            .put("server", "1.1.1.1")
-                            .put("server_port", 443)
-                            .put("path", "/dns-query")
-                            .put("detour", "selected")
-                            .put(
-                                "tls",
-                                JSONObject()
-                                    .put("enabled", true)
-                                    .put("server_name", "cloudflare-dns.com")
-                            )
+                            .put("type", "tcp")
+                            .put("tag", "cloudflare-tcp")
+                            .put("server", SingBoxConfigGenerator.SECONDARY_DNS)
+                            .put("server_port", 53)
                     )
                 dns.put("servers", servers)
-                dns.put("final", "google-doh")
-                dns.put("strategy", "prefer_ipv4")
+                dns.put("final", "google-tcp")
+                dns.put("strategy", "ipv4_only")
                 fixedVpnDns = true
             }
 
@@ -592,7 +576,11 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     true
                 }
                 "autoDetectInterfaceControl", "AutoDetectInterfaceControl", "protect", "Protect" -> {
-                    val fd = (args?.getOrNull(0) as? Number)?.toInt() ?: return@newProxyInstance defaultValue(method.returnType)
+                    val fd = args?.asSequence()?.mapNotNull { (it as? Number)?.toInt() }?.firstOrNull()
+                    if (fd == null) {
+                        DiagnosticsLogger.log(context, "LibboxRuntime", "protect called without fd method=${method.name} args=${args?.joinToString { it?.javaClass?.name ?: "null" } ?: "none"}")
+                        return@newProxyInstance defaultValue(method.returnType)
+                    }
                     val ok = runCatching { vpnService.protect(fd) }.getOrDefault(false)
                     DiagnosticsLogger.log(context, "LibboxRuntime", "protect outbound fd=$fd ok=$ok method=${method.name}")
                     if (method.returnType == java.lang.Boolean.TYPE || method.returnType == java.lang.Boolean::class.java) ok else null
@@ -639,25 +627,23 @@ class LibboxRuntime(private val context: Context) : Closeable {
         tunFd?.close()
         val builder = vpnService.Builder()
             .setSession("AutoVLESS")
-            // Lower MTU avoids blackhole issues on Reality/WebSocket/gRPC chains.
+            // 1400 avoids MTU blackholes on Reality/WebSocket/gRPC chains.
             .setMtu(1400)
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
-            // Use real DNS addresses. sing-box hijacks DNS/53 from TUN and resolves
-            // it through its DNS module; the app is NOT excluded, so self-test now
-            // checks the same VPN path as other applications.
-            .addDnsServer(SingBoxConfigGenerator.PRIMARY_DNS)
-            .addDnsServer(SingBoxConfigGenerator.SECONDARY_DNS)
+            // Android sends DNS to the VPN-side address. sing-box hijacks port 53
+            // and resolves through its DNS module. Public DNS here was causing
+            // "Unable to resolve host" on several devices.
+            .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
 
         runCatching {
-            builder.addAddress("fdfe:dcba:9876::1", 126)
-            builder.addRoute("::", 0)
-            DiagnosticsLogger.log(context, "LibboxRuntime", "IPv6 route added to Android VPN")
+            builder.addDisallowedApplication(context.packageName)
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Excluded own package from Android VPN: ${context.packageName}")
         }.onFailure {
-            DiagnosticsLogger.log(context, "LibboxRuntime", "IPv6 VPN route ignored: ${rootMessage(it)}")
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Own package VPN exclusion ignored: ${rootMessage(it)}")
         }
 
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN includes own package; self-test is real tunnel traffic")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package excluded to prevent core socket loop")
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")

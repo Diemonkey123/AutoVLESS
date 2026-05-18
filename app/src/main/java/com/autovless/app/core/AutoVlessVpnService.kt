@@ -42,10 +42,9 @@ class AutoVlessVpnService : VpnService() {
                         nextRuntime.startVpn(this, config)
                         runtime = nextRuntime
 
-                        DiagnosticsLogger.log(this, "VPN", "runtime started, scheduling VPN self-test")
+                        DiagnosticsLogger.log(this, "VPN", "runtime started; self-test skipped because own package is excluded to prevent core socket loop")
                         broadcastStatus("VPN подключен")
                         manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
-                        runVpnSelfTestAsync(manager)
                         START_STICKY
                     }
                 } catch (e: Throwable) {
@@ -94,9 +93,9 @@ class AutoVlessVpnService : VpnService() {
                 broadcastStatus(text)
                 manager.notify(NOTIFICATION_ID, buildNotification(text))
             } catch (e: Throwable) {
-                // Since 1.5.7 the app is not excluded from Android VPN, so this request
-                // is real tunnel traffic. If it fails, the VPN core started but routing/DNS
-                // through the tunnel is still broken.
+                // This method is kept for diagnostics, but normal 1.5.9 startup skips it
+                // because the app process is excluded from Android VPN to prevent libbox
+                // outbound sockets from looping back into the tunnel.
                 val message = e.message ?: e.javaClass.simpleName
                 DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL $message")
                 val text = "VPN запущен, но интернет через туннель не проходит"

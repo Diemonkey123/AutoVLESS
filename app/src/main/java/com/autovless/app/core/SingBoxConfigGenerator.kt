@@ -31,7 +31,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                 JSONObject()
                     .put("type", "tun")
                     .put("tag", "tun-in")
-                    .put("address", JSONArray().put(TUN_ADDRESS).put(TUN_IPV6_ADDRESS))
+                    .put("address", JSONArray().put(TUN_ADDRESS))
                     // gVisor is slower than system/mixed, but it is the safest option for
                     // Android full-tunnel mode: DNS, TCP fallback and app traffic behave
                     // consistently across devices.
@@ -67,47 +67,32 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun vpnDnsConfig(): JSONObject {
-        // Android receives public DNS addresses from VpnService.Builder. sing-box
-        // hijacks DNS/53 from the TUN and resolves it itself. DNS is resolved through the selected VLESS outbound, while the VLESS
-        // connection itself uses protected sockets outside the Android VPN tunnel.
-        // This avoids the common failure where a free VLESS node passes Google HTTP
-        // but cannot reach DoH/53 for DNS resolution.
+        // Stable VPN DNS for Android full-tunnel mode.
+        // Android receives a VPN-side DNS address (172.19.0.2). sing-box hijacks
+        // those DNS/53 packets and resolves them with classic TCP DNS directly on
+        // the physical network. Do not detour DNS through the selected VLESS node:
+        // many free VLESS nodes pass HTTPS traffic but fail DoH/DNS, which leaves
+        // apps connected to VPN with no domain resolution.
         val servers = JSONArray()
             .put(
                 JSONObject()
-                    .put("type", "https")
-                    .put("tag", "google-doh")
-                    .put("server", "8.8.8.8")
-                    .put("server_port", 443)
-                    .put("path", "/dns-query")
-                    .put("detour", "selected")
-                    .put(
-                        "tls",
-                        JSONObject()
-                            .put("enabled", true)
-                            .put("server_name", "dns.google")
-                    )
+                    .put("type", "tcp")
+                    .put("tag", "google-tcp")
+                    .put("server", PRIMARY_DNS)
+                    .put("server_port", 53)
             )
             .put(
                 JSONObject()
-                    .put("type", "https")
-                    .put("tag", "cloudflare-doh")
-                    .put("server", "1.1.1.1")
-                    .put("server_port", 443)
-                    .put("path", "/dns-query")
-                    .put("detour", "selected")
-                    .put(
-                        "tls",
-                        JSONObject()
-                            .put("enabled", true)
-                            .put("server_name", "cloudflare-dns.com")
-                    )
+                    .put("type", "tcp")
+                    .put("tag", "cloudflare-tcp")
+                    .put("server", SECONDARY_DNS)
+                    .put("server_port", 53)
             )
 
         return JSONObject()
             .put("servers", servers)
-            .put("final", "google-doh")
-            .put("strategy", "prefer_ipv4")
+            .put("final", "google-tcp")
+            .put("strategy", "ipv4_only")
     }
 
     private fun routeFinal(outboundTag: String, vpnMode: Boolean): JSONObject {
@@ -168,7 +153,7 @@ class SingBoxConfigGenerator(private val context: Context) {
 
     companion object {
         const val TUN_ADDRESS = "172.19.0.1/30"
-        const val TUN_IPV6_ADDRESS = "fdfe:dcba:9876::1/126"
+        const val TUN_DNS_ADDRESS = "172.19.0.2"
         const val PRIMARY_DNS = "8.8.8.8"
         const val SECONDARY_DNS = "1.1.1.1"
     }
