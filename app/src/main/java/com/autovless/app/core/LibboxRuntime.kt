@@ -276,9 +276,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     null
                 }
                 "useProcFS", "UseProcFS" -> false
-                "findConnectionOwner", "FindConnectionOwner" -> null
+                "findConnectionOwner", "FindConnectionOwner" -> safeUnknownUid(method.returnType)
                 "packageNameByUid", "PackageNameByUid" -> ""
-                "uidByPackageName", "UidByPackageName" -> 0
+                "uidByPackageName", "UidByPackageName" -> safeUnknownUid(method.returnType)
                 "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
                 "closeDefaultInterfaceMonitor", "CloseDefaultInterfaceMonitor" -> null
                 "getInterfaces", "GetInterfaces" -> emptyIteratorFor(method.returnType)
@@ -320,9 +320,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     null
                 }
                 "useProcFS", "UseProcFS" -> false
-                "findConnectionOwner", "FindConnectionOwner" -> null
+                "findConnectionOwner", "FindConnectionOwner" -> safeUnknownUid(method.returnType)
                 "packageNameByUid", "PackageNameByUid" -> ""
-                "uidByPackageName", "UidByPackageName" -> 0
+                "uidByPackageName", "UidByPackageName" -> safeUnknownUid(method.returnType)
                 "usePlatformDefaultInterfaceMonitor", "UsePlatformDefaultInterfaceMonitor" -> false
                 "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
                 "closeDefaultInterfaceMonitor", "CloseDefaultInterfaceMonitor" -> null
@@ -419,6 +419,24 @@ class LibboxRuntime(private val context: Context) : Closeable {
             emptyIteratorFor(type)
         } else {
             defaultValue(type)
+        }
+    }
+
+    private fun safeUnknownUid(type: Class<*>): Any? {
+        // gomobile maps Go methods returning (int32, error) to Java methods
+        // returning a primitive int/long and throwing exceptions for errors.
+        // Returning null for a primitive return type can crash the Go runtime
+        // through platformInterfaceWrapper.FindConnectionOwner().
+        return when (type) {
+            java.lang.Byte.TYPE, java.lang.Byte::class.java -> (-1).toByte()
+            java.lang.Short.TYPE, java.lang.Short::class.java -> (-1).toShort()
+            java.lang.Integer.TYPE, java.lang.Integer::class.java -> -1
+            java.lang.Long.TYPE, java.lang.Long::class.java -> -1L
+            java.lang.Float.TYPE, java.lang.Float::class.java -> -1f
+            java.lang.Double.TYPE, java.lang.Double::class.java -> -1.0
+            java.lang.String::class.java -> ""
+            java.lang.Void.TYPE, Void::class.java -> null
+            else -> defaultValue(type)
         }
     }
 

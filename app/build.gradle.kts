@@ -11,8 +11,8 @@ android {
         applicationId = "com.autovless.app"
         minSdk = 23
         targetSdk = 35
-        versionCode = 19
-        versionName = "1.4.5"
+        versionCode = 20
+        versionName = "1.4.6"
 
         ndk {
             abiFilters += listOf("arm64-v8a")

@@ -203,3 +203,9 @@ app/libs/libbox.aar
 ## Диагностический лог v1.4
 
 После проверки нажмите кнопку `Скопировать лог` в приложении и отправьте текст лога разработчику. Лог хранится локально в файле `autovless_debug.log` и содержит запуск libbox, проверку локального proxy, URL-test и download-test.
+
+### v1.4.6
+
+- Fixed Android process crash during the first speed-check HTTP request.
+- `PlatformInterface.FindConnectionOwner()` now returns a safe unknown UID instead of `null`, because gomobile/libbox can segfault when a primitive UID method returns null through a dynamic proxy.
+- Updated UI note to match the current safe speed-check build.
