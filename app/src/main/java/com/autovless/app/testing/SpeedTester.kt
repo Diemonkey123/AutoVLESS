@@ -63,15 +63,11 @@ class SpeedTester(private val context: Context) {
         try {
             DiagnosticsLogger.log(context, "SpeedTester", "Starting standalone libbox")
             runtime.startStandalone(config)
-            DiagnosticsLogger.log(context, "SpeedTester", "libbox startStandalone OK, waiting port=$port")
-            if (!waitForLocalPort(port, 6_000)) {
-                runtime.close()
-                DiagnosticsLogger.log(context, "SpeedTester", "PROXY_PORT_FAILED port=$port")
-                return SpeedTestResult(
-                    status = SpeedTestStatus.PROXY_PORT_FAILED,
-                    message = "локальный proxy 127.0.0.1:$port не открылся"
-                )
-            }
+            DiagnosticsLogger.log(context, "SpeedTester", "libbox startStandalone OK, soft-wait port=$port")
+            // Do not probe the mixed inbound with a raw empty TCP connection. On some
+            // Android/libbox builds that can kill the process before Kotlin sees an exception.
+            // The real HTTP proxy request below is the actual availability check.
+            Thread.sleep(900)
         } catch (e: Throwable) {
             runtime.close()
             val msg = rootMessage(e)

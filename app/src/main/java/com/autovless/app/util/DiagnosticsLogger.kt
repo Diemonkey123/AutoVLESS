@@ -28,9 +28,24 @@ object DiagnosticsLogger {
 
     @Synchronized
     fun read(context: Context, maxChars: Int = 80_000): String {
-        val file = File(context.applicationContext.filesDir, FILE_NAME)
-        if (!file.exists()) return "Лог пуст"
-        return runCatching { file.readText(Charsets.UTF_8).takeLast(maxChars) }.getOrElse { "Ошибка чтения лога: ${it.message}" }
+        val dir = context.applicationContext.filesDir
+        val file = File(dir, FILE_NAME)
+        val main = if (file.exists()) {
+            runCatching { file.readText(Charsets.UTF_8).takeLast(maxChars) }.getOrElse { "Ошибка чтения лога: ${it.message}" }
+        } else {
+            "Лог пуст"
+        }
+
+        val stderr = File(dir, "libbox-stderr.log")
+        val stderrText = if (stderr.exists() && stderr.length() > 0) {
+            runCatching {
+                "\n\n--- libbox-stderr.log ---\n" + stderr.readText(Charsets.UTF_8).takeLast(20_000)
+            }.getOrDefault("")
+        } else {
+            ""
+        }
+
+        return main + stderrText
     }
 
     @Synchronized

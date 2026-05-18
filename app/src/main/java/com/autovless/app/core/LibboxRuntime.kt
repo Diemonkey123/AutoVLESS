@@ -40,20 +40,29 @@ class LibboxRuntime(private val context: Context) : Closeable {
     }
 
     private fun createRuntimeService(configContent: String, platformInterface: Any): Any {
-        val commandResult = runCatching { createCommandServerService(configContent, platformInterface) }
-        if (commandResult.isSuccess) return commandResult.getOrThrow()
-
+        // Prefer the old direct BoxService API when it exists. On this MVP it is safer for
+        // one-shot local mixed-proxy checks: a native crash in CommandServer takes down
+        // the Activity process before Kotlin can catch anything.
         val newServiceResult = runCatching {
             val oldService = createBoxService(configContent, platformInterface)
             startBoxService(oldService)
             oldService
         }
-        if (newServiceResult.isSuccess) return newServiceResult.getOrThrow()
+        if (newServiceResult.isSuccess) {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Using direct NewService runtime")
+            return newServiceResult.getOrThrow()
+        }
 
-        val commandMsg = rootMessage(commandResult.exceptionOrNull() ?: IllegalStateException("unknown"))
+        val commandResult = runCatching { createCommandServerService(configContent, platformInterface) }
+        if (commandResult.isSuccess) {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Using CommandServer runtime")
+            return commandResult.getOrThrow()
+        }
+
         val newServiceMsg = rootMessage(newServiceResult.exceptionOrNull() ?: IllegalStateException("unknown"))
+        val commandMsg = rootMessage(commandResult.exceptionOrNull() ?: IllegalStateException("unknown"))
         throw IllegalStateException(
-            "libbox service не стартует. CommandServer: $commandMsg | NewService fallback: $newServiceMsg"
+            "libbox service не стартует. NewService: $newServiceMsg | CommandServer fallback: $commandMsg"
         )
     }
 
@@ -173,6 +182,17 @@ class LibboxRuntime(private val context: Context) : Closeable {
         DiagnosticsLogger.log(context, "LibboxRuntime", "BoxService.start OK")
     }
 
+    private fun redirectStderrIfPresent(libbox: Class<*>) {
+        val redirect = findMethod(libbox, "redirectStderr", 1) ?: return
+        val file = java.io.File(context.filesDir, "libbox-stderr.log")
+        runCatching {
+            invokeUnwrapped(redirect, null, file.absolutePath)
+            DiagnosticsLogger.log(context, "LibboxRuntime", "redirectStderr OK: ${file.absolutePath}")
+        }.onFailure {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "redirectStderr ignored: ${rootMessage(it)}")
+        }
+    }
+
     private fun setupIfPresent() {
         val libbox = libboxClass()
         val base = context.filesDir.absolutePath
@@ -183,6 +203,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
         if (setup4 != null) {
             invokeUnwrapped(setup4, null, base, temp, android.os.Process.myUid(), android.os.Process.myUid())
             DiagnosticsLogger.log(context, "LibboxRuntime", "Setup OK: legacy setup(base,temp,uid,gid)")
+            redirectStderrIfPresent(libbox)
             return
         }
 
@@ -200,10 +221,12 @@ class LibboxRuntime(private val context: Context) : Closeable {
             setFieldIfPresent(options, "debug", false)
             invokeUnwrapped(setup1, null, options)
             DiagnosticsLogger.log(context, "LibboxRuntime", "Setup OK: setup(${optionsClass.name})")
+            redirectStderrIfPresent(libbox)
             return
         }
 
         DiagnosticsLogger.log(context, "LibboxRuntime", "Setup skipped: setup method not found in ${libbox.name}")
+        redirectStderrIfPresent(libbox)
     }
 
     private fun createBoxService(configContent: String, platformInterface: Any): Any {

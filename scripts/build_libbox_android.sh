@@ -4,7 +4,7 @@ set -euo pipefail
 # Сборка libbox.aar из sing-box.
 # Требуется: Go 1.24.7+, Android SDK, Android NDK, make, git.
 
-SING_BOX_TAG="${SING_BOX_TAG:-v1.13.12}"
+SING_BOX_TAG="${SING_BOX_TAG:-v1.10.7}"
 SING_BOX_DIR="${1:-/tmp/sing-box-autovless}"
 OUT_DIR="${2:-app/libs}"
 
