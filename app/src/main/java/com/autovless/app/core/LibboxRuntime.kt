@@ -7,6 +7,7 @@ import com.autovless.app.util.DiagnosticsLogger
 import java.io.Closeable
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 import java.lang.reflect.Proxy
 import java.util.Locale
 
@@ -23,10 +24,8 @@ class LibboxRuntime(private val context: Context) : Closeable {
         val libbox = libboxClass()
         DiagnosticsLogger.log(context, "LibboxRuntime", "Using libbox class=${libbox.name}")
         val platformInterface = createStandalonePlatformInterface()
-        service = createBoxService(configContent, platformInterface)
-        DiagnosticsLogger.log(context, "LibboxRuntime", "NewService OK: ${service!!.javaClass.name}")
-        startBoxService(service!!)
-        DiagnosticsLogger.log(context, "LibboxRuntime", "BoxService.start OK")
+        service = createRuntimeService(configContent, platformInterface)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "runtime service started: ${service!!.javaClass.name}")
     }
 
     fun startVpn(vpnService: VpnService, configContent: String) {
@@ -36,16 +35,139 @@ class LibboxRuntime(private val context: Context) : Closeable {
         val libbox = libboxClass()
         DiagnosticsLogger.log(context, "LibboxRuntime", "Using libbox class=${libbox.name}")
         val platformInterface = createPlatformInterface(vpnService)
-        service = createBoxService(configContent, platformInterface)
-        DiagnosticsLogger.log(context, "LibboxRuntime", "NewService OK: ${service!!.javaClass.name}")
-        startBoxService(service!!)
-        DiagnosticsLogger.log(context, "LibboxRuntime", "BoxService.start OK")
+        service = createRuntimeService(configContent, platformInterface)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "runtime VPN service started: ${service!!.javaClass.name}")
+    }
+
+    private fun createRuntimeService(configContent: String, platformInterface: Any): Any {
+        val commandResult = runCatching { createCommandServerService(configContent, platformInterface) }
+        if (commandResult.isSuccess) return commandResult.getOrThrow()
+
+        val newServiceResult = runCatching {
+            val oldService = createBoxService(configContent, platformInterface)
+            startBoxService(oldService)
+            oldService
+        }
+        if (newServiceResult.isSuccess) return newServiceResult.getOrThrow()
+
+        val commandMsg = rootMessage(commandResult.exceptionOrNull() ?: IllegalStateException("unknown"))
+        val newServiceMsg = rootMessage(newServiceResult.exceptionOrNull() ?: IllegalStateException("unknown"))
+        throw IllegalStateException(
+            "libbox service не стартует. CommandServer: $commandMsg | NewService fallback: $newServiceMsg"
+        )
+    }
+
+    /**
+     * sing-box 1.13.x Android AAR no longer exposes Libbox.newService() in the Java API.
+     * Official SFA starts the core through CommandServer.startOrReloadService().
+     */
+    private fun createCommandServerService(configContent: String, platformInterface: Any): Any {
+        val binding = binding()
+        val handler = createCommandServerHandler()
+        val server = newCommandServer(handler, platformInterface)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "CommandServer created: ${server.javaClass.name}")
+
+        val start = findMethod(server.javaClass, "start", 0)
+            ?: throw IllegalStateException("CommandServer.start не найден. Методы: ${methodNames(server.javaClass)}")
+        invokeUnwrapped(start, server)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "CommandServer.start OK")
+
+        val overrideOptions = createOverrideOptions(binding.libboxClass.`package`?.name)
+        val startOrReload = findMethod(server.javaClass, "startOrReloadService", 2)
+            ?: throw IllegalStateException("CommandServer.startOrReloadService не найден. Методы: ${methodNames(server.javaClass)}")
+        invokeUnwrapped(startOrReload, server, configContent, overrideOptions)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "CommandServer.startOrReloadService OK")
+        return server
+    }
+
+    private fun newCommandServer(handler: Any, platformInterface: Any): Any {
+        val binding = binding()
+        val candidates = linkedSetOf<Class<*>>()
+        classOrNull(binding.libboxClass.`package`?.name + ".CommandServer")?.let { candidates += it }
+        classOrNull("io.nekohasekai.libbox.CommandServer")?.let { candidates += it }
+        classOrNull("libbox.CommandServer")?.let { candidates += it }
+
+        val errors = mutableListOf<String>()
+        for (clazz in candidates) {
+            val ctor = clazz.constructors.firstOrNull { it.parameterTypes.size == 2 }
+            if (ctor != null) {
+                val result = runCatching { ctor.newInstance(handler, platformInterface) }
+                if (result.isSuccess) return result.getOrThrow()
+                errors += "${clazz.name}.<init>: ${rootMessage(result.exceptionOrNull()!!)}"
+            }
+        }
+
+        val method = findMethod(binding.libboxClass, "newCommandServer", 2)
+            ?: findMethod(binding.libboxClass, "NewCommandServer", 2)
+            ?: throw IllegalStateException(
+                "newCommandServer не найден. Libbox=${binding.libboxClass.name}. Методы: ${methodNames(binding.libboxClass)}. " +
+                    errors.joinToString(" | ").take(600)
+            )
+        val result = runCatching { invokeUnwrapped(method, null, handler, platformInterface) }
+        if (result.isSuccess) return result.getOrThrow()
+        throw IllegalStateException("newCommandServer failed: ${rootMessage(result.exceptionOrNull()!!)}")
+    }
+
+    private fun createOverrideOptions(packageName: String?): Any? {
+        val clazz = classOrNull(packageName + ".OverrideOptions")
+            ?: classOrNull("io.nekohasekai.libbox.OverrideOptions")
+            ?: classOrNull("libbox.OverrideOptions")
+            ?: return null
+        val options = clazz.getDeclaredConstructor().newInstance()
+        setFieldIfPresent(options, "autoRedirect", false)
+        setFieldIfPresent(options, "includePackage", null)
+        setFieldIfPresent(options, "excludePackage", null)
+        return options
+    }
+
+    private fun createCommandServerHandler(): Any {
+        val binding = binding()
+        val handlerClass = classOrNull(binding.libboxClass.`package`?.name + ".CommandServerHandler")
+            ?: classOrNull("io.nekohasekai.libbox.CommandServerHandler")
+            ?: classOrNull("libbox.CommandServerHandler")
+            ?: throw IllegalStateException("CommandServerHandler class не найден")
+
+        return Proxy.newProxyInstance(
+            handlerClass.classLoader,
+            arrayOf(handlerClass)
+        ) { _, method, args ->
+            when (method.name) {
+                "serviceStop", "ServiceStop" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "CommandServerHandler.serviceStop")
+                    null
+                }
+                "serviceReload", "ServiceReload" -> {
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "CommandServerHandler.serviceReload ignored")
+                    null
+                }
+                "getSystemProxyStatus", "GetSystemProxyStatus" -> createSystemProxyStatus(method.returnType)
+                "setSystemProxyEnabled", "SetSystemProxyEnabled" -> null
+                "writeDebugMessage", "WriteDebugMessage" -> {
+                    val text = args?.firstOrNull()?.toString().orEmpty()
+                    if (text.isNotBlank()) DiagnosticsLogger.log(context, "libbox-debug", text)
+                    null
+                }
+                else -> defaultValue(method.returnType)
+            }
+        }
+    }
+
+    private fun createSystemProxyStatus(returnType: Class<*>): Any? {
+        if (returnType == java.lang.Void.TYPE || returnType == Void::class.java) return null
+        if (returnType == Any::class.java) return null
+        return runCatching {
+            val status = returnType.getDeclaredConstructor().newInstance()
+            setFieldIfPresent(status, "available", false)
+            setFieldIfPresent(status, "enabled", false)
+            status
+        }.getOrNull()
     }
 
     private fun startBoxService(boxService: Any) {
         val start = findMethod(boxService.javaClass, "start", 0)
             ?: throw IllegalStateException("BoxService.start не найден. Методы: ${methodNames(boxService.javaClass)}")
         invokeUnwrapped(start, boxService)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "BoxService.start OK")
     }
 
     private fun setupIfPresent() {
@@ -56,7 +178,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
 
         val setup4 = findMethod(libbox, "setup", 4)
         if (setup4 != null) {
-            setup4.invoke(null, base, temp, android.os.Process.myUid(), android.os.Process.myUid())
+            invokeUnwrapped(setup4, null, base, temp, android.os.Process.myUid(), android.os.Process.myUid())
             DiagnosticsLogger.log(context, "LibboxRuntime", "Setup OK: legacy setup(base,temp,uid,gid)")
             return
         }
@@ -71,7 +193,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             setFieldIfPresent(options, "fixAndroidStack", true)
             setFieldIfPresent(options, "commandServerListenPort", 0)
             setFieldIfPresent(options, "commandServerSecret", "")
-            setFieldIfPresent(options, "logMaxLines", 300)
+            setFieldIfPresent(options, "logMaxLines", 500)
             setFieldIfPresent(options, "debug", false)
             invokeUnwrapped(setup1, null, options)
             DiagnosticsLogger.log(context, "LibboxRuntime", "Setup OK: setup(${optionsClass.name})")
@@ -93,15 +215,15 @@ class LibboxRuntime(private val context: Context) : Closeable {
         for (clazz in classesToTry) {
             val method = findMethod(clazz, "newService", 2) ?: findMethod(clazz, "NewService", 2)
             if (method == null) {
-                errors += "${clazz.name}: no newService/ NewService; methods=${methodNames(clazz)}"
+                errors += "${clazz.name}: no newService/NewService; methods=${methodNames(clazz)}"
                 continue
             }
-            val target = if (java.lang.reflect.Modifier.isStatic(method.modifiers)) null else null
+            val target = if (Modifier.isStatic(method.modifiers)) null else null
             val result = runCatching { invokeUnwrapped(method, target, configContent, platformInterface) }
             if (result.isSuccess) {
                 return result.getOrNull() ?: throw IllegalStateException("${clazz.name}.${method.name} вернул null")
             }
-            errors += "${clazz.name}.${method.name}: ${result.exceptionOrNull()?.message ?: result.exceptionOrNull()?.javaClass?.name}"
+            errors += "${clazz.name}.${method.name}: ${rootMessage(result.exceptionOrNull()!!)}"
         }
 
         throw IllegalStateException(
@@ -118,38 +240,33 @@ class LibboxRuntime(private val context: Context) : Closeable {
             arrayOf(interfaceClass)
         ) { _, method, args ->
             when (method.name) {
-                // For test mixed proxy there is no Android VPN tunnel, so file descriptors do not need VpnService.protect().
-                "usePlatformAutoDetectInterfaceControl" -> false
-                "autoDetectInterfaceControl" -> null
-                "openTun" -> throw IllegalStateException("openTun вызван в standalone speed-test. Это значит, что test config ошибочно содержит tun inbound")
-                "writeLog" -> {
+                "localDNSTransport", "LocalDNSTransport" -> null
+                "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> false
+                "autoDetectInterfaceControl", "AutoDetectInterfaceControl" -> null
+                "openTun", "OpenTun" -> throw IllegalStateException("openTun вызван в standalone speed-test. Test config не должен содержать tun inbound")
+                "writeLog", "WriteLog", "writeDebugMessage", "WriteDebugMessage" -> {
                     val text = args?.joinToString(" ") ?: ""
                     if (text.isNotBlank()) DiagnosticsLogger.log(context, "libbox", text)
                     null
                 }
-                "useProcFS" -> false
-                "findConnectionOwner" -> -1
-                "packageNameByUid" -> ""
-                "uidByPackageName" -> 0
-                "startDefaultInterfaceMonitor" -> null
-                "closeDefaultInterfaceMonitor" -> null
-                "getInterfaces" -> null
-                "underNetworkExtension" -> false
-                "includeAllNetworks" -> false
-                "readWIFIState" -> null
-                "clearDNSCache" -> null
-                "sendNotification" -> null
-                else -> defaultValue(method.returnType)
+                "useProcFS", "UseProcFS" -> false
+                "findConnectionOwner", "FindConnectionOwner" -> null
+                "packageNameByUid", "PackageNameByUid" -> ""
+                "uidByPackageName", "UidByPackageName" -> 0
+                "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
+                "closeDefaultInterfaceMonitor", "CloseDefaultInterfaceMonitor" -> null
+                "getInterfaces", "GetInterfaces" -> emptyIteratorFor(method.returnType)
+                "underNetworkExtension", "UnderNetworkExtension" -> false
+                "includeAllNetworks", "IncludeAllNetworks" -> false
+                "readWIFIState", "ReadWIFIState" -> null
+                "systemCertificates", "SystemCertificates" -> emptyIteratorFor(method.returnType)
+                "clearDNSCache", "ClearDNSCache" -> null
+                "sendNotification", "SendNotification" -> null
+                "startNeighborMonitor", "StartNeighborMonitor" -> null
+                "registerMyInterface", "RegisterMyInterface" -> null
+                "closeNeighborMonitor", "CloseNeighborMonitor" -> null
+                else -> iteratorOrDefault(method.returnType)
             }
-        }
-    }
-
-    private fun invokeUnwrapped(method: Method, target: Any?, vararg args: Any?): Any? {
-        return try {
-            method.invoke(target, *args)
-        } catch (e: InvocationTargetException) {
-            val cause = e.targetException ?: e.cause ?: e
-            throw IllegalStateException(cause.message ?: cause.javaClass.name, cause)
         }
     }
 
@@ -160,36 +277,41 @@ class LibboxRuntime(private val context: Context) : Closeable {
             arrayOf(interfaceClass)
         ) { _, method, args ->
             when (method.name) {
-                "usePlatformAutoDetectInterfaceControl" -> true
-                "autoDetectInterfaceControl" -> {
+                "localDNSTransport", "LocalDNSTransport" -> null
+                "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> true
+                "autoDetectInterfaceControl", "AutoDetectInterfaceControl" -> {
                     val fd = (args?.getOrNull(0) as? Number)?.toInt() ?: return@newProxyInstance null
                     vpnService.protect(fd)
                     null
                 }
-                "openTun" -> {
+                "openTun", "OpenTun" -> {
                     val fd = openTun(vpnService).detachFd()
                     if (method.returnType == java.lang.Long.TYPE || method.returnType == java.lang.Long::class.java) fd.toLong() else fd
                 }
-                "writeLog" -> {
+                "writeLog", "WriteLog", "writeDebugMessage", "WriteDebugMessage" -> {
                     val text = args?.joinToString(" ") ?: ""
                     if (text.isNotBlank()) DiagnosticsLogger.log(context, "libbox", text)
                     null
                 }
-                "useProcFS" -> false
-                "findConnectionOwner" -> -1
-                "packageNameByUid" -> ""
-                "uidByPackageName" -> 0
-                "usePlatformDefaultInterfaceMonitor" -> false
-                "startDefaultInterfaceMonitor" -> null
-                "closeDefaultInterfaceMonitor" -> null
-                "usePlatformInterfaceGetter" -> false
-                "getInterfaces" -> null
-                "underNetworkExtension" -> false
-                "includeAllNetworks" -> false
-                "clearDNSCache" -> null
-                "readWIFIState" -> null
-                "sendNotification" -> null
-                else -> defaultValue(method.returnType)
+                "useProcFS", "UseProcFS" -> false
+                "findConnectionOwner", "FindConnectionOwner" -> null
+                "packageNameByUid", "PackageNameByUid" -> ""
+                "uidByPackageName", "UidByPackageName" -> 0
+                "usePlatformDefaultInterfaceMonitor", "UsePlatformDefaultInterfaceMonitor" -> false
+                "startDefaultInterfaceMonitor", "StartDefaultInterfaceMonitor" -> null
+                "closeDefaultInterfaceMonitor", "CloseDefaultInterfaceMonitor" -> null
+                "usePlatformInterfaceGetter", "UsePlatformInterfaceGetter" -> false
+                "getInterfaces", "GetInterfaces" -> emptyIteratorFor(method.returnType)
+                "underNetworkExtension", "UnderNetworkExtension" -> false
+                "includeAllNetworks", "IncludeAllNetworks" -> false
+                "clearDNSCache", "ClearDNSCache" -> null
+                "readWIFIState", "ReadWIFIState" -> null
+                "systemCertificates", "SystemCertificates" -> emptyIteratorFor(method.returnType)
+                "sendNotification", "SendNotification" -> null
+                "startNeighborMonitor", "StartNeighborMonitor" -> null
+                "registerMyInterface", "RegisterMyInterface" -> null
+                "closeNeighborMonitor", "CloseNeighborMonitor" -> null
+                else -> iteratorOrDefault(method.returnType)
             }
         }
     }
@@ -221,11 +343,57 @@ class LibboxRuntime(private val context: Context) : Closeable {
         service = null
         if (current != null) {
             runCatching {
+                findMethod(current.javaClass, "closeService", 0)?.let { invokeUnwrapped(it, current) }
+            }.onFailure {
+                DiagnosticsLogger.log(context, "LibboxRuntime", "closeService ignored: ${rootMessage(it)}")
+            }
+            runCatching {
                 findMethod(current.javaClass, "close", 0)?.let { invokeUnwrapped(it, current) }
+            }.onFailure {
+                DiagnosticsLogger.log(context, "LibboxRuntime", "close ignored: ${rootMessage(it)}")
             }
         }
         runCatching { tunFd?.close() }
         tunFd = null
+    }
+
+    private fun invokeUnwrapped(method: Method, target: Any?, vararg args: Any?): Any? {
+        return try {
+            method.invoke(target, *args)
+        } catch (e: InvocationTargetException) {
+            val cause = e.targetException ?: e.cause ?: e
+            throw IllegalStateException(cause.message ?: cause.javaClass.name, cause)
+        }
+    }
+
+    private fun rootMessage(error: Throwable): String {
+        var current: Throwable? = error
+        var last: Throwable = error
+        while (current != null) {
+            last = current
+            current = current.cause
+        }
+        return last.message ?: last.javaClass.simpleName
+    }
+
+    private fun emptyIteratorFor(type: Class<*>): Any? {
+        if (!type.isInterface) return null
+        return Proxy.newProxyInstance(type.classLoader, arrayOf(type)) { _, method, _ ->
+            when (method.name) {
+                "len", "Len" -> 0
+                "hasNext", "HasNext" -> false
+                "next", "Next" -> null
+                else -> defaultValue(method.returnType)
+            }
+        }
+    }
+
+    private fun iteratorOrDefault(type: Class<*>): Any? {
+        return if (type.isInterface && type.name.lowercase(Locale.US).endsWith("iterator")) {
+            emptyIteratorFor(type)
+        } else {
+            defaultValue(type)
+        }
     }
 
     companion object {
@@ -235,8 +403,8 @@ class LibboxRuntime(private val context: Context) : Closeable {
         )
 
         private val candidates = listOf(
-            "libbox" to "libbox",
             "io.nekohasekai.libbox" to "io.nekohasekai.libbox",
+            "libbox" to "libbox",
             // Fallback: some AAR builds expose Libbox and PlatformInterface in different packages.
             "io.nekohasekai.libbox" to "libbox",
             "libbox" to "io.nekohasekai.libbox"
@@ -279,7 +447,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
         private fun platformInterfaceClass(): Class<*> = binding().platformInterfaceClass
 
         private fun classOrNull(name: String?): Class<*>? {
-            if (name.isNullOrBlank() || name == "null.BoxService") return null
+            if (name.isNullOrBlank() || name.startsWith("null.")) return null
             return runCatching { Class.forName(name) }.getOrNull()
         }
 
@@ -289,7 +457,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 .distinct()
                 .sorted()
                 .joinToString(",")
-                .take(700)
+                .take(900)
         }
 
         private fun setFieldIfPresent(target: Any, name: String, value: Any?) {

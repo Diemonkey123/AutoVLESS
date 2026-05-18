@@ -46,7 +46,7 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         store = NodeStore(this)
-        DiagnosticsLogger.log(this, "MainActivity", "App started version=1.4.0")
+        DiagnosticsLogger.log(this, "MainActivity", "App started version=1.4.2")
         setContentView(buildUi())
         maybeRequestNotifications()
         refreshCounters()

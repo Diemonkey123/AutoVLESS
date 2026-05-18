@@ -177,6 +177,12 @@ app/libs/libbox.aar
 - Runtime ищет оба известных package name: `libbox.*` и `io.nekohasekai.libbox.*`.
 
 
+## v1.4.2 changes
+
+- Runtime переключен с отсутствующего `NewService` на актуальный `CommandServer.startOrReloadService`.
+- Оставлен fallback на старый `NewService`, если будет собран старый libbox.
+- Диагностика теперь пишет `CommandServer created/start/startOrReloadService`.
+
 ## v1.4 changes
 
 - Fixed VLESS -> sing-box mapping for zieng2/wl subscriptions.

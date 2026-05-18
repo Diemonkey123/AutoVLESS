@@ -161,7 +161,7 @@ class SpeedTester(private val context: Context) {
         connection.connectTimeout = 8_000
         connection.readTimeout = 15_000
         connection.instanceFollowRedirects = true
-        connection.setRequestProperty("User-Agent", "AutoVLESS-SpeedTest/1.4.1")
+        connection.setRequestProperty("User-Agent", "AutoVLESS-SpeedTest/1.4.2")
         connection.setRequestProperty("Cache-Control", "no-cache")
 
         val code = connection.responseCode
