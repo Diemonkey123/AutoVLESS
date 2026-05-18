@@ -73,7 +73,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                         if (tag.isNotBlank()) tunInboundTag = tag
 
                         inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS))
-                        inbound.put("stack", "gvisor")
+                        inbound.put("stack", "mixed")
                         inbound.put("strict_route", false)
                         fixedTunInbound = true
                     }
@@ -97,20 +97,22 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val servers = JSONArray()
                     .put(
                         JSONObject()
-                            .put("type", "tcp")
-                            .put("tag", "google-tcp")
-                            .put("server", SingBoxConfigGenerator.PRIMARY_DNS)
-                            .put("server_port", 53)
+                            .put("type", "https")
+                            .put("tag", "google-doh")
+                            .put("server", "dns.google")
+                            .put("path", "/dns-query")
+                            .put("detour", "selected")
                     )
                     .put(
                         JSONObject()
-                            .put("type", "tcp")
-                            .put("tag", "cloudflare-tcp")
-                            .put("server", SingBoxConfigGenerator.SECONDARY_DNS)
-                            .put("server_port", 53)
+                            .put("type", "https")
+                            .put("tag", "cloudflare-doh")
+                            .put("server", "cloudflare-dns.com")
+                            .put("path", "/dns-query")
+                            .put("detour", "selected")
                     )
                 dns.put("servers", servers)
-                dns.put("final", "google-tcp")
+                dns.put("final", "google-doh")
                 dns.put("strategy", "ipv4_only")
                 fixedVpnDns = true
             }
@@ -632,8 +634,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
             // Android sends DNS to the VPN-side address. sing-box hijacks port 53
-            // and resolves through its DNS module. Public DNS here was causing
-            // "Unable to resolve host" on several devices.
+            // and resolves it through DoH over the selected VLESS outbound.
             .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
 
         runCatching {
@@ -647,6 +648,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.TUN_DNS_ADDRESS} stack=mixed")
         return tunFd!!
     }
 

@@ -255,3 +255,9 @@ app/libs/libbox.aar
 - Added button `Остановить проверку` to request stopping the current check loop.
 - Duplicate `Проверить лучший конфиг` taps are now ignored while a check is already running.
 - Speed-check now logs `URL_TEST_TRY` and `DOWNLOAD_TRY`, so slow checks are visible in the console.
+
+## 1.6.0
+
+- Исправлена связка VPN + DNS: DNS теперь идет через DoH поверх выбранного VLESS, а само приложение исключено из Android VPN, чтобы libbox не зацикливал свои исходящие соединения.
+- TUN stack переключен с `gvisor` на `mixed`: TCP идет через системный стек, UDP остается через gVisor. Это ближе к поведению обычных Android-клиентов и должно убрать ситуацию «VPN подключен, но ничего не загружается».
+- Добавлен лог успешного создания Android TUN с адресом и DNS.
