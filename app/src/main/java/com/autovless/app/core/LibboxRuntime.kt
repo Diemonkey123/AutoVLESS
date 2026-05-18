@@ -58,6 +58,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             var addedPort53HijackRule = false
             var migratedLegacyInboundFields = 0
             var addedSniffRule = false
+            var fixedTunInbound = false
 
             val inbounds = root.optJSONArray("inbounds")
             var isVpnConfig = false
@@ -70,6 +71,10 @@ class LibboxRuntime(private val context: Context) : Closeable {
                         isVpnConfig = true
                         val tag = inbound.optString("tag")
                         if (tag.isNotBlank()) tunInboundTag = tag
+
+                        inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS))
+                        inbound.put("stack", "mixed")
+                        fixedTunInbound = true
                     }
                 }
             }
@@ -91,22 +96,36 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val servers = JSONArray()
                     .put(
                         JSONObject()
-                            .put("type", "tcp")
-                            .put("tag", "google-tcp")
+                            .put("type", "https")
+                            .put("tag", "google-doh")
                             .put("server", "8.8.8.8")
-                            .put("server_port", 53)
+                            .put("server_port", 443)
+                            .put("path", "/dns-query")
                             .put("detour", "selected")
+                            .put(
+                                "tls",
+                                JSONObject()
+                                    .put("enabled", true)
+                                    .put("server_name", "dns.google")
+                            )
                     )
                     .put(
                         JSONObject()
-                            .put("type", "tcp")
-                            .put("tag", "cloudflare-tcp")
+                            .put("type", "https")
+                            .put("tag", "cloudflare-doh")
                             .put("server", "1.1.1.1")
-                            .put("server_port", 53)
+                            .put("server_port", 443)
+                            .put("path", "/dns-query")
                             .put("detour", "selected")
+                            .put(
+                                "tls",
+                                JSONObject()
+                                    .put("enabled", true)
+                                    .put("server_name", "cloudflare-dns.com")
+                            )
                     )
                 dns.put("servers", servers)
-                dns.put("final", "google-tcp")
+                dns.put("final", "google-doh")
                 dns.put("strategy", "prefer_ipv4")
                 fixedVpnDns = true
             }
@@ -233,6 +252,10 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 )
                 convertedDnsRules++
             }
+            if (isVpnConfig) {
+                route.put("override_android_vpn", false)
+            }
+
             if (isVpnConfig && !hasPort53HijackRule) {
                 rules.put(
                     JSONObject()
@@ -258,12 +281,13 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 fixedVpnDns ||
                 addedPort53HijackRule ||
                 migratedLegacyInboundFields > 0 ||
-                addedSniffRule
+                addedSniffRule ||
+                fixedTunInbound
             ) {
                 DiagnosticsLogger.log(
                     context,
                     "LibboxRuntime",
-                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules convertedDnsServers=$convertedDnsServers fixedVpnDns=$fixedVpnDns addedPort53HijackRule=$addedPort53HijackRule migratedLegacyInboundFields=$migratedLegacyInboundFields addedSniffRule=$addedSniffRule"
+                    "sanitize sing-box 1.13 config: removedDnsOutbounds=$removedDnsOutbounds convertedDnsRules=$convertedDnsRules convertedDnsServers=$convertedDnsServers fixedVpnDns=$fixedVpnDns addedPort53HijackRule=$addedPort53HijackRule migratedLegacyInboundFields=$migratedLegacyInboundFields addedSniffRule=$addedSniffRule fixedTunInbound=$fixedTunInbound"
                 )
             } else {
                 DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize sing-box 1.13 config: no deprecated fields")
@@ -603,13 +627,15 @@ class LibboxRuntime(private val context: Context) : Closeable {
             .setMtu(1500)
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
-            .addDnsServer("1.1.1.1")
-            .addDnsServer("8.8.8.8")
+            // Android must send DNS to the VPN-side address. sing-box hijacks this
+            // address into its DNS module and then resolves through selected VLESS.
+            .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
 
-        try {
-            builder.addRoute("::", 0)
-        } catch (_: Throwable) {
-            // IPv6 route may fail on some devices. IPv4 route is enough for MVP.
+        runCatching {
+            builder.addDisallowedApplication(context.packageName)
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Excluded own package from Android VPN: ${context.packageName}")
+        }.onFailure {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Own package VPN exclusion ignored: ${rootMessage(it)}")
         }
 
         tunFd = builder.establish()

@@ -31,7 +31,10 @@ class SingBoxConfigGenerator(private val context: Context) {
                 JSONObject()
                     .put("type", "tun")
                     .put("tag", "tun-in")
-                    .put("address", JSONArray().put("172.19.0.1/30"))
+                    .put("address", JSONArray().put(TUN_ADDRESS))
+                    // Mixed stack keeps TCP fast through the system stack and gives UDP/DNS
+                    // a gVisor fallback on Android builds where pure system UDP is weak.
+                    .put("stack", "mixed")
                     .put("auto_route", true)
                     .put("strict_route", true)
             )
@@ -63,33 +66,44 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun vpnDnsConfig(): JSONObject {
-        // Full-device VPN mode must not rely on Android's "local" resolver here:
-        // after the TUN route is installed Android DNS may loop back into the VPN,
-        // so apps show "offline" even though the VLESS node itself works.
-        // Use explicit TCP DNS through the selected VLESS outbound. TCP avoids UDP
-        // support issues on public VLESS nodes and keeps DNS compatible with
-        // sing-box 1.13 where the old dns outbound was removed.
+        // Android apps must receive a DNS server inside the VPN interface, and sing-box
+        // must resolve through the selected VLESS outbound. DoH on 443 is much less
+        // likely to be blocked than classic TCP/UDP 53 on free nodes.
         val servers = JSONArray()
             .put(
                 JSONObject()
-                    .put("type", "tcp")
-                    .put("tag", "google-tcp")
+                    .put("type", "https")
+                    .put("tag", "google-doh")
                     .put("server", "8.8.8.8")
-                    .put("server_port", 53)
+                    .put("server_port", 443)
+                    .put("path", "/dns-query")
                     .put("detour", "selected")
+                    .put(
+                        "tls",
+                        JSONObject()
+                            .put("enabled", true)
+                            .put("server_name", "dns.google")
+                    )
             )
             .put(
                 JSONObject()
-                    .put("type", "tcp")
-                    .put("tag", "cloudflare-tcp")
+                    .put("type", "https")
+                    .put("tag", "cloudflare-doh")
                     .put("server", "1.1.1.1")
-                    .put("server_port", 53)
+                    .put("server_port", 443)
+                    .put("path", "/dns-query")
                     .put("detour", "selected")
+                    .put(
+                        "tls",
+                        JSONObject()
+                            .put("enabled", true)
+                            .put("server_name", "cloudflare-dns.com")
+                    )
             )
 
         return JSONObject()
             .put("servers", servers)
-            .put("final", "google-tcp")
+            .put("final", "google-doh")
             .put("strategy", "prefer_ipv4")
     }
 
@@ -102,6 +116,9 @@ class SingBoxConfigGenerator(private val context: Context) {
             .put("final", outboundTag)
             .put("find_process", false)
             .put("auto_detect_interface", vpnMode)
+            // Keep false: this app is the Android VPN provider. The selected outbound
+            // must use the physical network, not chain into another active Android VPN.
+            .put("override_android_vpn", false)
 
         if (vpnMode) {
             // sing-box 1.13 removed legacy inbound sniff fields. Sniffing is now
@@ -135,6 +152,11 @@ class SingBoxConfigGenerator(private val context: Context) {
 
     private fun baseConfig(): JSONObject {
         return JSONObject().put("log", JSONObject().put("level", "info"))
+    }
+
+    companion object {
+        const val TUN_ADDRESS = "172.19.0.1/30"
+        const val TUN_DNS_ADDRESS = "172.19.0.2"
     }
 
     private fun outbounds(node: VlessNode, tag: String): JSONArray {

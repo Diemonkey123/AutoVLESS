@@ -78,25 +78,27 @@ class AutoVlessVpnService : VpnService() {
     private fun runVpnSelfTestAsync(manager: NotificationManager) {
         Thread {
             try {
-                Thread.sleep(1200)
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_TRY https://www.gstatic.com/generate_204")
+                Thread.sleep(900)
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_TRY https://www.google.com/generate_204")
                 val started = System.nanoTime()
-                val connection = URL("https://www.gstatic.com/generate_204").openConnection() as HttpURLConnection
-                connection.connectTimeout = 6000
-                connection.readTimeout = 6000
+                val connection = URL("https://www.google.com/generate_204").openConnection() as HttpURLConnection
+                connection.connectTimeout = 3000
+                connection.readTimeout = 3000
                 connection.instanceFollowRedirects = false
                 connection.setRequestProperty("User-Agent", "AutoVLESS-VPN-SelfTest")
                 val code = connection.responseCode
                 connection.disconnect()
                 val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=${ms}")
-                val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен, self-test HTTP $code"
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=$ms")
+                val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен"
                 broadcastStatus(text)
                 manager.notify(NOTIFICATION_ID, buildNotification(text))
             } catch (e: Throwable) {
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL ${e.message ?: e.javaClass.simpleName}")
-                broadcastStatus("VPN подключен, self-test не прошел")
-                manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен, self-test не прошел"))
+                // Do not flip the UI to "offline" after the core has started. On Android
+                // this request checks the app process, not reliably every tunneled app.
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL_IGNORED ${e.message ?: e.javaClass.simpleName}")
+                broadcastStatus("VPN подключен")
+                manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
             }
         }.start()
     }

@@ -231,7 +231,7 @@ class SpeedTester(private val context: Context) {
 
     companion object {
         private const val DEFAULT_MIN_SPEED_KBPS = 500.0
-        private const val GOOGLE_PING_URL = "https://www.gstatic.com/generate_204"
+        private const val GOOGLE_PING_URL = "https://www.google.com/generate_204"
         private const val GOOGLE_SPEED_URL = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
 
         private const val STANDALONE_SOFT_WAIT_MS = 700L
