@@ -11,6 +11,13 @@ object DiagnosticsLogger {
     private const val MAX_BYTES = 512 * 1024
     private const val TRIM_TO_BYTES = 384 * 1024
 
+    @Volatile
+    private var liveSink: ((String) -> Unit)? = null
+
+    fun setLiveSink(sink: ((String) -> Unit)?) {
+        liveSink = sink
+    }
+
     @Synchronized
     fun log(context: Context, tag: String, message: String) {
         val appContext = context.applicationContext
@@ -24,6 +31,7 @@ object DiagnosticsLogger {
             }
             file.appendText(line, Charsets.UTF_8)
         }
+        runCatching { liveSink?.invoke(line) }
     }
 
     @Synchronized
@@ -39,7 +47,7 @@ object DiagnosticsLogger {
         val stderr = File(dir, "libbox-stderr.log")
         val stderrText = if (stderr.exists() && stderr.length() > 0) {
             runCatching {
-                "\n\n--- libbox-stderr.log ---\n" + stderr.readText(Charsets.UTF_8).takeLast(20_000)
+                "\n\n--- libbox-stderr.log ---\n" + stderr.readText(Charsets.UTF_8).takeLast(30_000)
             }.getOrDefault("")
         } else {
             ""
@@ -51,6 +59,7 @@ object DiagnosticsLogger {
     @Synchronized
     fun clear(context: Context) {
         File(context.applicationContext.filesDir, FILE_NAME).writeText("", Charsets.UTF_8)
+        File(context.applicationContext.filesDir, "libbox-stderr.log").writeText("", Charsets.UTF_8)
     }
 
     fun nodeSummary(node: com.autovless.app.vless.VlessNode): String {

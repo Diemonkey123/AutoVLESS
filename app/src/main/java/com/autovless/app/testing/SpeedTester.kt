@@ -88,7 +88,7 @@ class SpeedTester(private val context: Context) {
                 )
             }
 
-            val measured = measureThroughProxy(port)
+            val measured = measureThroughProxy(port, minSpeedKbps)
             DiagnosticsLogger.log(context, "SpeedTester", "Speed result kbps=${measured.first} msg=${measured.second}")
             val speed = measured.first
             val message = listOfNotNull(latencyOk.second, measured.second).joinToString("; ").ifBlank { null }
@@ -106,6 +106,7 @@ class SpeedTester(private val context: Context) {
     private fun checkLatency(port: Int): Pair<Boolean, String?> {
         val errors = mutableListOf<String>()
         for (url in latencyUrls) {
+            DiagnosticsLogger.log(context, "SpeedTester", "URL_TEST_TRY ${shortUrl(url)}")
             val started = System.nanoTime()
             val result = runCatching { openAndReadSmall(url, port, 16 * 1024) }
             if (result.isSuccess) {
@@ -120,16 +121,20 @@ class SpeedTester(private val context: Context) {
         return false to errors.joinToString("; ").take(240)
     }
 
-    private fun measureThroughProxy(port: Int): Pair<Double?, String?> {
+    private fun measureThroughProxy(port: Int, minSpeedKbps: Double): Pair<Double?, String?> {
         var best: Double? = null
         val errors = mutableListOf<String>()
 
         for (url in speedUrls) {
+            DiagnosticsLogger.log(context, "SpeedTester", "DOWNLOAD_TRY ${shortUrl(url)}")
             val result = runCatching { measureOne(url, port) }
             val speed = result.getOrNull()
             if (speed != null && speed > 0.0) {
                 DiagnosticsLogger.log(context, "SpeedTester", "DOWNLOAD_OK ${shortUrl(url)} ${speed.toInt()} KB/s")
                 best = max(best ?: 0.0, speed)
+                if (speed >= minSpeedKbps) {
+                    return best to "best=${speed.toInt()} KB/s"
+                }
             } else {
                 val err = result.exceptionOrNull()?.message ?: "failed"
                 DiagnosticsLogger.log(context, "SpeedTester", "DOWNLOAD_FAIL ${shortUrl(url)} $err")
@@ -155,8 +160,8 @@ class SpeedTester(private val context: Context) {
     private fun openAndReadSmall(urlText: String, port: Int, limit: Int): Long {
         val proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("127.0.0.1", port))
         val connection = URL(urlText).openConnection(proxy) as HttpURLConnection
-        connection.connectTimeout = 8_000
-        connection.readTimeout = 15_000
+        connection.connectTimeout = 5_000
+        connection.readTimeout = 10_000
         connection.instanceFollowRedirects = true
         connection.setRequestProperty("User-Agent", "AutoVLESS-SpeedTest/${BuildConfig.VERSION_NAME}")
         connection.setRequestProperty("Cache-Control", "no-cache")
