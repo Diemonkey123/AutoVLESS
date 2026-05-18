@@ -31,12 +31,13 @@ class SingBoxConfigGenerator(private val context: Context) {
                 JSONObject()
                     .put("type", "tun")
                     .put("tag", "tun-in")
-                    .put("address", JSONArray().put(TUN_ADDRESS))
-                    // Mixed stack keeps TCP fast through the system stack and gives UDP/DNS
-                    // a gVisor fallback on Android builds where pure system UDP is weak.
-                    .put("stack", "mixed")
+                    .put("address", JSONArray().put(TUN_ADDRESS).put(TUN_IPV6_ADDRESS))
+                    // gVisor is slower than system/mixed, but it is the safest option for
+                    // Android full-tunnel mode: DNS, TCP fallback and app traffic behave
+                    // consistently across devices.
+                    .put("stack", "gvisor")
                     .put("auto_route", true)
-                    .put("strict_route", true)
+                    .put("strict_route", false)
             )
         )
 
@@ -66,9 +67,11 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun vpnDnsConfig(): JSONObject {
-        // Android apps must receive a DNS server inside the VPN interface, and sing-box
-        // must resolve through the selected VLESS outbound. DoH on 443 is much less
-        // likely to be blocked than classic TCP/UDP 53 on free nodes.
+        // Android receives public DNS addresses from VpnService.Builder. sing-box
+        // hijacks DNS/53 from the TUN and resolves it itself. DNS is resolved direct
+        // through protected sockets, while app traffic still goes through selected VLESS.
+        // This avoids the common failure where a free VLESS node passes Google HTTP
+        // but cannot reach DoH/53 for DNS resolution.
         val servers = JSONArray()
             .put(
                 JSONObject()
@@ -77,7 +80,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("server", "8.8.8.8")
                     .put("server_port", 443)
                     .put("path", "/dns-query")
-                    .put("detour", "selected")
+                    .put("detour", "direct")
                     .put(
                         "tls",
                         JSONObject()
@@ -92,7 +95,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                     .put("server", "1.1.1.1")
                     .put("server_port", 443)
                     .put("path", "/dns-query")
-                    .put("detour", "selected")
+                    .put("detour", "direct")
                     .put(
                         "tls",
                         JSONObject()
@@ -132,6 +135,15 @@ class SingBoxConfigGenerator(private val context: Context) {
                         .put("action", "sniff")
                         .put("timeout", "300ms")
                 )
+                // Many mobile apps try QUIC first. Most public/free VLESS nodes do not
+                // pass UDP reliably, so reject UDP/443 quickly and force normal TCP HTTPS.
+                .put(
+                    JSONObject()
+                        .put("inbound", "tun-in")
+                        .put("network", "udp")
+                        .put("port", 443)
+                        .put("action", "reject")
+                )
                 .put(
                     JSONObject()
                         .put("inbound", "tun-in")
@@ -156,7 +168,9 @@ class SingBoxConfigGenerator(private val context: Context) {
 
     companion object {
         const val TUN_ADDRESS = "172.19.0.1/30"
-        const val TUN_DNS_ADDRESS = "172.19.0.2"
+        const val TUN_IPV6_ADDRESS = "fdfe:dcba:9876::1/126"
+        const val PRIMARY_DNS = "8.8.8.8"
+        const val SECONDARY_DNS = "1.1.1.1"
     }
 
     private fun outbounds(node: VlessNode, tag: String): JSONArray {

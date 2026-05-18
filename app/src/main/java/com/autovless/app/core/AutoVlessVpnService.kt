@@ -94,11 +94,14 @@ class AutoVlessVpnService : VpnService() {
                 broadcastStatus(text)
                 manager.notify(NOTIFICATION_ID, buildNotification(text))
             } catch (e: Throwable) {
-                // Do not flip the UI to "offline" after the core has started. On Android
-                // this request checks the app process, not reliably every tunneled app.
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL_IGNORED ${e.message ?: e.javaClass.simpleName}")
-                broadcastStatus("VPN подключен")
-                manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
+                // Since 1.5.7 the app is not excluded from Android VPN, so this request
+                // is real tunnel traffic. If it fails, the VPN core started but routing/DNS
+                // through the tunnel is still broken.
+                val message = e.message ?: e.javaClass.simpleName
+                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL $message")
+                val text = "VPN запущен, но интернет через туннель не проходит"
+                broadcastStatus(text)
+                manager.notify(NOTIFICATION_ID, buildNotification(text))
             }
         }.start()
     }

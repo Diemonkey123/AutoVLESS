@@ -72,8 +72,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                         val tag = inbound.optString("tag")
                         if (tag.isNotBlank()) tunInboundTag = tag
 
-                        inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS))
-                        inbound.put("stack", "mixed")
+                        inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS).put(SingBoxConfigGenerator.TUN_IPV6_ADDRESS))
+                        inbound.put("stack", "gvisor")
+                        inbound.put("strict_route", false)
                         fixedTunInbound = true
                     }
                 }
@@ -101,7 +102,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                             .put("server", "8.8.8.8")
                             .put("server_port", 443)
                             .put("path", "/dns-query")
-                            .put("detour", "selected")
+                            .put("detour", "direct")
                             .put(
                                 "tls",
                                 JSONObject()
@@ -116,7 +117,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
                             .put("server", "1.1.1.1")
                             .put("server_port", 443)
                             .put("path", "/dns-query")
-                            .put("detour", "selected")
+                            .put("detour", "direct")
                             .put(
                                 "tls",
                                 JSONObject()
@@ -154,6 +155,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             var hasDnsHijackRule = false
             var hasPort53HijackRule = false
             var hasSniffRule = false
+            var hasUdp443RejectRule = false
 
             for (i in 0 until rules.length()) {
                 val rule = rules.optJSONObject(i) ?: continue
@@ -163,6 +165,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
 
                 if (action.equals("sniff", ignoreCase = true)) {
                     hasSniffRule = true
+                }
+                if (rule.optString("network").equals("udp", ignoreCase = true) && rule.optInt("port", -1) == 443 && action.equals("reject", ignoreCase = true)) {
+                    hasUdp443RejectRule = true
                 }
                 if (protocol.equals("dns", ignoreCase = true) && action.equals("hijack-dns", ignoreCase = true)) {
                     hasDnsHijackRule = true
@@ -241,6 +246,16 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 for (i in 0 until rules.length()) mergedRules.put(rules.get(i))
                 route.put("rules", mergedRules)
                 rules = mergedRules
+            }
+
+            if (isVpnConfig && !hasUdp443RejectRule) {
+                rules.put(
+                    JSONObject()
+                        .put("inbound", tunInboundTag)
+                        .put("network", "udp")
+                        .put("port", 443)
+                        .put("action", "reject")
+                )
             }
 
             if (isVpnConfig && !hasDnsHijackRule) {
@@ -624,19 +639,25 @@ class LibboxRuntime(private val context: Context) : Closeable {
         tunFd?.close()
         val builder = vpnService.Builder()
             .setSession("AutoVLESS")
-            .setMtu(1500)
+            // Lower MTU avoids blackhole issues on Reality/WebSocket/gRPC chains.
+            .setMtu(1400)
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
-            // Android must send DNS to the VPN-side address. sing-box hijacks this
-            // address into its DNS module and then resolves through selected VLESS.
-            .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
+            // Use real DNS addresses. sing-box hijacks DNS/53 from TUN and resolves
+            // it through its DNS module; the app is NOT excluded, so self-test now
+            // checks the same VPN path as other applications.
+            .addDnsServer(SingBoxConfigGenerator.PRIMARY_DNS)
+            .addDnsServer(SingBoxConfigGenerator.SECONDARY_DNS)
 
         runCatching {
-            builder.addDisallowedApplication(context.packageName)
-            DiagnosticsLogger.log(context, "LibboxRuntime", "Excluded own package from Android VPN: ${context.packageName}")
+            builder.addAddress("fdfe:dcba:9876::1", 126)
+            builder.addRoute("::", 0)
+            DiagnosticsLogger.log(context, "LibboxRuntime", "IPv6 route added to Android VPN")
         }.onFailure {
-            DiagnosticsLogger.log(context, "LibboxRuntime", "Own package VPN exclusion ignored: ${rootMessage(it)}")
+            DiagnosticsLogger.log(context, "LibboxRuntime", "IPv6 VPN route ignored: ${rootMessage(it)}")
         }
+
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN includes own package; self-test is real tunnel traffic")
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
