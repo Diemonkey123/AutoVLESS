@@ -104,7 +104,10 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     errors.joinToString(" | ").take(600)
             )
         val result = runCatching { invokeUnwrapped(method, null, handler, platformInterface) }
-        if (result.isSuccess) return result.getOrThrow()
+        if (result.isSuccess) {
+            return result.getOrThrow()
+                ?: throw IllegalStateException("${binding.libboxClass.name}.${method.name} вернул null")
+        }
         throw IllegalStateException("newCommandServer failed: ${rootMessage(result.exceptionOrNull()!!)}")
     }
 
@@ -461,8 +464,23 @@ class LibboxRuntime(private val context: Context) : Closeable {
         }
 
         private fun setFieldIfPresent(target: Any, name: String, value: Any?) {
-            val field = target.javaClass.fields.firstOrNull { it.name.equals(name, ignoreCase = true) } ?: return
-            val converted = when (field.type) {
+            val field = target.javaClass.fields.firstOrNull { it.name.equals(name, ignoreCase = true) }
+            if (field != null) {
+                field.set(target, convertValue(value, field.type))
+                return
+            }
+
+            val setterName = "set" + name.replaceFirstChar { it.uppercase(Locale.US) }
+            val setter = target.javaClass.methods.firstOrNull {
+                it.name.equals(setterName, ignoreCase = true) && it.parameterTypes.size == 1
+            }
+            if (setter != null) {
+                setter.invoke(target, convertValue(value, setter.parameterTypes[0]))
+            }
+        }
+
+        private fun convertValue(value: Any?, type: Class<*>): Any? {
+            return when (type) {
                 java.lang.Boolean.TYPE, java.lang.Boolean::class.java -> (value as? Boolean) ?: false
                 java.lang.Byte.TYPE, java.lang.Byte::class.java -> (value as? Number)?.toByte() ?: 0.toByte()
                 java.lang.Short.TYPE, java.lang.Short::class.java -> (value as? Number)?.toShort() ?: 0.toShort()
@@ -473,7 +491,6 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 java.lang.String::class.java -> value?.toString() ?: ""
                 else -> value
             }
-            field.set(target, converted)
         }
 
         private fun findMethod(clazz: Class<*>, name: String, parameterCount: Int): Method? {
