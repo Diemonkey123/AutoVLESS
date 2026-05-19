@@ -620,7 +620,10 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 }
                 "openTun", "OpenTun" -> {
                     val tunOptions = args?.firstOrNull()
-                    DiagnosticsLogger.log(context, "LibboxRuntime", "openTun options=${describeObject(tunOptions)}")
+                    // Do not reflectively call any TunOptions getters here. In the current
+                    // libbox AAR some optional fields are nil on the Go side; calling getters
+                    // such as GetHTTPProxyBypassDomain() from Kotlin can SIGSEGV the process.
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "openTun optionsClass=${tunOptions?.javaClass?.name ?: "null"}")
                     val fd = openTun(vpnService, tunOptions).detachFd()
                     if (method.returnType == java.lang.Long.TYPE || method.returnType == java.lang.Long::class.java) fd.toLong() else fd
                 }
@@ -707,7 +710,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.TUN_DNS_ADDRESS} stack=mixed options=${describeObject(tunOptions)}")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.TUN_DNS_ADDRESS} stack=mixed optionsClass=${tunOptions?.javaClass?.name ?: "null"}")
         return tunFd!!
     }
 
@@ -723,14 +726,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     "${field.name}=$fieldValue"
                 }
         }.getOrDefault("")
-        val methods = clazz.methods
-            .filter { it.parameterTypes.isEmpty() && it.name !in setOf("getClass", "hashCode", "toString", "notify", "notifyAll", "wait") }
-            .take(16)
-            .joinToString(",") { method ->
-                val methodValue = runCatching { method.invoke(value) }.getOrNull()
-                "${method.name}()=$methodValue"
-            }
-        return "${clazz.name}{fields=[$fields]; methods=[$methods]}".take(1200)
+        // Intentionally do not invoke zero-argument methods/getters on libbox objects.
+        // Some TunOptions getters crash inside the native Go bridge when optional fields are nil.
+        return "${clazz.name}{fields=[$fields]}".take(1200)
     }
 
     override fun close() {

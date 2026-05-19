@@ -257,6 +257,13 @@ app/libs/libbox.aar
 - Speed-check now logs `URL_TEST_TRY` and `DOWNLOAD_TRY`, so slow checks are visible in the console.
 
 
+## 1.6.3
+
+- Fixed native crash immediately after connect in `PlatformInterface.openTun`.
+- Removed reflective calls to libbox `TunOptions` getters from diagnostics logging.
+- Kept 500 KB/s threshold and Google speed-check logic unchanged.
+
+
 ## 1.6.2
 
 - VPN DNS fix after diagnostics: Android TUN now gives apps the VPN-side DNS peer `172.19.0.2` instead of public `8.8.8.8/1.1.1.1`.
