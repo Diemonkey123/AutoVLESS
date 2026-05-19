@@ -44,10 +44,10 @@ class AutoVlessVpnService : VpnService() {
                         nextRuntime.startVpn(this, config)
                         runtime = nextRuntime
 
-                        DiagnosticsLogger.log(this, "VPN", "runtime started; running real tunnel self-test because own package is included in VPN")
-                        broadcastStatus("VPN запущен, проверяю интернет через туннель...")
-                        manager.notify(NOTIFICATION_ID, buildNotification("VPN запущен, проверяю интернет..."))
-                        runVpnSelfTestAsync(manager)
+                        DiagnosticsLogger.log(this, "VPN", "runtime started; own package is excluded from Android VPN to prevent core socket loop; app self-test skipped")
+                        val okText = "VPN подключен. Проверяй интернет в браузере/Instagram."
+                        broadcastStatus(okText)
+                        manager.notify(NOTIFICATION_ID, buildNotification(okText))
                         START_STICKY
                     }
                 } catch (e: Throwable) {

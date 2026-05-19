@@ -191,7 +191,7 @@ class MainActivity : Activity() {
         })
 
         val note = TextView(this).apply {
-            text = "v${BuildConfig.VERSION_NAME}: живая консоль + статус VPN. Если кажется, что зависло, смотри последнюю строку консоли."
+            text = "v${BuildConfig.VERSION_NAME}: быстрый подбор + VPN. В этой версии приложение исключено из VPN, чтобы libbox не зацикливал свой трафик."
             textSize = 13f
             setPadding(0, 16, 0, 0)
         }

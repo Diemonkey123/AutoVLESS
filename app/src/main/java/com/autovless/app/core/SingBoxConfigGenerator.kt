@@ -95,14 +95,15 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun routeFinal(outboundTag: String, vpnMode: Boolean): JSONObject {
-        // find_process must stay disabled: Android libbox crashed earlier inside
-        // PlatformInterface.FindConnectionOwner(). For VPN mode auto-detect must be
-        // enabled so libbox can protect its own outbound sockets from routing back
-        // into the VPN tunnel. Without that, the VPN shows connected but traffic loops.
+        // find_process stays disabled: Android libbox crashed earlier inside
+        // PlatformInterface.FindConnectionOwner(). In VPN mode we also keep
+        // auto_detect_interface disabled. The app package is excluded from Android VPN
+        // in LibboxRuntime.openTun(), so sing-box outbound sockets go to the physical
+        // network directly instead of looping back into its own TUN.
         val route = JSONObject()
             .put("final", outboundTag)
             .put("find_process", false)
-            .put("auto_detect_interface", vpnMode)
+            .put("auto_detect_interface", false)
             // Keep false: this app is the Android VPN provider. The selected outbound
             // must use the physical network, not chain into another active Android VPN.
             .put("override_android_vpn", false)

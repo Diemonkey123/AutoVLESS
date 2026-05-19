@@ -257,6 +257,15 @@ app/libs/libbox.aar
 - Speed-check now logs `URL_TEST_TRY` and `DOWNLOAD_TRY`, so slow checks are visible in the console.
 
 
+## 1.6.4
+
+- По логу 1.6.3 VPN стартовал без вылета, но домены не резолвились: `IP works, DNS fails`.
+- Вернул безопасную схему как в обычных Android VPN-клиентах: пакет приложения `com.autovless.app` исключен из Android VPN, чтобы libbox/sing-box исходящие сокеты не зацикливались обратно в TUN.
+- `auto_detect_interface` отключен в VPN-конфиге, потому что выход libbox теперь идет через физическую сеть за счет исключения пакета, а не через protect(fd).
+- Self-test внутри приложения пропущен осознанно: само приложение исключено из VPN, поэтому проверять нужно внешним приложением - браузером или Instagram.
+- Порог скорости 500 КБ/с и быстрый Google-check сохранены.
+
+
 ## 1.6.3
 
 - Fixed native crash immediately after connect in `PlatformInterface.openTun`.

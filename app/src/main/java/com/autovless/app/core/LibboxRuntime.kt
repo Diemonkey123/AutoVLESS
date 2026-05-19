@@ -602,8 +602,8 @@ class LibboxRuntime(private val context: Context) : Closeable {
             when (method.name) {
                 "localDNSTransport", "LocalDNSTransport" -> null
                 "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> {
-                    DiagnosticsLogger.log(context, "LibboxRuntime", "UsePlatformAutoDetectInterfaceControl=true vpn")
-                    true
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "UsePlatformAutoDetectInterfaceControl=false vpn; own package is excluded from Android VPN")
+                    false
                 }
                 "autoDetectInterfaceControl", "AutoDetectInterfaceControl", "protect", "Protect" -> {
                     val fd = args?.asSequence()?.mapNotNull { (it as? Number)?.toInt() }?.firstOrNull()
@@ -706,7 +706,14 @@ class LibboxRuntime(private val context: Context) : Closeable {
             // the log showed: IP OK, DNS/hostnames FAIL.
             .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
 
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package is INCLUDED. Core sockets must be protected with VpnService.protect(fd).")
+        runCatching {
+            builder.addDisallowedApplication(context.packageName)
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Excluded own package from Android VPN: ${context.packageName}")
+        }.onFailure {
+            DiagnosticsLogger.log(context, "LibboxRuntime", "Could not exclude own package from Android VPN: ${rootMessage(it)}")
+        }
+
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package excluded so core outbound sockets do not loop into TUN.")
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
