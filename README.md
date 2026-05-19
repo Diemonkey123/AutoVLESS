@@ -256,6 +256,13 @@ app/libs/libbox.aar
 - Duplicate `Проверить лучший конфиг` taps are now ignored while a check is already running.
 - Speed-check now logs `URL_TEST_TRY` and `DOWNLOAD_TRY`, so slow checks are visible in the console.
 
+
+## 1.6.2
+
+- VPN DNS fix after diagnostics: Android TUN now gives apps the VPN-side DNS peer `172.19.0.2` instead of public `8.8.8.8/1.1.1.1`.
+- DNS hijack rules are placed before sniff/final routing so Android resolver traffic is intercepted before raw UDP/53 can leak into the selected VLESS path.
+- Added `openTun` options diagnostics to see what libbox passes into Android TUN setup.
+
 ## 1.6.1
 
 - Вернул собственное приложение внутрь Android VPN, чтобы self-test реально шел через тот же туннель, что и остальные приложения.

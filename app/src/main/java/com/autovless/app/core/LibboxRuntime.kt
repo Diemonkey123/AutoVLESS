@@ -619,7 +619,9 @@ class LibboxRuntime(private val context: Context) : Closeable {
                     if (method.returnType == java.lang.Boolean.TYPE || method.returnType == java.lang.Boolean::class.java) ok else null
                 }
                 "openTun", "OpenTun" -> {
-                    val fd = openTun(vpnService).detachFd()
+                    val tunOptions = args?.firstOrNull()
+                    DiagnosticsLogger.log(context, "LibboxRuntime", "openTun options=${describeObject(tunOptions)}")
+                    val fd = openTun(vpnService, tunOptions).detachFd()
                     if (method.returnType == java.lang.Long.TYPE || method.returnType == java.lang.Long::class.java) fd.toLong() else fd
                 }
                 "writeLog", "WriteLog", "writeDebugMessage", "WriteDebugMessage" -> {
@@ -686,7 +688,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
         }
     }
 
-    private fun openTun(vpnService: VpnService): ParcelFileDescriptor {
+    private fun openTun(vpnService: VpnService, tunOptions: Any?): ParcelFileDescriptor {
         tunFd?.close()
         val builder = vpnService.Builder()
             .setSession("AutoVLESS")
@@ -694,17 +696,41 @@ class LibboxRuntime(private val context: Context) : Closeable {
             .setMtu(1400)
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
-            // Give Android real DNS addresses. sing-box still hijacks DNS/53 from
-            // the TUN and resolves it with TCP DNS over the selected VLESS outbound.
-            .addDnsServer(SingBoxConfigGenerator.PRIMARY_DNS)
-            .addDnsServer(SingBoxConfigGenerator.SECONDARY_DNS)
+            // Critical DNS fix: give Android the VPN-side DNS peer, not public DNS.
+            // Android sends resolver packets into TUN -> sing-box hijacks port 53 ->
+            // sing-box resolves with TCP DNS over the selected VLESS outbound.
+            // Using 8.8.8.8/1.1.1.1 here made Android try public DNS directly and
+            // the log showed: IP OK, DNS/hostnames FAIL.
+            .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
 
         DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package is INCLUDED. Core sockets must be protected with VpnService.protect(fd).")
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.PRIMARY_DNS},${SingBoxConfigGenerator.SECONDARY_DNS} stack=mixed")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.TUN_DNS_ADDRESS} stack=mixed options=${describeObject(tunOptions)}")
         return tunFd!!
+    }
+
+
+    private fun describeObject(value: Any?): String {
+        if (value == null) return "null"
+        val clazz = value.javaClass
+        val fields = runCatching {
+            clazz.fields
+                .take(16)
+                .joinToString(",") { field ->
+                    val fieldValue = runCatching { field.get(value) }.getOrNull()
+                    "${field.name}=$fieldValue"
+                }
+        }.getOrDefault("")
+        val methods = clazz.methods
+            .filter { it.parameterTypes.isEmpty() && it.name !in setOf("getClass", "hashCode", "toString", "notify", "notifyAll", "wait") }
+            .take(16)
+            .joinToString(",") { method ->
+                val methodValue = runCatching { method.invoke(value) }.getOrNull()
+                "${method.name}()=$methodValue"
+            }
+        return "${clazz.name}{fields=[$fields]; methods=[$methods]}".take(1200)
     }
 
     override fun close() {

@@ -113,6 +113,21 @@ class SingBoxConfigGenerator(private val context: Context) {
             // DNS packets from Android TUN are handled by hijack-dns instead of the
             // removed outbound { type: "dns" }.
             val rules = JSONArray()
+                // DNS hijack must be the first VPN rule. Android resolver packets must
+                // be intercepted locally before sniff/final routing can send raw UDP/53
+                // through VLESS, where many free nodes drop it.
+                .put(
+                    JSONObject()
+                        .put("inbound", "tun-in")
+                        .put("protocol", "dns")
+                        .put("action", "hijack-dns")
+                )
+                .put(
+                    JSONObject()
+                        .put("inbound", "tun-in")
+                        .put("port", 53)
+                        .put("action", "hijack-dns")
+                )
                 .put(
                     JSONObject()
                         .put("inbound", "tun-in")
@@ -127,18 +142,6 @@ class SingBoxConfigGenerator(private val context: Context) {
                         .put("network", "udp")
                         .put("port", 443)
                         .put("action", "reject")
-                )
-                .put(
-                    JSONObject()
-                        .put("inbound", "tun-in")
-                        .put("protocol", "dns")
-                        .put("action", "hijack-dns")
-                )
-                .put(
-                    JSONObject()
-                        .put("inbound", "tun-in")
-                        .put("port", 53)
-                        .put("action", "hijack-dns")
                 )
 
             route.put("rules", rules)
