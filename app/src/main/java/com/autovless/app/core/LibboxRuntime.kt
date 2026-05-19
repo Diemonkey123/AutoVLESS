@@ -11,11 +11,13 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.lang.reflect.Proxy
+import java.util.Collections
 import java.util.Locale
 
 class LibboxRuntime(private val context: Context) : Closeable {
     private var service: Any? = null
     private var tunFd: ParcelFileDescriptor? = null
+    private val seenPlatformMethods = Collections.synchronizedSet(mutableSetOf<String>())
 
     fun isAvailable(): Boolean = isLibboxAvailable()
 
@@ -34,6 +36,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
     fun startVpn(vpnService: VpnService, configContent: String) {
         val preparedConfig = sanitizeSingBoxConfigForCurrentLibbox(configContent)
         DiagnosticsLogger.log(context, "LibboxRuntime", "startVpn configChars=${preparedConfig.length}")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "startVpn redactedConfig=${redactConfigForLog(preparedConfig).take(7000)}")
         close()
         setupIfPresent()
         val libbox = libboxClass()
@@ -74,6 +77,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
 
                         inbound.put("address", JSONArray().put(SingBoxConfigGenerator.TUN_ADDRESS))
                         inbound.put("stack", "mixed")
+                        inbound.put("auto_route", false)
                         inbound.put("strict_route", false)
                         fixedTunInbound = true
                     }
@@ -97,22 +101,22 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 val servers = JSONArray()
                     .put(
                         JSONObject()
-                            .put("type", "https")
-                            .put("tag", "google-doh")
-                            .put("server", "dns.google")
-                            .put("path", "/dns-query")
+                            .put("type", "tcp")
+                            .put("tag", "google-tcp")
+                            .put("server", SingBoxConfigGenerator.PRIMARY_DNS)
+                            .put("server_port", 53)
                             .put("detour", "selected")
                     )
                     .put(
                         JSONObject()
-                            .put("type", "https")
-                            .put("tag", "cloudflare-doh")
-                            .put("server", "cloudflare-dns.com")
-                            .put("path", "/dns-query")
+                            .put("type", "tcp")
+                            .put("tag", "cloudflare-tcp")
+                            .put("server", SingBoxConfigGenerator.SECONDARY_DNS)
+                            .put("server_port", 53)
                             .put("detour", "selected")
                     )
                 dns.put("servers", servers)
-                dns.put("final", "google-doh")
+                dns.put("final", "google-tcp")
                 dns.put("strategy", "ipv4_only")
                 fixedVpnDns = true
             }
@@ -298,6 +302,28 @@ class LibboxRuntime(private val context: Context) : Closeable {
         } catch (e: Throwable) {
             DiagnosticsLogger.log(context, "LibboxRuntime", "sanitize skipped: ${rootMessage(e)}")
             configContent
+        }
+    }
+
+    private fun redactConfigForLog(configContent: String): String {
+        return try {
+            val root = JSONObject(configContent)
+            root.optJSONArray("outbounds")?.let { outbounds ->
+                for (i in 0 until outbounds.length()) {
+                    val outbound = outbounds.optJSONObject(i) ?: continue
+                    if (outbound.has("uuid")) outbound.put("uuid", "***")
+                    if (outbound.has("password")) outbound.put("password", "***")
+                    outbound.optJSONObject("tls")?.let { tls ->
+                        tls.optJSONObject("reality")?.let { reality ->
+                            if (reality.has("public_key")) reality.put("public_key", "***")
+                            if (reality.has("short_id")) reality.put("short_id", "***")
+                        }
+                    }
+                }
+            }
+            root.toString(2)
+        } catch (_: Throwable) {
+            "<config redaction failed>"
         }
     }
 
@@ -528,6 +554,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             interfaceClass.classLoader,
             arrayOf(interfaceClass)
         ) { _, method, args ->
+            logPlatformMethodOnce("standalone", method, args)
             when (method.name) {
                 "localDNSTransport", "LocalDNSTransport" -> null
                 "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> false
@@ -571,6 +598,7 @@ class LibboxRuntime(private val context: Context) : Closeable {
             interfaceClass.classLoader,
             arrayOf(interfaceClass)
         ) { _, method, args ->
+            logPlatformMethodOnce("vpn", method, args)
             when (method.name) {
                 "localDNSTransport", "LocalDNSTransport" -> null
                 "usePlatformAutoDetectInterfaceControl", "UsePlatformAutoDetectInterfaceControl" -> {
@@ -580,11 +608,14 @@ class LibboxRuntime(private val context: Context) : Closeable {
                 "autoDetectInterfaceControl", "AutoDetectInterfaceControl", "protect", "Protect" -> {
                     val fd = args?.asSequence()?.mapNotNull { (it as? Number)?.toInt() }?.firstOrNull()
                     if (fd == null) {
-                        DiagnosticsLogger.log(context, "LibboxRuntime", "protect called without fd method=${method.name} args=${args?.joinToString { it?.javaClass?.name ?: "null" } ?: "none"}")
+                        DiagnosticsLogger.log(context, "LibboxRuntime", "protect called without fd method=${method.name} return=${method.returnType.name} args=${args?.joinToString { it?.javaClass?.name ?: "null" } ?: "none"}")
+                        if (method.returnType.isInterface) {
+                            DiagnosticsLogger.log(context, "LibboxRuntime", "returning nested protect interface for ${method.returnType.name}")
+                            return@newProxyInstance createProtectInterface(vpnService, method.returnType)
+                        }
                         return@newProxyInstance defaultValue(method.returnType)
                     }
-                    val ok = runCatching { vpnService.protect(fd) }.getOrDefault(false)
-                    DiagnosticsLogger.log(context, "LibboxRuntime", "protect outbound fd=$fd ok=$ok method=${method.name}")
+                    val ok = protectFd(vpnService, fd, method.name)
                     if (method.returnType == java.lang.Boolean.TYPE || method.returnType == java.lang.Boolean::class.java) ok else null
                 }
                 "openTun", "OpenTun" -> {
@@ -625,6 +656,36 @@ class LibboxRuntime(private val context: Context) : Closeable {
         }
     }
 
+    private fun protectFd(vpnService: VpnService, fd: Int, source: String): Boolean {
+        val ok = runCatching { vpnService.protect(fd) }.getOrDefault(false)
+        DiagnosticsLogger.log(context, "LibboxRuntime", "protect outbound fd=$fd ok=$ok source=$source")
+        return ok
+    }
+
+    private fun createProtectInterface(vpnService: VpnService, interfaceClass: Class<*>): Any {
+        return Proxy.newProxyInstance(
+            interfaceClass.classLoader,
+            arrayOf(interfaceClass)
+        ) { _, method, args ->
+            logPlatformMethodOnce("protect-interface", method, args)
+            val fd = args?.asSequence()?.mapNotNull { (it as? Number)?.toInt() }?.firstOrNull()
+            if (fd != null) {
+                val ok = protectFd(vpnService, fd, method.name)
+                if (method.returnType == java.lang.Boolean.TYPE || method.returnType == java.lang.Boolean::class.java) ok else null
+            } else {
+                defaultValue(method.returnType)
+            }
+        }
+    }
+
+    private fun logPlatformMethodOnce(prefix: String, method: Method, args: Array<Any?>?) {
+        val key = "$prefix:${method.name}/${method.parameterTypes.size}->${method.returnType.name}"
+        if (seenPlatformMethods.add(key)) {
+            val argTypes = args?.joinToString(",") { it?.javaClass?.name ?: "null" } ?: "none"
+            DiagnosticsLogger.log(context, "LibboxRuntime", "PlatformMethod $key args=$argTypes")
+        }
+    }
+
     private fun openTun(vpnService: VpnService): ParcelFileDescriptor {
         tunFd?.close()
         val builder = vpnService.Builder()
@@ -633,22 +694,16 @@ class LibboxRuntime(private val context: Context) : Closeable {
             .setMtu(1400)
             .addAddress("172.19.0.1", 30)
             .addRoute("0.0.0.0", 0)
-            // Android sends DNS to the VPN-side address. sing-box hijacks port 53
-            // and resolves it through DoH over the selected VLESS outbound.
-            .addDnsServer(SingBoxConfigGenerator.TUN_DNS_ADDRESS)
+            // Give Android real DNS addresses. sing-box still hijacks DNS/53 from
+            // the TUN and resolves it with TCP DNS over the selected VLESS outbound.
+            .addDnsServer(SingBoxConfigGenerator.PRIMARY_DNS)
+            .addDnsServer(SingBoxConfigGenerator.SECONDARY_DNS)
 
-        runCatching {
-            builder.addDisallowedApplication(context.packageName)
-            DiagnosticsLogger.log(context, "LibboxRuntime", "Excluded own package from Android VPN: ${context.packageName}")
-        }.onFailure {
-            DiagnosticsLogger.log(context, "LibboxRuntime", "Own package VPN exclusion ignored: ${rootMessage(it)}")
-        }
-
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package excluded to prevent core socket loop")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android VPN IPv4-only; own package is INCLUDED. Core sockets must be protected with VpnService.protect(fd).")
 
         tunFd = builder.establish()
             ?: throw IllegalStateException("Не удалось создать Android TUN-интерфейс")
-        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.TUN_DNS_ADDRESS} stack=mixed")
+        DiagnosticsLogger.log(context, "LibboxRuntime", "Android TUN established address=${SingBoxConfigGenerator.TUN_ADDRESS} dns=${SingBoxConfigGenerator.PRIMARY_DNS},${SingBoxConfigGenerator.SECONDARY_DNS} stack=mixed")
         return tunFd!!
     }
 

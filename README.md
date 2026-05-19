@@ -256,6 +256,15 @@ app/libs/libbox.aar
 - Duplicate `Проверить лучший конфиг` taps are now ignored while a check is already running.
 - Speed-check now logs `URL_TEST_TRY` and `DOWNLOAD_TRY`, so slow checks are visible in the console.
 
+## 1.6.1
+
+- Вернул собственное приложение внутрь Android VPN, чтобы self-test реально шел через тот же туннель, что и остальные приложения.
+- Добавил обязательную диагностику datapath после старта VPN: отдельно проверяется IP-трафик `1.1.1.1:80` и отдельно DNS/HTTPS `www.google.com/generate_204`.
+- Убрал DoH hostname bootstrap-loop: DNS внутри sing-box теперь TCP DNS по IP `8.8.8.8`/`1.1.1.1` через выбранный VLESS.
+- Android VPN теперь получает реальные DNS `8.8.8.8` и `1.1.1.1`, а sing-box перехватывает DNS/53 через `hijack-dns`.
+- Добавлен лог финального redacted sing-box VPN-конфига и лог методов `PlatformInterface`, чтобы увидеть, вызывает ли libbox `protect(fd)`.
+- Порог скорости 500 КБ/с сохранен.
+
 ## 1.6.0
 
 - Исправлена связка VPN + DNS: DNS теперь идет через DoH поверх выбранного VLESS, а само приложение исключено из Android VPN, чтобы libbox не зацикливал свои исходящие соединения.

@@ -35,7 +35,7 @@ class SingBoxConfigGenerator(private val context: Context) {
                     // Use the same practical stack style as Android clients: system TCP
                     // keeps HTTPS/app traffic reliable, while gVisor still handles UDP.
                     .put("stack", "mixed")
-                    .put("auto_route", true)
+                    .put("auto_route", false)
                     .put("strict_route", false)
             )
         )
@@ -66,32 +66,31 @@ class SingBoxConfigGenerator(private val context: Context) {
     }
 
     private fun vpnDnsConfig(): JSONObject {
-        // Android apps send DNS to the VPN-side address 172.19.0.2.
-        // sing-box hijacks those DNS/53 packets and resolves them through HTTPS DNS
-        // over the selected VLESS outbound. The app package itself is excluded from
-        // Android VPN in LibboxRuntime, so libbox's own DoH/VLESS sockets do not loop
-        // back into the tunnel.
+        // Do not use DoH hostnames here. In VPN/TUN mode a DoH hostname needs
+        // bootstrap DNS before DNS itself works. Use plain TCP DNS by IP and send it
+        // through the selected VLESS outbound. This avoids UDP/53 dependency and
+        // removes the dns.google/cloudflare-dns.com bootstrap loop.
         val servers = JSONArray()
             .put(
                 JSONObject()
-                    .put("type", "https")
-                    .put("tag", "google-doh")
-                    .put("server", "dns.google")
-                    .put("path", "/dns-query")
+                    .put("type", "tcp")
+                    .put("tag", "google-tcp")
+                    .put("server", PRIMARY_DNS)
+                    .put("server_port", 53)
                     .put("detour", "selected")
             )
             .put(
                 JSONObject()
-                    .put("type", "https")
-                    .put("tag", "cloudflare-doh")
-                    .put("server", "cloudflare-dns.com")
-                    .put("path", "/dns-query")
+                    .put("type", "tcp")
+                    .put("tag", "cloudflare-tcp")
+                    .put("server", SECONDARY_DNS)
+                    .put("server_port", 53)
                     .put("detour", "selected")
             )
 
         return JSONObject()
             .put("servers", servers)
-            .put("final", "google-doh")
+            .put("final", "google-tcp")
             .put("strategy", "ipv4_only")
     }
 

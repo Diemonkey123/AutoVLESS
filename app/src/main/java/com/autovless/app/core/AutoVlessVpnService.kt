@@ -11,6 +11,8 @@ import android.os.Build
 import com.autovless.app.MainActivity
 import com.autovless.app.util.DiagnosticsLogger
 import java.net.HttpURLConnection
+import java.net.InetSocketAddress
+import java.net.Socket
 import java.net.URL
 
 class AutoVlessVpnService : VpnService() {
@@ -42,9 +44,10 @@ class AutoVlessVpnService : VpnService() {
                         nextRuntime.startVpn(this, config)
                         runtime = nextRuntime
 
-                        DiagnosticsLogger.log(this, "VPN", "runtime started; self-test skipped because own package is excluded to prevent core socket loop")
-                        broadcastStatus("VPN подключен")
-                        manager.notify(NOTIFICATION_ID, buildNotification("VPN подключен"))
+                        DiagnosticsLogger.log(this, "VPN", "runtime started; running real tunnel self-test because own package is included in VPN")
+                        broadcastStatus("VPN запущен, проверяю интернет через туннель...")
+                        manager.notify(NOTIFICATION_ID, buildNotification("VPN запущен, проверяю интернет..."))
+                        runVpnSelfTestAsync(manager)
                         START_STICKY
                     }
                 } catch (e: Throwable) {
@@ -76,33 +79,57 @@ class AutoVlessVpnService : VpnService() {
 
     private fun runVpnSelfTestAsync(manager: NotificationManager) {
         Thread {
-            try {
-                Thread.sleep(900)
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_TRY https://www.google.com/generate_204")
-                val started = System.nanoTime()
-                val connection = URL("https://www.google.com/generate_204").openConnection() as HttpURLConnection
-                connection.connectTimeout = 3000
-                connection.readTimeout = 3000
-                connection.instanceFollowRedirects = false
-                connection.setRequestProperty("User-Agent", "AutoVLESS-VPN-SelfTest")
-                val code = connection.responseCode
-                connection.disconnect()
-                val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_RESULT code=$code ms=$ms")
-                val text = if (code in 200..299 || code == 204) "VPN подключен, интернет OK" else "VPN подключен"
-                broadcastStatus(text)
-                manager.notify(NOTIFICATION_ID, buildNotification(text))
-            } catch (e: Throwable) {
-                // This method is kept for diagnostics, but normal 1.5.9 startup skips it
-                // because the app process is excluded from Android VPN to prevent libbox
-                // outbound sockets from looping back into the tunnel.
-                val message = e.message ?: e.javaClass.simpleName
-                DiagnosticsLogger.log(this, "VPN", "SELF_TEST_FAIL $message")
-                val text = "VPN запущен, но интернет через туннель не проходит"
-                broadcastStatus(text)
-                manager.notify(NOTIFICATION_ID, buildNotification(text))
+            Thread.sleep(1_200)
+
+            val ipOk = testTcpIpConnectivity()
+            val dnsOk = if (ipOk) testGoogleGenerate204() else false
+
+            val text = when {
+                ipOk && dnsOk -> "VPN подключен, интернет OK"
+                ipOk && !dnsOk -> "VPN поднят: IP работает, DNS/домены не работают"
+                else -> "VPN поднят, но IP-трафик через туннель не проходит"
             }
+
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_SUMMARY ipOk=$ipOk dnsOk=$dnsOk status=$text")
+            broadcastStatus(text)
+            manager.notify(NOTIFICATION_ID, buildNotification(text))
         }.start()
+    }
+
+    private fun testTcpIpConnectivity(): Boolean {
+        return try {
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_IP_TRY tcp://1.1.1.1:80")
+            val started = System.nanoTime()
+            Socket().use { socket ->
+                socket.connect(InetSocketAddress("1.1.1.1", 80), 3_000)
+            }
+            val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_IP_OK ms=$ms")
+            true
+        } catch (e: Throwable) {
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_IP_FAIL ${e.message ?: e.javaClass.simpleName}")
+            false
+        }
+    }
+
+    private fun testGoogleGenerate204(): Boolean {
+        return try {
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_DNS_TRY https://www.google.com/generate_204")
+            val started = System.nanoTime()
+            val connection = URL("https://www.google.com/generate_204").openConnection() as HttpURLConnection
+            connection.connectTimeout = 3_000
+            connection.readTimeout = 3_000
+            connection.instanceFollowRedirects = false
+            connection.setRequestProperty("User-Agent", "AutoVLESS-VPN-SelfTest")
+            val code = connection.responseCode
+            connection.disconnect()
+            val ms = ((System.nanoTime() - started) / 1_000_000.0).toInt()
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_DNS_RESULT code=$code ms=$ms")
+            code in 200..299 || code == 204
+        } catch (e: Throwable) {
+            DiagnosticsLogger.log(this, "VPN", "SELF_TEST_DNS_FAIL ${e.message ?: e.javaClass.simpleName}")
+            false
+        }
     }
 
     private fun stopVpn() {
